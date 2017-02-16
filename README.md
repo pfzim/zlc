@@ -1,2 +1,2 @@
-zlc - small and simple interpretator for easy integration to application
+zlc - small and simple interpreter for easy integration to application
 ===
