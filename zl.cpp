@@ -4,7 +4,8 @@
 #include <string.h>
 //#include <zalloc.h>
 #include <stdio.h>
-#include "../../exemples/zinc/utstrings.h"
+#include <Windows.h>
+#include "../zinc/utstrings.h"
 
 unsigned long zl_load_functions(unsigned char *import_section, zl_map_section *map_section, unsigned long count, zl_funcs_list *fn_list, unsigned long **modules)
 {

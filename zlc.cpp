@@ -8,10 +8,10 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdio.h>
-#include "../../exemples/zinc/utstrings.h"
-#include "../../exemples/zinc/base64.h"
-#include "../../exemples/zinc/snprintf.h"
-#include "../../exemples/zinc/zibuffer.h"
+#include "../zinc/utstrings.h"
+#include "../zinc/base64.h"
+#include "../zinc/snprintf.h"
+#include "../zinc/zibuffer.h"
 
 // *** demo funcs ****************************
 
@@ -123,7 +123,7 @@ int test(char p1[][5], char p2[5][5], char *p3[][5], char *p4[5][5])
 
 int main(int argc, char *argv[])
 {
-	printf("zlc (z language compiler) test version. build# "__BUILD_STR__"\n\n");
+	printf("zlc (z language compiler) test version. build# " __BUILD_STR__ "\n\n");
 	printf("Hello World!\n");
 	printf("double: %u, float: %u, ulong: %u, usint: %u\n", sizeof(double), sizeof(float), sizeof(unsigned long), sizeof(unsigned short int));
 

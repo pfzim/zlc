@@ -1,0 +1,559 @@
+// zlc testing script
+
+unsigned long ext_var;
+extern unsigned long action;
+extern char *ext_names[5];
+//extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
+
+import __cdecl print(1);
+import __cdecl printn(1);
+import __cdecl printh(1);
+import __cdecl strcmp(2);
+import __cdecl isset(1);
+import __cdecl merge(2);
+import __cdecl encode(1);
+import __cdecl free(1);
+import __stdcall MessageBoxA(4) from "user32.dll";
+
+function test_return()
+{
+	return "Function result return test: PASSED\n";
+}
+
+function test_array(char p1[], char p2[5], char *p3[], char *p4[5])
+{
+	unsigned long i;
+	
+	printh(p1); print("\n");
+	printh(p2); print("\n");
+	printh(p3); print("\n");
+	printh(p4); print("\n");
+
+	printn(sizeof(p1)); print("\n");
+	printn(sizeof(p2)); print("\n");
+	printn(sizeof(p3)); print("\n");
+	printn(sizeof(p4)); print("\n");
+//*
+	print("Test array p1:\n");
+	for(i = 0; i < 5; i++)
+	{
+		printn(i); print(". ");
+		printn(p1[i]); print("\n");
+	}
+
+	print("Test array p2:\n");
+	for(i = 0; i < 5; i++)
+	{
+		printn(i); print(". ");
+		printn(p2[i]); print("\n");
+	}
+
+	print("Test array p3:\n");
+	for(i = 0; i < 5; i++)
+	{
+		print(p3[i]); print("\n");
+	}
+
+	print("Test array p4:\n");
+	for(i = 0; i < 5; i++)
+	{
+		print(p4[i]); print("\n");
+	}
+//*/
+}
+
+function test_script()
+{
+	unsigned long pass;
+
+	//___dbg_print_regs;
+
+	print("\n");
+	print(__COMPILER__);
+	print("\nThis is a test script! :)\n");
+
+	print("Test if-else-if-else conditions: ");
+	pass = 0;
+
+	if(action == 1)
+		// here place code for action 1
+		pass = 0;
+	else if(action == 2)
+		pass = 0;
+	else if(action == 3)
+		pass = 1;
+	else if(action == 4)
+		pass = 0;
+	else
+		pass = 0;
+
+	action = 1982;
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	print(test_return());
+
+	print("Test infinity loop to print 4 messages from array with break:\n");
+
+	char *arr_msg[5];
+	unsigned long msg_code;
+
+	arr_msg[0] = "0. PASSED\n";
+	arr_msg[1] = "1. PASSED\n";
+	arr_msg[2] = "2. PASSED\n";
+	arr_msg[3] = "3. PASSED\n";
+	arr_msg[4] = "4. FAILED\n";
+
+	for(msg_code = 0; TRUE; msg_code++)
+	{
+		if(msg_code <= 3)
+		{
+			print(arr_msg[msg_code]);
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	print("Test sizeof for variables, types and arrays:\n");
+
+	char *text[2+3];
+	short int ***ptr_size = &ptr_size;
+	char ch[10];
+	char hello[] = {'P', 'A', 'S', 'S', 'E', 'D', '\n', '\0'};
+	char uk[][3] = {1,2,3,4,5};
+	short int uk2[][4][2] = {1,2,3,4,5,6,7,8,9,10};
+
+	print("  sizeof(text):              "); print((sizeof(text) == 20)?"PASSED\n":"FAILED\n");
+	print("  sizeof(text[0]):           "); print((sizeof(text[0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(text[0][0]):        "); print((sizeof(text[0][0]) == 1)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size):          "); print((sizeof(ptr_size) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size[0]):       "); print((sizeof(ptr_size[0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size[0][0]):    "); print((sizeof(ptr_size[0][0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size[0][0][0]): "); print((sizeof(ptr_size[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ch):                "); print((sizeof(ch) == 10)?"PASSED\n":"FAILED\n");
+	print("  sizeof(hello):             "); print((sizeof(hello) == 8)?hello:"FAILED\n");
+	print("  sizeof(uk):                "); print((sizeof(uk) == 6)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2):               "); print((sizeof(uk2) == 32)?"PASSED\n":"FAILED\n");
+	print("  sizeof(short int):         "); print((sizeof(short int) == 2)?"PASSED\n":"FAILED\n");
+	print("  sizeof(int):               "); print((sizeof(int) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(unsigned long):     "); print((sizeof(unsigned long) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(double):            "); print((sizeof(double) == 8)?"PASSED\n":"FAILED\n");
+	print("  sizeof(char):              "); print((sizeof(char) == 1)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2[0]):            "); print((sizeof(uk2[0]) == 16)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2[0][0]):         "); print((sizeof(uk2[0][0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2[0][0][0]):      "); print((sizeof(uk2[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
+
+	/*
+	print("  sizeof(p1):      "); print((sizeof(p1) == 1)?"PASSED\n":"FAILED\n");
+	print("  sizeof(p2):      "); print((sizeof(p2) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(p3):      "); print((sizeof(p3) == 5)?"PASSED\n":"FAILED\n");
+	print("  sizeof(p4):      "); print((sizeof(p4) == 4)?"PASSED\n":"FAILED\n");
+	*/
+
+	print("Test for loop with extract array value as condition: ");
+
+	unsigned long int i, x;
+
+	text[0] = "Hello, World!";
+	text[1] = "Static array defenition example";
+	text[2] = "One level supported only";
+	text[3] = "Next step - multiple level!";
+	text[4] = 0;
+
+	for(i = 0; text[i]; i++) nop;
+
+	print((i == 4)?"PASSED\n":"FAILED\n");
+
+	print("Test size override prefix: ");
+
+	char message[8];
+
+	message[4] = 'E';
+	message[0] = 'P';
+	message[2] = 'S';
+	message[3] = 'S';
+	message[5] = 'D';
+	message[1] = 'A';
+	message[6] = '\n';
+	message[7] = 0;
+
+	print(message);
+
+	print("Test for fixed size multi-level array matrix[5][7]: ");
+	pass = 1;
+
+	short int matrix[5][7];
+	short int *pmatrix = matrix;
+
+	if(sizeof(matrix) != 70) pass = 0;
+
+	for(i = 0; i < 5; i++)
+	{
+	  for(x = 0; x < 7; x++)
+	  {
+		 matrix[i][x] = (i+1)*(x+1);
+	  }
+	}
+
+	for(i = 0; i < 5; i++)
+	{
+		for(x = 0; x < 7; x++)
+		{
+			if(matrix[i][x] != (i+1)*(x+1))
+			{
+				pass = 0;
+				break 2;
+			}
+
+			if(&matrix[i][x] != pmatrix)
+			{
+				pass = 0;
+				break 2;
+			}
+
+			pmatrix++;
+		}
+	}
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	print("Test goto-loop with external variable: ");
+	pass = 0;
+
+	ext_var = 1;
+
+	lb_loop:
+	   if(ext_var++ < 2)
+	   {
+		  goto lb_loop;
+	   }
+	   else
+	   {
+		   pass = 1;
+	   }
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	print("Test logical conditions (or, and): ");
+	pass = 1;
+
+	pass || print("FAILED ");
+	0 && print("FAILED ");
+	1 || print("FAILED ");
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	while(0) if(1) {print("Test while loop: FAILED\n"); break;}
+
+	print("Test operand size override: ");
+	pass = 0;
+
+	char test = 0xFFFF;
+	if(test == 0xFF) pass = 1;
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	print("Test array with auto size and values pointed to words: ");
+	pass = 0;
+
+	unsigned long offset;
+	char *arr_of_words[] =
+	{
+		"bird",
+		"snake",
+		"tiger",
+		"wolf",
+		NULL
+	};
+
+	char *key = "tiger";
+
+	if(sizeof(arr_of_words) != 20) pass = 0;
+
+	for(offset = 0; arr_of_words[offset]; offset++)
+	{
+		if(!strcmp(arr_of_words[offset], key)) pass = 1;
+	}
+
+	if(!pass) goto lb_end_test_01;
+
+	pass = 0;
+
+	char **word = arr_of_words;
+
+	while(*word)
+	{
+		if(!strcmp(*word, key)) pass = 1;
+		word++;
+	}
+
+	lb_end_test_01:
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	print("Test arithmetic operations: ");
+	pass = 1;
+
+	unsigned long z = 0;
+
+	z += 10;
+	if(z != 10) pass = 0;
+	z -= 5;
+	if(z != 5) pass = 0;
+	z *= 2;
+	if(z != 10) pass = 0;
+	z /= 2;
+	if(z != 5) pass = 0;
+	z %= 2;
+	if(z != 1) pass = 0;
+	z <<= 1;
+	if(z != 2) pass = 0;
+	z >>= 1;
+	if(z != 1) pass = 0;
+	z &= 0x0100;
+	if(z) pass = 0;
+	z |= 0x0100;
+	if(z != 256) pass = 0;
+	z ^= 0x0100;
+	if(z) pass = 0;
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	char p1[5];
+	char p2[5];
+	char *p3[5];
+	char *p4[5];
+
+	p1[0] = 20;
+	p1[1] = 21;
+	p1[2] = 22;
+	p1[3] = 23;
+	p1[4] = 24;
+
+	p2[0] = 30;
+	p2[1] = 31;
+	p2[2] = 32;
+	p2[3] = 33;
+	p2[4] = 33;
+
+	p3[0] = "p3[0] = PASSED";
+	p3[1] = "p3[1] = PASSED";
+	p3[2] = "p3[2] = PASSED";
+	p3[3] = "p3[3] = PASSED";
+	p3[4] = "p3[4] = PASSED";
+
+	p4[0] = "p4[0] = PASSED";
+	p4[1] = "p4[1] = PASSED";
+	p4[2] = "p4[2] = PASSED";
+	p4[3] = "p4[3] = PASSED";
+	p4[4] = "p4[4] = PASSED";
+
+	print("Test array pointer: ");
+
+	pass = 0;
+
+	if(p1 == &p1)
+	{
+		pass = 1;
+	}
+
+	print(pass?"PASSED\n":"FAILED\n");
+
+	printh(p1); print("\n");
+	printh(p2); print("\n");
+	printh(p3); print("\n");
+	printh(p4); print("\n\n");
+
+	test_array(p1, p2, p3, p4);
+
+	print("Test internal function call and params order: ");
+
+	print(test_params("one", "two", "three")?"PASSED\n":"FAILED\n");
+
+	print("Test external array:\n");
+
+	for(i = 0; i < 5; i++)
+	{
+		print(ext_names[i]);
+	}
+
+	print("Call external MessageBox function: ");
+
+	if(MessageBoxA(0, "MessageBox function loaded from user32.dll", "Test caption", 0x00000004 | 0x00000010) == 6)
+	{
+		print("You choice: YES\n");
+	}
+	else
+	{
+		print("You choice: NO\n");
+	}
+
+	//___dbg_print_regs;
+}
+
+//*/
+/*
+
+lb_exit_script:
+
+print("\nexit regs check:");
+_asm {
+   dbg_print_regs
+}
+
+unsigned long int *int_array;
+int_array = alloc(2 * sizeof(unsigned long int));
+int_array[0] = 0xAAAAAAAA;
+int_array[1] = 0xBBBBBBBB;
+free(int_array);
+
+for(0;1;0) { if(1) break; continue; }
+
+while(1)
+{
+    nop;
+    nop;
+    while(2)
+    {
+       nop;
+       nop;
+       if(3) break 2;
+       nop;
+       nop;
+       continue 2;
+       nop;
+       nop;
+    }
+
+
+    nop;
+    nop;
+}
+    nop;
+    nop;
+
+_asm {nop}
+_asm {lb_test1:}
+_asm {lb_test2: nop}
+
+print("Test inline assembler: ");
+pass = 0;
+
+_asm
+{
+	//dbg_print_regs
+	push eax
+	push ecx
+
+	mov ecx, [ext_var]
+lb_again:
+	push ecx
+	push "some text"
+	call fn_loop
+	add ecx, 1
+	mov [ext_var], ecx
+	test eax, eax
+	jz lb_again
+lb_exit:
+	pop ecx
+	pop eax
+	//dbg_print_regs
+}
+
+print(pass?"PASSED\n":"FAILED\n");
+
+
+//*/
+
+//function proxy_rd()
+function proxy_rd(char **header, char *referer, char *method, char *protocol, char *uri, char *host, char *port, char *query)
+{
+	char *temp;
+
+	merge(header, method);
+	merge(header, " ");
+	merge(header, uri);
+	if(isset(query))
+	{
+		merge(header, "?");
+		merge(header, temp = encode(query)); free(temp);
+	}
+	merge(header, " ");
+	merge(header, protocol);
+	merge(header, "\r\n");
+	if(isset(host))
+	{
+		merge(header, "Host: ");
+		merge(header, host);
+		if(isset(port))
+		{
+			merge(header, ":");
+			merge(header, port);
+		}
+		merge(header, "\r\n");
+	}
+	if(isset(referer))
+	{
+		merge(header, "Referer: ");
+		merge(header, referer);
+		merge(header, "\r\n");
+	}
+	merge(header, "\r\n");
+
+	print("\n---- header ----\n");
+	print(*header);
+	print("---- header ----\n");
+}
+
+function small_test()
+{
+	unsigned long offset;
+	char *key = "tiger";
+
+	for(offset = 0; offset < 10; offset++)
+	{
+		___dbg_print_regs;
+		strcmp(key, key);
+		___dbg_print_regs;
+	}
+}
+
+function cb_func(void *link)
+{
+	print("cb_func\n");
+}
+
+function test_params(char *one, char *two, char *three)
+{
+	unsigned long pass;
+
+	pass = 1;
+
+	if(strcmp(one, "one") != 0) pass = 0;
+	if(strcmp(two, "two") != 0) pass = 0;
+	if(strcmp(three, "three") != 0) pass = 0;
+
+	return pass;
+}
+
+function print_params(char **one, char *two, char *three)
+{
+	print(*one);
+	print(two);
+	print(three);
+
+	return 1982;
+}
+
+function main()
+{
+	//_asm
+	//{
+	//	test_script()
+	//}
+	//small_test();
+	//proxy_rd();
+	return test_script();
+}

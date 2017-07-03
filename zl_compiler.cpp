@@ -2,7 +2,7 @@
 #include "zl_opcodes.h"
 #include <windows.h>
 #include <stdio.h>
-#include "../../exemples/zinc/utstrings.h"
+#include "../zinc/utstrings.h"
 #include "strtod.h"
 
 /*

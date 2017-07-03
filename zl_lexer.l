@@ -417,7 +417,7 @@ NEWLINE						("\r"|"\n"|"\r\n")
 	//char *text;
 	//unsigned long len;
 
-	yylval->string = cl_strdup("zlc v0.01 compiled at "__DATE__" "__TIME__" (c)oded by dEmon");
+	yylval->string = cl_strdup("zlc v0.01 compiled at " __DATE__ " " __TIME__ " (c)oded by dEmon");
 	yylval->size = strlen(yylval->string)+1;
 	//yylval->value = (unsigned long) cl_section_data_push(&YYPP->data_table, ZLF_SECT_CONST, (char *) text, strlen(text)+1);
 	//free_str(text);

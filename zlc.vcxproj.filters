@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{50c1d3e5-646f-453d-a774-fd246dbeac33}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{359696bc-d829-4c55-b1e7-793ef2d7abdd}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{23f82d2e-aefa-4c70-8608-4d467c07abb3}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="zinc">
+      <UniqueIdentifier>{669991e9-6515-4646-ad0c-ace8002cb8ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="strtod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zl_compiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zl_vars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zlc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zl_lexer.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zl_parser.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\zmessages.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\zlist.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\zibuffer.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\zdbg.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\zcommon.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\zalloc.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\utstrings.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\snprintf.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\zinc\base64.cpp">
+      <Filter>zinc</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="autobuild.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="strtod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zl_compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zl_opcodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zl_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zl_vars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zl_parser.hpp">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\zmessages.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\zlist.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\zibuffer.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\zdbg.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\zcommon.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\zalloc.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\utstrings.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\snprintf.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\zinc\base64.h">
+      <Filter>zinc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="info.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="zl_lexer.l">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="zl_parser.y">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="test.pzl">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

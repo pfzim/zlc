@@ -8,7 +8,7 @@
 #include "zl_vars.h"
 #include "zl_compiler.h"
 #include "zl_opcodes.h"
-#include "../../exemples/zinc/utstrings.h"
+#include "../zinc/utstrings.h"
 
 //extern FILE *yyin;
 //extern FILE *yyout;

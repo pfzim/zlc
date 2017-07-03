@@ -1,6 +1,14 @@
-%{
+%code requires {
+
+#include "zl_compiler.h"
+
+}
+%code top {
 
 #include "zl_parser.h"
+
+}
+%{
 
 //#define YYPARSE_PARAM pp
 //#define YYPP ((cl_parser_params *) pp)
@@ -10,7 +18,7 @@
 
 #define ZL_ERROR(message) { yyerror(scanner, pp, message); YYABORT; }
 
-void yyerror(void *scanner, cl_parser_params *pp, char *err);
+void yyerror(void *scanner, cl_parser_params *pp, const char *err);
 int yylex(zlval *yylval, void *yyscanner);
      
 int yylex_init(void  **ptr_yy_globals);
@@ -19,7 +27,7 @@ void yyset_extra(cl_parser_params *user_defined, void *yyscanner);
 
 %}
 
-%pure_parser
+%define api.pure true
 %error-verbose
 
 %lex-param		{void *scanner}
@@ -159,8 +167,8 @@ assembler_command
 			cl_push_dw(pp, 0);
 		}
 	| T_OPERATOR operator_parameter ',' operator_parameter		{ cl_push_op(pp, (unsigned char) $1.value, &$2, &$4); }
-	| T_OPERATOR operator_parameter 							{ cl_push_op(pp, (unsigned char) $1.value, &$2, NULL) }
-	| T_OPERATOR 												{ cl_push_op(pp, (unsigned char) $1.value, NULL, NULL) }
+	| T_OPERATOR operator_parameter 							{ cl_push_op(pp, (unsigned char) $1.value, &$2, NULL); }
+	| T_OPERATOR 												{ cl_push_op(pp, (unsigned char) $1.value, NULL, NULL); }
 	| T_LABEL '(' assembler_argument_list ')'
 		{
 			cl_label_node *func;
@@ -210,10 +218,10 @@ assembler_argument_list
 ;
 
 operator_parameter
-	: T_REGISTER												{ $$ = $1; $$.flags = ARG_REG }
-	| '[' T_REGISTER ']'										{ $$ = $1; $$.flags = ARG_PREG }
-	| T_CONSTANT_LONG											{ $$ = $1; $$.flags = ARG_IMM }
-//	| T_CONSTANT_DOUBLE											{ $$ = $1; $$.flags = ARG_IMM8 }
+	: T_REGISTER												{ $$ = $1; $$.flags = ARG_REG; }
+	| '[' T_REGISTER ']'										{ $$ = $1; $$.flags = ARG_PREG; }
+	| T_CONSTANT_LONG											{ $$ = $1; $$.flags = ARG_IMM; }
+//	| T_CONSTANT_DOUBLE											{ $$ = $1; $$.flags = ARG_IMM8; }
 //	| T_CONSTANT_STRING											{ $$ = $1; $$.flags = ARG_DATA; }
 /*
 	| T_LABEL
@@ -762,7 +770,7 @@ declaration_statement
 ;
 
 declaration_specifiers
-	: type_specifier											{ $$.flags = $1.flags }
+	: type_specifier											{ $$.flags = $1.flags; }
 	| type_specifier declaration_specifiers
 		{
 			$$.flags = $1.flags | $2.flags;
@@ -980,8 +988,8 @@ init_declarator
 ;
 
 pointer
-	: '*'														{ $$.flags = 0x01000000 }
-	| '*' pointer												{ $$.flags = 0x01000000 + $2.flags }
+	: '*'														{ $$.flags = 0x01000000; }
+	| '*' pointer												{ $$.flags = 0x01000000 + $2.flags; }
 ;
 
 declarator
@@ -1181,19 +1189,19 @@ struct_declarator_list
 //*/
 
 type_specifier
-	: T_VOID													{ $$.flags = ZLF_VOID }
-	| T_CHAR													{ $$.flags = ZLF_CHAR }
-	| T_SHORT													{ $$.flags = ZLF_SHORT }
-	| T_INT														{ $$.flags = ZLF_INT }
-	| T_LONG													{ $$.flags = ZLF_LONG }
-	| T_FLOAT													{ $$.flags = ZLF_FLOAT }
-	| T_DOUBLE													{ $$.flags = ZLF_DOUBLE }
-	| T_SIGNED													{ $$.flags = ZLF_SIGNED }
-	| T_UNSIGNED												{ $$.flags = ZLF_UNSIGNED }
-	| T_EXTERN													{ $$.flags = ZLF_EXTERNAL }
-	| T_VAR														{ $$.flags = ZLF_INTERNAL }
-//	| struct_specifier											{ $$.flags = ZLF_STRUCT }
-//	| T_LABEL													{ cl_find_in_struct_list() ;$$.flags = ZLF_STRUCT; free_str($1.string); }
+	: T_VOID													{ $$.flags = ZLF_VOID; }
+	| T_CHAR													{ $$.flags = ZLF_CHAR; }
+	| T_SHORT													{ $$.flags = ZLF_SHORT; }
+	| T_INT														{ $$.flags = ZLF_INT; }
+	| T_LONG													{ $$.flags = ZLF_LONG; }
+	| T_FLOAT													{ $$.flags = ZLF_FLOAT; }
+	| T_DOUBLE													{ $$.flags = ZLF_DOUBLE; }
+	| T_SIGNED													{ $$.flags = ZLF_SIGNED; }
+	| T_UNSIGNED												{ $$.flags = ZLF_UNSIGNED; }
+	| T_EXTERN													{ $$.flags = ZLF_EXTERNAL; }
+	| T_VAR														{ $$.flags = ZLF_INTERNAL; }
+//	| struct_specifier											{ $$.flags = ZLF_STRUCT; }
+//	| T_LABEL													{ cl_find_in_struct_list(); $$.flags = ZLF_STRUCT; free_str($1.string); }
 ;
 
 expression
@@ -1686,9 +1694,9 @@ cast_expression
 //*/
 
 expr
-//	: const_expr												{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value) }
-	: T_CONSTANT_LONG											{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value) }
-//	| T_CONSTANT_DOUBLE											{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value) }
+//	: const_expr												{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value); }
+	: T_CONSTANT_LONG											{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value); }
+//	| T_CONSTANT_DOUBLE											{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value); }
 	| T_CONSTANT_STRING											
 		{
 			cl_push(pp, OP_PUSH_OFFSET);
@@ -1697,22 +1705,22 @@ expr
 			cl_push_dw(pp, 0);						// ставим заглушку
 		}
 	| '(' expr ')'												{ $$ = $2; }
-	| expr '+' expr												{ cl_do_op(pp, OP_ADD_STK_STK, &$$, &$1, &$3) }
-	| expr '-' expr												{ cl_do_op(pp, OP_SUB_STK_STK, &$$, &$1, &$3) }
-	| expr '*' expr												{ cl_do_op(pp, OP_MUL_STK_STK, &$$, &$1, &$3) }
-	| expr '/' expr												{ cl_do_op(pp, OP_DIV_STK_STK, &$$, &$1, &$3) }
-	| expr '|' expr												{ cl_do_op(pp, OP_OR_STK_STK, &$$, &$1, &$3) }
-	| expr '&' expr												{ cl_do_op(pp, OP_AND_STK_STK, &$$, &$1, &$3) }
-	| expr '%' expr												{ cl_do_op(pp, OP_MOD_STK_STK, &$$, &$1, &$3) }
-	| expr '^' expr												{ cl_do_op(pp, OP_XOR_STK_STK, &$$, &$1, &$3) }
-	| expr T_SHL expr											{ cl_do_op(pp, OP_SHL_STK_STK, &$$, &$1, &$3) }
-	| expr T_SHR expr											{ cl_do_op(pp, OP_SHR_STK_STK, &$$, &$1, &$3) }
-	| expr '>' expr												{ cl_do_op(pp, OP_G_STK_STK, &$$, &$1, &$3) }
-	| expr '<' expr												{ cl_do_op(pp, OP_L_STK_STK, &$$, &$1, &$3) }
-	| expr T_GE expr											{ cl_do_op(pp, OP_GE_STK_STK, &$$, &$1, &$3) }
-	| expr T_LE expr											{ cl_do_op(pp, OP_LE_STK_STK, &$$, &$1, &$3) }
-	| expr T_EQ expr											{ cl_do_op(pp, OP_E_STK_STK, &$$, &$1, &$3) }
-	| expr T_NE expr											{ cl_do_op(pp, OP_NE_STK_STK, &$$, &$1, &$3) }
+	| expr '+' expr												{ cl_do_op(pp, OP_ADD_STK_STK, &$$, &$1, &$3); }
+	| expr '-' expr												{ cl_do_op(pp, OP_SUB_STK_STK, &$$, &$1, &$3); }
+	| expr '*' expr												{ cl_do_op(pp, OP_MUL_STK_STK, &$$, &$1, &$3); }
+	| expr '/' expr												{ cl_do_op(pp, OP_DIV_STK_STK, &$$, &$1, &$3); }
+	| expr '|' expr												{ cl_do_op(pp, OP_OR_STK_STK, &$$, &$1, &$3); }
+	| expr '&' expr												{ cl_do_op(pp, OP_AND_STK_STK, &$$, &$1, &$3); }
+	| expr '%' expr												{ cl_do_op(pp, OP_MOD_STK_STK, &$$, &$1, &$3); }
+	| expr '^' expr												{ cl_do_op(pp, OP_XOR_STK_STK, &$$, &$1, &$3); }
+	| expr T_SHL expr											{ cl_do_op(pp, OP_SHL_STK_STK, &$$, &$1, &$3); }
+	| expr T_SHR expr											{ cl_do_op(pp, OP_SHR_STK_STK, &$$, &$1, &$3); }
+	| expr '>' expr												{ cl_do_op(pp, OP_G_STK_STK, &$$, &$1, &$3); }
+	| expr '<' expr												{ cl_do_op(pp, OP_L_STK_STK, &$$, &$1, &$3); }
+	| expr T_GE expr											{ cl_do_op(pp, OP_GE_STK_STK, &$$, &$1, &$3); }
+	| expr T_LE expr											{ cl_do_op(pp, OP_LE_STK_STK, &$$, &$1, &$3); }
+	| expr T_EQ expr											{ cl_do_op(pp, OP_E_STK_STK, &$$, &$1, &$3); }
+	| expr T_NE expr											{ cl_do_op(pp, OP_NE_STK_STK, &$$, &$1, &$3); }
 	| expr T_OR
 		{
 			cl_label_node *lb_skip;
@@ -2178,7 +2186,7 @@ const_expr
 
 
 
-void yyerror(void *scanner, cl_parser_params *pp, char *err)
+void yyerror(void *scanner, cl_parser_params *pp, const char *err)
 {
 	pp->error_msg = cl_sprintf("zlc: error at line %d: %s", pp->lineno, err);
 }

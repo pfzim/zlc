@@ -1,0 +1,1662 @@
+zlc (z language compiler) test version. build# 1806
+
+compiling...
+disassembled:
+0000:   push data offset [0000h]
+0005:   rcall 0144
+0010:   push eax
+0012:   pop eax
+0014:   push data offset [001Ch]
+0019:   rcall 0144
+0024:   push eax
+0026:   pop eax
+0028:   push dword ptr to value [0000h]
+0033:   push 0
+0038:   pop eax
+0040:   pop ecx
+0042:   mov [ecx], eax
+0045:   push eax
+0047:   pop eax
+0049:   push dword ptr to value [0004h]
+0054:   pop eax
+0056:   mov eax, [eax]
+0059:   push eax
+0061:   push 1
+0066:   e_stk
+0067:   jz_pop_stk 0098
+0072:   push dword ptr to value [0000h]
+0077:   push 0
+0082:   pop eax
+0084:   pop ecx
+0086:   mov [ecx], eax
+0089:   push eax
+0091:   pop eax
+0093:   jmp 0266
+0098:   push dword ptr to value [0004h]
+0103:   pop eax
+0105:   mov eax, [eax]
+0108:   push eax
+0110:   push 2
+0115:   e_stk
+0116:   jz_pop_stk 0147
+0121:   push dword ptr to value [0000h]
+0126:   push 0
+0131:   pop eax
+0133:   pop ecx
+0135:   mov [ecx], eax
+0138:   push eax
+0140:   pop eax
+0142:   jmp 0266
+0147:   push dword ptr to value [0004h]
+0152:   pop eax
+0154:   mov eax, [eax]
+0157:   push eax
+0159:   push 3
+0164:   e_stk
+0165:   jz_pop_stk 0196
+0170:   push dword ptr to value [0000h]
+0175:   push 0
+0180:   pop eax
+0182:   pop ecx
+0184:   mov [ecx], eax
+0187:   push eax
+0189:   pop eax
+0191:   jmp 0266
+0196:   push dword ptr to value [0004h]
+0201:   pop eax
+0203:   mov eax, [eax]
+0206:   push eax
+0208:   push 4
+0213:   e_stk
+0214:   jz_pop_stk 0245
+0219:   push dword ptr to value [0000h]
+0224:   push 0
+0229:   pop eax
+0231:   pop ecx
+0233:   mov [ecx], eax
+0236:   push eax
+0238:   pop eax
+0240:   jmp 0266
+0245:   push dword ptr to value [0000h]
+0250:   push 1
+0255:   pop eax
+0257:   pop ecx
+0259:   mov [ecx], eax
+0262:   push eax
+0264:   pop eax
+0266:   push dword ptr to value [0000h]
+0271:   pop eax
+0273:   mov eax, [eax]
+0276:   push eax
+0278:   jz_pop_stk 0293
+0283:   push data offset [003Eh]
+0288:   jmp 0298
+0293:   push data offset [0046h]
+0298:   rcall 0144
+0303:   push eax
+0305:   pop eax
+0307:   push data offset [004Eh]
+0312:   rcall 0144
+0317:   push eax
+0319:   pop eax
+0321:   push dword ptr to value [000Ch]
+0326:   push 0
+0331:   pop ecx
+0333:   pop eax
+0335:   mov ebx, 4
+0341:   mul ecx, ebx
+0344:   add eax, ecx
+0347:   push eax
+0349:   push data offset [0091h]
+0354:   pop eax
+0356:   pop ecx
+0358:   mov [ecx], eax
+0361:   push eax
+0363:   pop eax
+0365:   push dword ptr to value [000Ch]
+0370:   push 1
+0375:   pop ecx
+0377:   pop eax
+0379:   mov ebx, 4
+0385:   mul ecx, ebx
+0388:   add eax, ecx
+0391:   push eax
+0393:   push data offset [00B9h]
+0398:   pop eax
+0400:   pop ecx
+0402:   mov [ecx], eax
+0405:   push eax
+0407:   pop eax
+0409:   push dword ptr to value [000Ch]
+0414:   push 2
+0419:   pop ecx
+0421:   pop eax
+0423:   mov ebx, 4
+0429:   mul ecx, ebx
+0432:   add eax, ecx
+0435:   push eax
+0437:   push data offset [00C9h]
+0442:   pop eax
+0444:   pop ecx
+0446:   mov [ecx], eax
+0449:   push eax
+0451:   pop eax
+0453:   push dword ptr to value [000Ch]
+0458:   push 3
+0463:   pop ecx
+0465:   pop eax
+0467:   mov ebx, 4
+0473:   mul ecx, ebx
+0476:   add eax, ecx
+0479:   push eax
+0481:   push data offset [00DAh]
+0486:   pop eax
+0488:   pop ecx
+0490:   mov [ecx], eax
+0493:   push eax
+0495:   pop eax
+0497:   push dword ptr to value [0010h]
+0502:   push 0
+0507:   pop eax
+0509:   pop ecx
+0511:   mov [ecx], eax
+0514:   push eax
+0516:   pop eax
+0518:   push 1
+0523:   jnz_pop_stk 0557
+0528:   jmp 0646
+0533:   push dword ptr to value [0010h]
+0538:   pop eax
+0540:   mov ecx, [eax]
+0543:   push ecx
+0545:   inc ecx
+0547:   mov [eax], ecx
+0550:   pop eax
+0552:   jmp 0518
+0557:   push dword ptr to value [0010h]
+0562:   pop eax
+0564:   mov eax, [eax]
+0567:   push eax
+0569:   push 3
+0574:   le_stk
+0575:   jz_pop_stk 0636
+0580:   push dword ptr to value [000Ch]
+0585:   push dword ptr to value [0010h]
+0590:   pop eax
+0592:   mov eax, [eax]
+0595:   push eax
+0597:   pop ecx
+0599:   pop eax
+0601:   mov ebx, 4
+0607:   mul ecx, ebx
+0610:   add eax, ecx
+0613:   push eax
+0615:   pop eax
+0617:   mov eax, [eax]
+0620:   push eax
+0622:   rcall 0144
+0627:   push eax
+0629:   pop eax
+0631:   jmp 0641
+0636:   jmp 0646
+0641:   jmp 0533
+0646:   push data offset [00EFh]
+0651:   rcall 0144
+0656:   push eax
+0658:   pop eax
+0660:   push dword ptr to value [0000h]
+0665:   push 1
+0670:   pop eax
+0672:   pop ecx
+0674:   mov [ecx], eax
+0677:   push eax
+0679:   pop eax
+0681:   push dword ptr to value [001Ch]
+0686:   push 80
+0691:   pop eax
+0693:   pop ecx
+0695:   size override to 1 byte for next operation
+0696:   mov [ecx], eax
+0699:   push ecx
+0701:   pop eax
+0703:   inc eax
+0705:   push eax
+0707:   push 65
+0712:   pop eax
+0714:   pop ecx
+0716:   size override to 1 byte for next operation
+0717:   mov [ecx], eax
+0720:   push ecx
+0722:   pop eax
+0724:   inc eax
+0726:   push eax
+0728:   push 83
+0733:   pop eax
+0735:   pop ecx
+0737:   size override to 1 byte for next operation
+0738:   mov [ecx], eax
+0741:   push ecx
+0743:   pop eax
+0745:   inc eax
+0747:   push eax
+0749:   push 83
+0754:   pop eax
+0756:   pop ecx
+0758:   size override to 1 byte for next operation
+0759:   mov [ecx], eax
+0762:   push ecx
+0764:   pop eax
+0766:   inc eax
+0768:   push eax
+0770:   push 69
+0775:   pop eax
+0777:   pop ecx
+0779:   size override to 1 byte for next operation
+0780:   mov [ecx], eax
+0783:   push ecx
+0785:   pop eax
+0787:   inc eax
+0789:   push eax
+0791:   push 68
+0796:   pop eax
+0798:   pop ecx
+0800:   size override to 1 byte for next operation
+0801:   mov [ecx], eax
+0804:   push ecx
+0806:   pop eax
+0808:   inc eax
+0810:   push eax
+0812:   push 10
+0817:   pop eax
+0819:   pop ecx
+0821:   size override to 1 byte for next operation
+0822:   mov [ecx], eax
+0825:   push ecx
+0827:   pop eax
+0829:   inc eax
+0831:   push eax
+0833:   push 0
+0838:   pop eax
+0840:   pop ecx
+0842:   size override to 1 byte for next operation
+0843:   mov [ecx], eax
+0846:   push ecx
+0848:   pop eax
+0850:   push dword ptr to value [0020h]
+0855:   push 1
+0860:   pop eax
+0862:   pop ecx
+0864:   size override to 1 byte for next operation
+0865:   mov [ecx], eax
+0868:   push ecx
+0870:   pop eax
+0872:   inc eax
+0874:   push eax
+0876:   push 2
+0881:   pop eax
+0883:   pop ecx
+0885:   size override to 1 byte for next operation
+0886:   mov [ecx], eax
+0889:   push ecx
+0891:   pop eax
+0893:   inc eax
+0895:   push eax
+0897:   push 3
+0902:   pop eax
+0904:   pop ecx
+0906:   size override to 1 byte for next operation
+0907:   mov [ecx], eax
+0910:   push ecx
+0912:   pop eax
+0914:   inc eax
+0916:   push eax
+0918:   push 4
+0923:   pop eax
+0925:   pop ecx
+0927:   size override to 1 byte for next operation
+0928:   mov [ecx], eax
+0931:   push ecx
+0933:   pop eax
+0935:   inc eax
+0937:   push eax
+0939:   push 5
+0944:   pop eax
+0946:   pop ecx
+0948:   size override to 1 byte for next operation
+0949:   mov [ecx], eax
+0952:   push ecx
+0954:   pop eax
+0956:   push dword ptr to value [0024h]
+0961:   push 1
+0966:   pop eax
+0968:   pop ecx
+0970:   size override to 2 bytes for next operation
+0971:   mov [ecx], eax
+0974:   push ecx
+0976:   pop eax
+0978:   add eax, 2
+0984:   push eax
+0986:   push 2
+0991:   pop eax
+0993:   pop ecx
+0995:   size override to 2 bytes for next operation
+0996:   mov [ecx], eax
+0999:   push ecx
+1001:   pop eax
+1003:   add eax, 2
+1009:   push eax
+1011:   push 3
+1016:   pop eax
+1018:   pop ecx
+1020:   size override to 2 bytes for next operation
+1021:   mov [ecx], eax
+1024:   push ecx
+1026:   pop eax
+1028:   add eax, 2
+1034:   push eax
+1036:   push 4
+1041:   pop eax
+1043:   pop ecx
+1045:   size override to 2 bytes for next operation
+1046:   mov [ecx], eax
+1049:   push ecx
+1051:   pop eax
+1053:   add eax, 2
+1059:   push eax
+1061:   push 5
+1066:   pop eax
+1068:   pop ecx
+1070:   size override to 2 bytes for next operation
+1071:   mov [ecx], eax
+1074:   push ecx
+1076:   pop eax
+1078:   add eax, 2
+1084:   push eax
+1086:   push 6
+1091:   pop eax
+1093:   pop ecx
+1095:   size override to 2 bytes for next operation
+1096:   mov [ecx], eax
+1099:   push ecx
+1101:   pop eax
+1103:   add eax, 2
+1109:   push eax
+1111:   push 7
+1116:   pop eax
+1118:   pop ecx
+1120:   size override to 2 bytes for next operation
+1121:   mov [ecx], eax
+1124:   push ecx
+1126:   pop eax
+1128:   add eax, 2
+1134:   push eax
+1136:   push 8
+1141:   pop eax
+1143:   pop ecx
+1145:   size override to 2 bytes for next operation
+1146:   mov [ecx], eax
+1149:   push ecx
+1151:   pop eax
+1153:   add eax, 2
+1159:   push eax
+1161:   push 9
+1166:   pop eax
+1168:   pop ecx
+1170:   size override to 2 bytes for next operation
+1171:   mov [ecx], eax
+1174:   push ecx
+1176:   pop eax
+1178:   add eax, 2
+1184:   push eax
+1186:   push 10
+1191:   pop eax
+1193:   pop ecx
+1195:   size override to 2 bytes for next operation
+1196:   mov [ecx], eax
+1199:   push ecx
+1201:   pop eax
+1203:   push 20
+1208:   push 20
+1213:   ne_stk
+1214:   jz_pop_stk 1240
+1219:   push dword ptr to value [0000h]
+1224:   push 0
+1229:   pop eax
+1231:   pop ecx
+1233:   mov [ecx], eax
+1236:   push eax
+1238:   pop eax
+1240:   push 10
+1245:   push 10
+1250:   ne_stk
+1251:   jz_pop_stk 1277
+1256:   push dword ptr to value [0000h]
+1261:   push 0
+1266:   pop eax
+1268:   pop ecx
+1270:   mov [ecx], eax
+1273:   push eax
+1275:   pop eax
+1277:   push 8
+1282:   push 8
+1287:   ne_stk
+1288:   jz_pop_stk 1314
+1293:   push dword ptr to value [0000h]
+1298:   push 0
+1303:   pop eax
+1305:   pop ecx
+1307:   mov [ecx], eax
+1310:   push eax
+1312:   pop eax
+1314:   push 6
+1319:   push 6
+1324:   ne_stk
+1325:   jz_pop_stk 1351
+1330:   push dword ptr to value [0000h]
+1335:   push 0
+1340:   pop eax
+1342:   pop ecx
+1344:   mov [ecx], eax
+1347:   push eax
+1349:   pop eax
+1351:   push 32
+1356:   push 32
+1361:   ne_stk
+1362:   jz_pop_stk 1388
+1367:   push dword ptr to value [0000h]
+1372:   push 0
+1377:   pop eax
+1379:   pop ecx
+1381:   mov [ecx], eax
+1384:   push eax
+1386:   pop eax
+1388:   push 2
+1393:   push 2
+1398:   ne_stk
+1399:   jz_pop_stk 1425
+1404:   push dword ptr to value [0000h]
+1409:   push 0
+1414:   pop eax
+1416:   pop ecx
+1418:   mov [ecx], eax
+1421:   push eax
+1423:   pop eax
+1425:   push 4
+1430:   push 4
+1435:   ne_stk
+1436:   jz_pop_stk 1462
+1441:   push dword ptr to value [0000h]
+1446:   push 0
+1451:   pop eax
+1453:   pop ecx
+1455:   mov [ecx], eax
+1458:   push eax
+1460:   pop eax
+1462:   push 4
+1467:   push 4
+1472:   ne_stk
+1473:   jz_pop_stk 1499
+1478:   push dword ptr to value [0000h]
+1483:   push 0
+1488:   pop eax
+1490:   pop ecx
+1492:   mov [ecx], eax
+1495:   push eax
+1497:   pop eax
+1499:   push 8
+1504:   push 8
+1509:   ne_stk
+1510:   jz_pop_stk 1536
+1515:   push dword ptr to value [0000h]
+1520:   push 0
+1525:   pop eax
+1527:   pop ecx
+1529:   mov [ecx], eax
+1532:   push eax
+1534:   pop eax
+1536:   push 1
+1541:   push 1
+1546:   ne_stk
+1547:   jz_pop_stk 1573
+1552:   push dword ptr to value [0000h]
+1557:   push 0
+1562:   pop eax
+1564:   pop ecx
+1566:   mov [ecx], eax
+1569:   push eax
+1571:   pop eax
+1573:   push dword ptr to value [0000h]
+1578:   pop eax
+1580:   mov eax, [eax]
+1583:   push eax
+1585:   jz_pop_stk 1600
+1590:   push dword ptr to value [001Ch]
+1595:   jmp 1605
+1600:   push data offset [011Ah]
+1605:   rcall 0144
+1610:   push eax
+1612:   pop eax
+1614:   push data offset [0122h]
+1619:   rcall 0144
+1624:   push eax
+1626:   pop eax
+1628:   push dword ptr to value [0014h]
+1633:   push 0
+1638:   pop ecx
+1640:   pop eax
+1642:   mov ebx, 4
+1648:   mul ecx, ebx
+1651:   add eax, ecx
+1654:   push eax
+1656:   push data offset [0158h]
+1661:   pop eax
+1663:   pop ecx
+1665:   mov [ecx], eax
+1668:   push eax
+1670:   pop eax
+1672:   push dword ptr to value [0014h]
+1677:   push 1
+1682:   pop ecx
+1684:   pop eax
+1686:   mov ebx, 4
+1692:   mul ecx, ebx
+1695:   add eax, ecx
+1698:   push eax
+1700:   push data offset [0166h]
+1705:   pop eax
+1707:   pop ecx
+1709:   mov [ecx], eax
+1712:   push eax
+1714:   pop eax
+1716:   push dword ptr to value [0014h]
+1721:   push 2
+1726:   pop ecx
+1728:   pop eax
+1730:   mov ebx, 4
+1736:   mul ecx, ebx
+1739:   add eax, ecx
+1742:   push eax
+1744:   push data offset [0186h]
+1749:   pop eax
+1751:   pop ecx
+1753:   mov [ecx], eax
+1756:   push eax
+1758:   pop eax
+1760:   push dword ptr to value [0014h]
+1765:   push 3
+1770:   pop ecx
+1772:   pop eax
+1774:   mov ebx, 4
+1780:   mul ecx, ebx
+1783:   add eax, ecx
+1786:   push eax
+1788:   push data offset [019Fh]
+1793:   pop eax
+1795:   pop ecx
+1797:   mov [ecx], eax
+1800:   push eax
+1802:   pop eax
+1804:   push dword ptr to value [0014h]
+1809:   push 4
+1814:   pop ecx
+1816:   pop eax
+1818:   mov ebx, 4
+1824:   mul ecx, ebx
+1827:   add eax, ecx
+1830:   push eax
+1832:   push 0
+1837:   pop eax
+1839:   pop ecx
+1841:   mov [ecx], eax
+1844:   push eax
+1846:   pop eax
+1848:   push dword ptr to value [0028h]
+1853:   push 0
+1858:   pop eax
+1860:   pop ecx
+1862:   mov [ecx], eax
+1865:   push eax
+1867:   pop eax
+1869:   push dword ptr to value [0014h]
+1874:   push dword ptr to value [0028h]
+1879:   pop eax
+1881:   mov eax, [eax]
+1884:   push eax
+1886:   pop ecx
+1888:   pop eax
+1890:   mov ebx, 4
+1896:   mul ecx, ebx
+1899:   add eax, ecx
+1902:   push eax
+1904:   pop eax
+1906:   mov eax, [eax]
+1909:   push eax
+1911:   jnz_pop_stk 1945
+1916:   jmp 1951
+1921:   push dword ptr to value [0028h]
+1926:   pop eax
+1928:   mov ecx, [eax]
+1931:   push ecx
+1933:   inc ecx
+1935:   mov [eax], ecx
+1938:   pop eax
+1940:   jmp 1869
+1945:   nop
+1946:   jmp 1921
+1951:   push dword ptr to value [0028h]
+1956:   pop eax
+1958:   mov eax, [eax]
+1961:   push eax
+1963:   push 4
+1968:   e_stk
+1969:   jz_pop_stk 1984
+1974:   push data offset [01BBh]
+1979:   jmp 1989
+1984:   push data offset [01C3h]
+1989:   rcall 0144
+1994:   push eax
+1996:   pop eax
+1998:   push data offset [01CBh]
+2003:   rcall 0144
+2008:   push eax
+2010:   pop eax
+2012:   push dword ptr to value [0030h]
+2017:   push 4
+2022:   pop ecx
+2024:   pop eax
+2026:   add eax, ecx
+2029:   push eax
+2031:   push 69
+2036:   pop eax
+2038:   pop ecx
+2040:   size override to 1 byte for next operation
+2041:   mov [ecx], eax
+2044:   push eax
+2046:   pop eax
+2048:   push dword ptr to value [0030h]
+2053:   push 0
+2058:   pop ecx
+2060:   pop eax
+2062:   add eax, ecx
+2065:   push eax
+2067:   push 80
+2072:   pop eax
+2074:   pop ecx
+2076:   size override to 1 byte for next operation
+2077:   mov [ecx], eax
+2080:   push eax
+2082:   pop eax
+2084:   push dword ptr to value [0030h]
+2089:   push 2
+2094:   pop ecx
+2096:   pop eax
+2098:   add eax, ecx
+2101:   push eax
+2103:   push 83
+2108:   pop eax
+2110:   pop ecx
+2112:   size override to 1 byte for next operation
+2113:   mov [ecx], eax
+2116:   push eax
+2118:   pop eax
+2120:   push dword ptr to value [0030h]
+2125:   push 3
+2130:   pop ecx
+2132:   pop eax
+2134:   add eax, ecx
+2137:   push eax
+2139:   push 83
+2144:   pop eax
+2146:   pop ecx
+2148:   size override to 1 byte for next operation
+2149:   mov [ecx], eax
+2152:   push eax
+2154:   pop eax
+2156:   push dword ptr to value [0030h]
+2161:   push 5
+2166:   pop ecx
+2168:   pop eax
+2170:   add eax, ecx
+2173:   push eax
+2175:   push 68
+2180:   pop eax
+2182:   pop ecx
+2184:   size override to 1 byte for next operation
+2185:   mov [ecx], eax
+2188:   push eax
+2190:   pop eax
+2192:   push dword ptr to value [0030h]
+2197:   push 1
+2202:   pop ecx
+2204:   pop eax
+2206:   add eax, ecx
+2209:   push eax
+2211:   push 65
+2216:   pop eax
+2218:   pop ecx
+2220:   size override to 1 byte for next operation
+2221:   mov [ecx], eax
+2224:   push eax
+2226:   pop eax
+2228:   push dword ptr to value [0030h]
+2233:   push 6
+2238:   pop ecx
+2240:   pop eax
+2242:   add eax, ecx
+2245:   push eax
+2247:   push 10
+2252:   pop eax
+2254:   pop ecx
+2256:   size override to 1 byte for next operation
+2257:   mov [ecx], eax
+2260:   push eax
+2262:   pop eax
+2264:   push dword ptr to value [0030h]
+2269:   push 7
+2274:   pop ecx
+2276:   pop eax
+2278:   add eax, ecx
+2281:   push eax
+2283:   push 0
+2288:   pop eax
+2290:   pop ecx
+2292:   size override to 1 byte for next operation
+2293:   mov [ecx], eax
+2296:   push eax
+2298:   pop eax
+2300:   push dword ptr to value [0030h]
+2305:   rcall 0144
+2310:   push eax
+2312:   pop eax
+2314:   push data offset [01E7h]
+2319:   rcall 0144
+2324:   push eax
+2326:   pop eax
+2328:   push dword ptr to value [0000h]
+2333:   push 1
+2338:   pop eax
+2340:   pop ecx
+2342:   mov [ecx], eax
+2345:   push eax
+2347:   pop eax
+2349:   push dword ptr to value [0038h]
+2354:   push dword ptr to value [0034h]
+2359:   pop eax
+2361:   pop ecx
+2363:   mov [ecx], eax
+2366:   push ecx
+2368:   pop eax
+2370:   push 70
+2375:   push 70
+2380:   ne_stk
+2381:   jz_pop_stk 2407
+2386:   push dword ptr to value [0000h]
+2391:   push 0
+2396:   pop eax
+2398:   pop ecx
+2400:   mov [ecx], eax
+2403:   push eax
+2405:   pop eax
+2407:   push dword ptr to value [0028h]
+2412:   push 0
+2417:   pop eax
+2419:   pop ecx
+2421:   mov [ecx], eax
+2424:   push eax
+2426:   pop eax
+2428:   push dword ptr to value [0028h]
+2433:   pop eax
+2435:   mov eax, [eax]
+2438:   push eax
+2440:   push 5
+2445:   l_stk
+2446:   jnz_pop_stk 2480
+2451:   jmp 2677
+2456:   push dword ptr to value [0028h]
+2461:   pop eax
+2463:   mov ecx, [eax]
+2466:   push ecx
+2468:   inc ecx
+2470:   mov [eax], ecx
+2473:   pop eax
+2475:   jmp 2428
+2480:   push dword ptr to value [002Ch]
+2485:   push 0
+2490:   pop eax
+2492:   pop ecx
+2494:   mov [ecx], eax
+2497:   push eax
+2499:   pop eax
+2501:   push dword ptr to value [002Ch]
+2506:   pop eax
+2508:   mov eax, [eax]
+2511:   push eax
+2513:   push 7
+2518:   l_stk
+2519:   jnz_pop_stk 2553
+2524:   jmp 2672
+2529:   push dword ptr to value [002Ch]
+2534:   pop eax
+2536:   mov ecx, [eax]
+2539:   push ecx
+2541:   inc ecx
+2543:   mov [eax], ecx
+2546:   pop eax
+2548:   jmp 2501
+2553:   push dword ptr to value [0034h]
+2558:   push dword ptr to value [0028h]
+2563:   pop eax
+2565:   mov eax, [eax]
+2568:   push eax
+2570:   pop ecx
+2572:   pop eax
+2574:   mov ebx, 14
+2580:   mul ecx, ebx
+2583:   add eax, ecx
+2586:   push eax
+2588:   push dword ptr to value [002Ch]
+2593:   pop eax
+2595:   mov eax, [eax]
+2598:   push eax
+2600:   pop ecx
+2602:   pop eax
+2604:   mov ebx, 2
+2610:   mul ecx, ebx
+2613:   add eax, ecx
+2616:   push eax
+2618:   push dword ptr to value [0028h]
+2623:   pop eax
+2625:   mov eax, [eax]
+2628:   push eax
+2630:   push 1
+2635:   add_stk
+2636:   push dword ptr to value [002Ch]
+2641:   pop eax
+2643:   mov eax, [eax]
+2646:   push eax
+2648:   push 1
+2653:   add_stk
+2654:   mul_stk
+2655:   pop eax
+2657:   pop ecx
+2659:   size override to 2 bytes for next operation
+2660:   mov [ecx], eax
+2663:   push eax
+2665:   pop eax
+2667:   jmp 2529
+2672:   jmp 2456
+2677:   push dword ptr to value [0028h]
+2682:   push 0
+2687:   pop eax
+2689:   pop ecx
+2691:   mov [ecx], eax
+2694:   push eax
+2696:   pop eax
+2698:   push dword ptr to value [0028h]
+2703:   pop eax
+2705:   mov eax, [eax]
+2708:   push eax
+2710:   push 5
+2715:   l_stk
+2716:   jnz_pop_stk 2750
+2721:   jmp 3115
+2726:   push dword ptr to value [0028h]
+2731:   pop eax
+2733:   mov ecx, [eax]
+2736:   push ecx
+2738:   inc ecx
+2740:   mov [eax], ecx
+2743:   pop eax
+2745:   jmp 2698
+2750:   push dword ptr to value [002Ch]
+2755:   push 0
+2760:   pop eax
+2762:   pop ecx
+2764:   mov [ecx], eax
+2767:   push eax
+2769:   pop eax
+2771:   push dword ptr to value [002Ch]
+2776:   pop eax
+2778:   mov eax, [eax]
+2781:   push eax
+2783:   push 7
+2788:   l_stk
+2789:   jnz_pop_stk 2823
+2794:   jmp 3110
+2799:   push dword ptr to value [002Ch]
+2804:   pop eax
+2806:   mov ecx, [eax]
+2809:   push ecx
+2811:   inc ecx
+2813:   mov [eax], ecx
+2816:   pop eax
+2818:   jmp 2771
+2823:   push dword ptr to value [0034h]
+2828:   push dword ptr to value [0028h]
+2833:   pop eax
+2835:   mov eax, [eax]
+2838:   push eax
+2840:   pop ecx
+2842:   pop eax
+2844:   mov ebx, 14
+2850:   mul ecx, ebx
+2853:   add eax, ecx
+2856:   push eax
+2858:   push dword ptr to value [002Ch]
+2863:   pop eax
+2865:   mov eax, [eax]
+2868:   push eax
+2870:   pop ecx
+2872:   pop eax
+2874:   mov ebx, 2
+2880:   mul ecx, ebx
+2883:   add eax, ecx
+2886:   push eax
+2888:   pop eax
+2890:   mov eax, [eax]
+2893:   mov ecx, 65535
+2899:   and eax, ecx
+2902:   push eax
+2904:   push dword ptr to value [0028h]
+2909:   pop eax
+2911:   mov eax, [eax]
+2914:   push eax
+2916:   push 1
+2921:   add_stk
+2922:   push dword ptr to value [002Ch]
+2927:   pop eax
+2929:   mov eax, [eax]
+2932:   push eax
+2934:   push 1
+2939:   add_stk
+2940:   mul_stk
+2941:   ne_stk
+2942:   jz_pop_stk 2973
+2947:   push dword ptr to value [0000h]
+2952:   push 0
+2957:   pop eax
+2959:   pop ecx
+2961:   mov [ecx], eax
+2964:   push eax
+2966:   pop eax
+2968:   jmp 3115
+2973:   push dword ptr to value [0034h]
+2978:   push dword ptr to value [0028h]
+2983:   pop eax
+2985:   mov eax, [eax]
+2988:   push eax
+2990:   pop ecx
+2992:   pop eax
+2994:   mov ebx, 14
+3000:   mul ecx, ebx
+3003:   add eax, ecx
+3006:   push eax
+3008:   push dword ptr to value [002Ch]
+3013:   pop eax
+3015:   mov eax, [eax]
+3018:   push eax
+3020:   pop ecx
+3022:   pop eax
+3024:   mov ebx, 2
+3030:   mul ecx, ebx
+3033:   add eax, ecx
+3036:   push eax
+3038:   push dword ptr to value [0038h]
+3043:   pop eax
+3045:   mov eax, [eax]
+3048:   push eax
+3050:   ne_stk
+3051:   jz_pop_stk 3082
+3056:   push dword ptr to value [0000h]
+3061:   push 0
+3066:   pop eax
+3068:   pop ecx
+3070:   mov [ecx], eax
+3073:   push eax
+3075:   pop eax
+3077:   jmp 3115
+3082:   push dword ptr to value [0038h]
+3087:   pop eax
+3089:   mov ecx, [eax]
+3092:   push ecx
+3094:   add ecx, 2
+3100:   mov [eax], ecx
+3103:   pop eax
+3105:   jmp 2799
+3110:   jmp 2726
+3115:   push dword ptr to value [0000h]
+3120:   pop eax
+3122:   mov eax, [eax]
+3125:   push eax
+3127:   jz_pop_stk 3142
+3132:   push data offset [021Ch]
+3137:   jmp 3147
+3142:   push data offset [0224h]
+3147:   rcall 0144
+3152:   push eax
+3154:   pop eax
+3156:   push data offset [022Ch]
+3161:   rcall 0144
+3166:   push eax
+3168:   pop eax
+3170:   push dword ptr to value [0000h]
+3175:   push 0
+3180:   pop eax
+3182:   pop ecx
+3184:   mov [ecx], eax
+3187:   push eax
+3189:   pop eax
+3191:   push dword ptr to value [0008h]
+3196:   push 1
+3201:   pop eax
+3203:   pop ecx
+3205:   mov [ecx], eax
+3208:   push eax
+3210:   pop eax
+3212:   push dword ptr to value [0008h]
+3217:   pop eax
+3219:   mov ecx, [eax]
+3222:   push ecx
+3224:   inc ecx
+3226:   mov [eax], ecx
+3229:   push 2
+3234:   l_stk
+3235:   jz_pop_stk 3250
+3240:   jmp 3212
+3245:   jmp 3271
+3250:   push dword ptr to value [0000h]
+3255:   push 1
+3260:   pop eax
+3262:   pop ecx
+3264:   mov [ecx], eax
+3267:   push eax
+3269:   pop eax
+3271:   push dword ptr to value [0000h]
+3276:   pop eax
+3278:   mov eax, [eax]
+3281:   push eax
+3283:   jz_pop_stk 3298
+3288:   push data offset [0254h]
+3293:   jmp 3303
+3298:   push data offset [025Ch]
+3303:   rcall 0144
+3308:   push eax
+3310:   pop eax
+3312:   push data offset [0264h]
+3317:   rcall 0144
+3322:   push eax
+3324:   pop eax
+3326:   push dword ptr to value [0000h]
+3331:   push 1
+3336:   pop eax
+3338:   pop ecx
+3340:   mov [ecx], eax
+3343:   push eax
+3345:   pop eax
+3347:   push dword ptr to value [0000h]
+3352:   pop eax
+3354:   mov eax, [eax]
+3357:   push eax
+3359:   jnz_stk 3378
+3364:   pop eax
+3366:   push data offset [0288h]
+3371:   rcall 0144
+3376:   push eax
+3378:   pop eax
+3380:   push 0
+3385:   jz_stk 3404
+3390:   pop eax
+3392:   push data offset [0290h]
+3397:   rcall 0144
+3402:   push eax
+3404:   pop eax
+3406:   push 1
+3411:   jnz_stk 3430
+3416:   pop eax
+3418:   push data offset [0298h]
+3423:   rcall 0144
+3428:   push eax
+3430:   pop eax
+3432:   push dword ptr to value [0000h]
+3437:   pop eax
+3439:   mov eax, [eax]
+3442:   push eax
+3444:   jz_pop_stk 3459
+3449:   push data offset [02A0h]
+3454:   jmp 3464
+3459:   push data offset [02A8h]
+3464:   rcall 0144
+3469:   push eax
+3471:   pop eax
+3473:   push 0
+3478:   jz_pop_stk 3517
+3483:   push 1
+3488:   jz_pop_stk 3512
+3493:   push data offset [02B0h]
+3498:   rcall 0144
+3503:   push eax
+3505:   pop eax
+3507:   jmp 3517
+3512:   jmp 3473
+3517:   push data offset [02C9h]
+3522:   rcall 0144
+3527:   push eax
+3529:   pop eax
+3531:   push dword ptr to value [0000h]
+3536:   push 0
+3541:   pop eax
+3543:   pop ecx
+3545:   mov [ecx], eax
+3548:   push eax
+3550:   pop eax
+3552:   push dword ptr to value [003Ch]
+3557:   push 65535
+3562:   pop eax
+3564:   pop ecx
+3566:   size override to 1 byte for next operation
+3567:   mov [ecx], eax
+3570:   push ecx
+3572:   pop eax
+3574:   push dword ptr to value [003Ch]
+3579:   pop eax
+3581:   mov eax, [eax]
+3584:   mov ecx, 255
+3590:   and eax, ecx
+3593:   push eax
+3595:   push 255
+3600:   e_stk
+3601:   jz_pop_stk 3627
+3606:   push dword ptr to value [0000h]
+3611:   push 1
+3616:   pop eax
+3618:   pop ecx
+3620:   mov [ecx], eax
+3623:   push eax
+3625:   pop eax
+3627:   push dword ptr to value [0000h]
+3632:   pop eax
+3634:   mov eax, [eax]
+3637:   push eax
+3639:   jz_pop_stk 3654
+3644:   push data offset [02E6h]
+3649:   jmp 3659
+3654:   push data offset [02EEh]
+3659:   rcall 0144
+3664:   push eax
+3666:   pop eax
+3668:   push data offset [02F6h]
+3673:   rcall 0144
+3678:   push eax
+3680:   pop eax
+3682:   push dword ptr to value [0000h]
+3687:   push 0
+3692:   pop eax
+3694:   pop ecx
+3696:   mov [ecx], eax
+3699:   push eax
+3701:   pop eax
+3703:   push dword ptr to value [0044h]
+3708:   push data offset [032Eh]
+3713:   pop eax
+3715:   pop ecx
+3717:   mov [ecx], eax
+3720:   push ecx
+3722:   pop eax
+3724:   add eax, 4
+3730:   push eax
+3732:   push data offset [0333h]
+3737:   pop eax
+3739:   pop ecx
+3741:   mov [ecx], eax
+3744:   push ecx
+3746:   pop eax
+3748:   add eax, 4
+3754:   push eax
+3756:   push data offset [0339h]
+3761:   pop eax
+3763:   pop ecx
+3765:   mov [ecx], eax
+3768:   push ecx
+3770:   pop eax
+3772:   add eax, 4
+3778:   push eax
+3780:   push data offset [033Fh]
+3785:   pop eax
+3787:   pop ecx
+3789:   mov [ecx], eax
+3792:   push ecx
+3794:   pop eax
+3796:   add eax, 4
+3802:   push eax
+3804:   push 0
+3809:   pop eax
+3811:   pop ecx
+3813:   mov [ecx], eax
+3816:   push ecx
+3818:   pop eax
+3820:   push dword ptr to value [0048h]
+3825:   push data offset [0344h]
+3830:   pop eax
+3832:   pop ecx
+3834:   mov [ecx], eax
+3837:   push ecx
+3839:   pop eax
+3841:   push 20
+3846:   push 20
+3851:   ne_stk
+3852:   jz_pop_stk 3878
+3857:   push dword ptr to value [0000h]
+3862:   push 0
+3867:   pop eax
+3869:   pop ecx
+3871:   mov [ecx], eax
+3874:   push eax
+3876:   pop eax
+3878:   push dword ptr to value [0040h]
+3883:   push 0
+3888:   pop eax
+3890:   pop ecx
+3892:   mov [ecx], eax
+3895:   push eax
+3897:   pop eax
+3899:   push dword ptr to value [0044h]
+3904:   push dword ptr to value [0040h]
+3909:   pop eax
+3911:   mov eax, [eax]
+3914:   push eax
+3916:   pop ecx
+3918:   pop eax
+3920:   mov ebx, 4
+3926:   mul ecx, ebx
+3929:   add eax, ecx
+3932:   push eax
+3934:   pop eax
+3936:   mov eax, [eax]
+3939:   push eax
+3941:   jnz_pop_stk 3975
+3946:   jmp 4068
+3951:   push dword ptr to value [0040h]
+3956:   pop eax
+3958:   mov ecx, [eax]
+3961:   push ecx
+3963:   inc ecx
+3965:   mov [eax], ecx
+3968:   pop eax
+3970:   jmp 3899
+3975:   push dword ptr to value [0044h]
+3980:   push dword ptr to value [0040h]
+3985:   pop eax
+3987:   mov eax, [eax]
+3990:   push eax
+3992:   pop ecx
+3994:   pop eax
+3996:   mov ebx, 4
+4002:   mul ecx, ebx
+4005:   add eax, ecx
+4008:   push eax
+4010:   pop eax
+4012:   mov eax, [eax]
+4015:   push eax
+4017:   push dword ptr to value [0048h]
+4022:   pop eax
+4024:   mov eax, [eax]
+4027:   push eax
+4029:   rcall 0176
+4034:   push eax
+4036:   lnot_stk
+4037:   jz_pop_stk 4063
+4042:   push dword ptr to value [0000h]
+4047:   push 1
+4052:   pop eax
+4054:   pop ecx
+4056:   mov [ecx], eax
+4059:   push eax
+4061:   pop eax
+4063:   jmp 3951
+4068:   push dword ptr to value [0000h]
+4073:   pop eax
+4075:   mov eax, [eax]
+4078:   push eax
+4080:   lnot_stk
+4081:   jz_pop_stk 4091
+4086:   jmp 4250
+4091:   push dword ptr to value [0000h]
+4096:   push 0
+4101:   pop eax
+4103:   pop ecx
+4105:   mov [ecx], eax
+4108:   push eax
+4110:   pop eax
+4112:   push dword ptr to value [004Ch]
+4117:   push dword ptr to value [0044h]
+4122:   pop eax
+4124:   pop ecx
+4126:   mov [ecx], eax
+4129:   push ecx
+4131:   pop eax
+4133:   push dword ptr to value [004Ch]
+4138:   pop eax
+4140:   mov eax, [eax]
+4143:   push eax
+4145:   pop eax
+4147:   mov eax, [eax]
+4150:   push eax
+4152:   jz_pop_stk 4250
+4157:   push dword ptr to value [004Ch]
+4162:   pop eax
+4164:   mov eax, [eax]
+4167:   push eax
+4169:   pop eax
+4171:   mov eax, [eax]
+4174:   push eax
+4176:   push dword ptr to value [0048h]
+4181:   pop eax
+4183:   mov eax, [eax]
+4186:   push eax
+4188:   rcall 0176
+4193:   push eax
+4195:   lnot_stk
+4196:   jz_pop_stk 4222
+4201:   push dword ptr to value [0000h]
+4206:   push 1
+4211:   pop eax
+4213:   pop ecx
+4215:   mov [ecx], eax
+4218:   push eax
+4220:   pop eax
+4222:   push dword ptr to value [004Ch]
+4227:   pop eax
+4229:   mov ecx, [eax]
+4232:   push ecx
+4234:   add ecx, 4
+4240:   mov [eax], ecx
+4243:   pop eax
+4245:   jmp 4133
+4250:   push dword ptr to value [0000h]
+4255:   pop eax
+4257:   mov eax, [eax]
+4260:   push eax
+4262:   jz_pop_stk 4277
+4267:   push data offset [034Ah]
+4272:   jmp 4282
+4277:   push data offset [0352h]
+4282:   rcall 0144
+4287:   push eax
+4289:   pop eax
+4291:   push data offset [035Ah]
+4296:   rcall 0144
+4301:   push eax
+4303:   pop eax
+4305:   push dword ptr to value [0000h]
+4310:   push 1
+4315:   pop eax
+4317:   pop ecx
+4319:   mov [ecx], eax
+4322:   push eax
+4324:   pop eax
+4326:   push dword ptr to value [0050h]
+4331:   push 0
+4336:   pop eax
+4338:   pop ecx
+4340:   mov [ecx], eax
+4343:   push ecx
+4345:   pop eax
+4347:   push dword ptr to value [0050h]
+4352:   push 10
+4357:   pop eax
+4359:   pop ecx
+4361:   mov ebx, [ecx]
+4364:   add eax, ebx
+4367:   mov [ecx], eax
+4370:   push eax
+4372:   pop eax
+4374:   push dword ptr to value [0050h]
+4379:   pop eax
+4381:   mov eax, [eax]
+4384:   push eax
+4386:   push 10
+4391:   ne_stk
+4392:   jz_pop_stk 4418
+4397:   push dword ptr to value [0000h]
+4402:   push 0
+4407:   pop eax
+4409:   pop ecx
+4411:   mov [ecx], eax
+4414:   push eax
+4416:   pop eax
+4418:   push dword ptr to value [0050h]
+4423:   push 5
+4428:   pop eax
+4430:   pop ecx
+4432:   mov ebx, [ecx]
+4435:   sub ebx, eax
+4438:   mov [ecx], ebx
+4441:   push ebx
+4443:   pop eax
+4445:   push dword ptr to value [0050h]
+4450:   pop eax
+4452:   mov eax, [eax]
+4455:   push eax
+4457:   push 5
+4462:   ne_stk
+4463:   jz_pop_stk 4489
+4468:   push dword ptr to value [0000h]
+4473:   push 0
+4478:   pop eax
+4480:   pop ecx
+4482:   mov [ecx], eax
+4485:   push eax
+4487:   pop eax
+4489:   push dword ptr to value [0050h]
+4494:   push 2
+4499:   pop eax
+4501:   pop ecx
+4503:   mov ebx, [ecx]
+4506:   mul ebx, eax
+4509:   mov [ecx], ebx
+4512:   push ebx
+4514:   pop eax
+4516:   push dword ptr to value [0050h]
+4521:   pop eax
+4523:   mov eax, [eax]
+4526:   push eax
+4528:   push 10
+4533:   ne_stk
+4534:   jz_pop_stk 4560
+4539:   push dword ptr to value [0000h]
+4544:   push 0
+4549:   pop eax
+4551:   pop ecx
+4553:   mov [ecx], eax
+4556:   push eax
+4558:   pop eax
+4560:   push dword ptr to value [0050h]
+4565:   push 2
+4570:   pop eax
+4572:   pop ecx
+4574:   mov ebx, [ecx]
+4577:   div ebx, eax
+4580:   mov [ecx], ebx
+4583:   push ebx
+4585:   pop eax
+4587:   push dword ptr to value [0050h]
+4592:   pop eax
+4594:   mov eax, [eax]
+4597:   push eax
+4599:   push 5
+4604:   ne_stk
+4605:   jz_pop_stk 4631
+4610:   push dword ptr to value [0000h]
+4615:   push 0
+4620:   pop eax
+4622:   pop ecx
+4624:   mov [ecx], eax
+4627:   push eax
+4629:   pop eax
+4631:   push dword ptr to value [0050h]
+4636:   push 2
+4641:   pop eax
+4643:   pop ecx
+4645:   mov ebx, [ecx]
+4648:   mod ebx, eax
+4651:   mov [ecx], ebx
+4654:   push ebx
+4656:   pop eax
+4658:   push dword ptr to value [0050h]
+4663:   pop eax
+4665:   mov eax, [eax]
+4668:   push eax
+4670:   push 1
+4675:   ne_stk
+4676:   jz_pop_stk 4702
+4681:   push dword ptr to value [0000h]
+4686:   push 0
+4691:   pop eax
+4693:   pop ecx
+4695:   mov [ecx], eax
+4698:   push eax
+4700:   pop eax
+4702:   push dword ptr to value [0050h]
+4707:   push 1
+4712:   pop eax
+4714:   pop ecx
+4716:   mov ebx, [ecx]
+4719:   and ebx, eax
+4722:   mov [ecx], ebx
+4725:   push ebx
+4727:   pop eax
+4729:   push dword ptr to value [0050h]
+4734:   pop eax
+4736:   mov eax, [eax]
+4739:   push eax
+4741:   push 2
+4746:   ne_stk
+4747:   jz_pop_stk 4773
+4752:   push dword ptr to value [0000h]
+4757:   push 0
+4762:   pop eax
+4764:   pop ecx
+4766:   mov [ecx], eax
+4769:   push eax
+4771:   pop eax
+4773:   push dword ptr to value [0050h]
+4778:   push 1
+4783:   pop eax
+4785:   pop ecx
+4787:   mov ebx, [ecx]
+4790:   and ebx, eax
+4793:   mov [ecx], ebx
+4796:   push ebx
+4798:   pop eax
+4800:   push dword ptr to value [0050h]
+4805:   pop eax
+4807:   mov eax, [eax]
+4810:   push eax
+4812:   push 1
+4817:   ne_stk
+4818:   jz_pop_stk 4844
+4823:   push dword ptr to value [0000h]
+4828:   push 0
+4833:   pop eax
+4835:   pop ecx
+4837:   mov [ecx], eax
+4840:   push eax
+4842:   pop eax
+4844:   push dword ptr to value [0050h]
+4849:   push 256
+4854:   pop eax
+4856:   pop ecx
+4858:   mov ebx, [ecx]
+4861:   and ebx, eax
+4864:   mov [ecx], ebx
+4867:   push ebx
+4869:   pop eax
+4871:   push dword ptr to value [0050h]
+4876:   pop eax
+4878:   mov eax, [eax]
+4881:   push eax
+4883:   jz_pop_stk 4909
+4888:   push dword ptr to value [0000h]
+4893:   push 0
+4898:   pop eax
+4900:   pop ecx
+4902:   mov [ecx], eax
+4905:   push eax
+4907:   pop eax
+4909:   push dword ptr to value [0050h]
+4914:   push 256
+4919:   pop eax
+4921:   pop ecx
+4923:   mov ebx, [ecx]
+4926:   or ebx, eax
+4929:   mov [ecx], ebx
+4932:   push ebx
+4934:   pop eax
+4936:   push dword ptr to value [0050h]
+4941:   pop eax
+4943:   mov eax, [eax]
+4946:   push eax
+4948:   push 256
+4953:   ne_stk
+4954:   jz_pop_stk 4980
+4959:   push dword ptr to value [0000h]
+4964:   push 0
+4969:   pop eax
+4971:   pop ecx
+4973:   mov [ecx], eax
+4976:   push eax
+4978:   pop eax
+4980:   push dword ptr to value [0050h]
+4985:   push 256
+4990:   pop eax
+4992:   pop ecx
+4994:   mov ebx, [ecx]
+4997:   xor ebx, eax
+5000:   mov [ecx], ebx
+5003:   push ebx
+5005:   pop eax
+5007:   push dword ptr to value [0050h]
+5012:   pop eax
+5014:   mov eax, [eax]
+5017:   push eax
+5019:   jz_pop_stk 5045
+5024:   push dword ptr to value [0000h]
+5029:   push 0
+5034:   pop eax
+5036:   pop ecx
+5038:   mov [ecx], eax
+5041:   push eax
+5043:   pop eax
+5045:   push dword ptr to value [0000h]
+5050:   pop eax
+5052:   mov eax, [eax]
+5055:   push eax
+5057:   jz_pop_stk 5072
+5062:   push data offset [0377h]
+5067:   jmp 5077
+5072:   push data offset [037Fh]
+5077:   rcall 0144
+5082:   push eax
+5084:   pop eax
+5086:   $end
+executing...
+
+This is a test script! :)
+Test if-else-if-else conditions: PASSED
+Test infinity for loop to print 4 messages from array with break:
+0. Now we do some test for zlc compile
+1. Check loops
+2. Check arrays
+3. Check goto-label
+Test size of variables, types and arrays: PASSED
+Test for loop with extract array value as condition: PASSED
+Test size override prefix: PASSED
+Test for fixed size multi-level array matrix[5][7]: PASSED
+Test goto-loop with external variable: PASSED
+Test logical conditions (or, and): PASSED
+Test operand size override: PASSED
+Test array with auto size and values pointed to words: PASSED
+Test arithmetic operations: PASSED
+
+after execute: header:
+(null)
