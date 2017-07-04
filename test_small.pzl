@@ -1,0 +1,27 @@
+// zlc testing script
+
+unsigned long ext_var;
+extern unsigned long action;
+extern char *ext_names[5];
+//extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
+
+import __cdecl print(1);
+import __cdecl printn(1);
+import __cdecl printh(1);
+import __cdecl strcmp(2);
+import __cdecl isset(1);
+import __cdecl merge(2);
+import __cdecl encode(1);
+import __cdecl free(1);
+
+function main()
+{
+	if(-2 > 0)
+	{
+		print("-1 > 0\n");
+	}
+	else
+	{
+		print("-1 < 0\n");
+	}
+}

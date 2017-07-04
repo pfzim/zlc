@@ -136,4 +136,9 @@
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test_small.pzl">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
