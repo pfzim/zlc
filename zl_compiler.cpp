@@ -874,7 +874,7 @@ unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned lo
 	if((pp->hc_fill + size) > pp->hc_buffer_size)
 	{
 		unsigned char *new_buf;
-		pp->hc_buffer_size = pp->hc_fill + size + size%65536;
+		pp->hc_buffer_size = pp->hc_fill + size + (65536 - size%65536);
 		new_buf = (unsigned char *) zalloc(pp->hc_buffer_size);
 		if(pp->hard_code)
 		{
