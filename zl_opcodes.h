@@ -177,10 +177,10 @@
 #define ZLF_CHAR			0x00000008
 #define ZLF_DOUBLE			0x00000010
 #define ZLF_FLOAT			0x00000020
-#define ZLF_INT				0x00000040		// default
+#define ZLF_INT				0x00000040		// default type if not defined (like: unsigned long x)
 #define ZLF_SHORT			0x00000080
-#define ZLF_LONG			0x00000100		// default
-#define ZLF_SIGNED			0x00000200		// default
+#define ZLF_LONG			0x00000100		// default for int
+#define ZLF_SIGNED			0x00000200		// default for int, char
 #define ZLF_UNSIGNED		0x00000400
 #define ZLF_STRUCT			0x00000800
 #define ZLF_INTERNAL		0x00001000		// default заменить на ZLF_GLOBAL

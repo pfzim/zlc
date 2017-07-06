@@ -585,7 +585,7 @@ declaration_function
 			func->library = NULL;
 		}
 */
-	//| T_FUNCTION T_LABEL '('
+	//| cast_expression T_LABEL '('
 	| T_FUNCTION T_LABEL '('
 		{
 			pp->current_level++;
@@ -659,15 +659,10 @@ declaration_function
 
 /*
 function_type
-	: function_type_specifier									{ $$.flags = $1.flags; }
-	| function_type_specifier pointer							{ $$.flags = $1.flags | $2.flags; }
+	: declaration_specifiers									{ $$.flags = $1.flags; }
+	| declaration_specifiers var_or_func_label					{ $$.flags = $1.flags | $2.flags; }
 ;
-
-function_type_specifier
-	: type_specifier											{ $$.flags = $1.flags; }
-	| type_specifier function_type_specifier					{ $$.flags = $1.flags | $2.flags; }
-;
-*/
+//*/
 
 function_args
 	: function_arg
@@ -771,7 +766,17 @@ declaration_statement
 
 			if(!($1.flags & ZLF_TYPE))
 			{
-				$1.flags |= ZLF_INT;	// use default type
+				$1.flags |= ZLF_INT;	// set default type
+			}
+			
+			if(($1.flags & (ZLF_INT | ZLF_CHAR)) && (($1.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) == 0))
+			{
+				$1.flags |= ZLF_SIGNED;	// set default modifier
+			}
+			
+			if(($1.flags & ZLF_INT) && (($1.flags & (ZLF_SHORT | ZLF_LONG)) == 0))
+			{
+				$1.flags |= ZLF_LONG;	// set default modifier
 			}
 
 			cl_stack_push(&pp->cl_stack, (void *) $1.flags);
@@ -817,6 +822,22 @@ declaration_specifiers
 				ZL_ERROR("type specifier followed by type specifier is illegal");
 			}
 		}
+;
+
+type_specifier
+	: T_VOID													{ $$.flags = ZLF_VOID; }
+	| T_CHAR													{ $$.flags = ZLF_CHAR; }
+	| T_SHORT													{ $$.flags = ZLF_SHORT; }
+	| T_INT														{ $$.flags = ZLF_INT; }
+	| T_LONG													{ $$.flags = ZLF_LONG; }
+	| T_FLOAT													{ $$.flags = ZLF_FLOAT; }
+	| T_DOUBLE													{ $$.flags = ZLF_DOUBLE; }
+	| T_SIGNED													{ $$.flags = ZLF_SIGNED; }
+	| T_UNSIGNED												{ $$.flags = ZLF_UNSIGNED; }
+	| T_EXTERN													{ $$.flags = ZLF_EXTERNAL; }
+	| T_VAR														{ $$.flags = ZLF_INTERNAL; }
+//	| struct_specifier											{ $$.flags = ZLF_STRUCT; }
+//	| T_LABEL													{ cl_find_in_struct_list(); $$.flags = ZLF_STRUCT; free_str($1.string); }
 ;
 
 init_declarator_list
@@ -1053,9 +1074,16 @@ declarator
 			}
 		}
 ;
+/*
+var_or_func_label
+	: T_LABEL { }
+	| pointer T_LABEL { }
+;
+*/
 
 direct_declarator
 	: T_LABEL
+	//: var_or_func_label
 		{
 			$$.var = cl_var_define(&pp->vars_table, $1.string, pp->current_level);
 
@@ -1230,22 +1258,6 @@ struct_declarator_list
 	| struct_declarator_list ',' declarator
 ;
 //*/
-
-type_specifier
-	: T_VOID													{ $$.flags = ZLF_VOID; }
-	| T_CHAR													{ $$.flags = ZLF_CHAR; }
-	| T_SHORT													{ $$.flags = ZLF_SHORT; }
-	| T_INT														{ $$.flags = ZLF_INT; }
-	| T_LONG													{ $$.flags = ZLF_LONG; }
-	| T_FLOAT													{ $$.flags = ZLF_FLOAT; }
-	| T_DOUBLE													{ $$.flags = ZLF_DOUBLE; }
-	| T_SIGNED													{ $$.flags = ZLF_SIGNED; }
-	| T_UNSIGNED												{ $$.flags = ZLF_UNSIGNED; }
-	| T_EXTERN													{ $$.flags = ZLF_EXTERNAL; }
-	| T_VAR														{ $$.flags = ZLF_INTERNAL; }
-//	| struct_specifier											{ $$.flags = ZLF_STRUCT; }
-//	| T_LABEL													{ cl_find_in_struct_list(); $$.flags = ZLF_STRUCT; free_str($1.string); }
-;
 
 expression
 	: assignment_expression
@@ -1730,9 +1742,10 @@ unary_expression
 //	| cast_expression														{ $$.flags = $1.flags; }
 ;
 
-/*
+//*
 cast_expression
-	:	'(' declaration_specifiers ')' unary_expression						{ $$.flags = $2.flags; }
+	:	declaration_specifiers									{ $$.flags = $1.flags; }
+	|	declaration_specifiers pointer							{ $$.flags = $1.flags | $2.flags; }
 ;
 //*/
 
@@ -1758,7 +1771,15 @@ expr
 	| expr '^' expr												{ cl_do_op(pp, OP_XOR_STK_STK, &$$, &$1, &$3); }
 	| expr T_SHL expr											{ cl_do_op(pp, OP_SHL_STK_STK, &$$, &$1, &$3); }
 	| expr T_SHR expr											{ cl_do_op(pp, OP_SHR_STK_STK, &$$, &$1, &$3); }
-	| expr '>' expr												{ cl_do_op(pp, OP_G_STK_STK, &$$, &$1, &$3); }
+	| expr '>' expr
+		{
+			if(($1.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ($3.flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
+			{
+				ZL_ERROR("'>': signed/unsigned mismatch");
+			}
+
+			cl_do_op(pp, OP_G_STK_STK, &$$, &$1, &$3);
+		}
 	| expr '<' expr												{ cl_do_op(pp, OP_L_STK_STK, &$$, &$1, &$3); }
 	| expr T_GE expr											{ cl_do_op(pp, OP_GE_STK_STK, &$$, &$1, &$3); }
 	| expr T_LE expr											{ cl_do_op(pp, OP_LE_STK_STK, &$$, &$1, &$3); }
@@ -2145,7 +2166,9 @@ expr
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $4.var->size[$4.rows]);
 		}
 //*/
-//	| '(' specifier_qualifier_list ')' unary_expression
+	| '(' cast_expression ')' unary_expression			{ $$ = $4; $$.flags = $2.flags; 
+	//printf("(%s) %s\n", ($2.flags&ZLF_SIGNED)?"signed":(($2.flags&ZLF_UNSIGNED)?"unsigned":""), ($4.flags&ZLF_SIGNED)?"signed":(($4.flags&ZLF_UNSIGNED)?"unsigned":""));
+	}
 //	| unary_expression '(' argument_expression_list ')'
 ;
 
