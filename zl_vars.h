@@ -10,7 +10,7 @@ typedef struct _cl_var_node
 	unsigned long level;
 	unsigned long offset;
 	// for arrays
-	unsigned long rows;
+	unsigned long rows;  // count elements in size (array[0][1]...[rows])
 	unsigned long size[1024]; //1024
 	// global vars
 	unsigned long references;

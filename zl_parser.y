@@ -585,6 +585,7 @@ declaration_function
 			func->library = NULL;
 		}
 */
+	//| T_FUNCTION T_LABEL '('
 	| T_FUNCTION T_LABEL '('
 		{
 			pp->current_level++;
@@ -655,6 +656,18 @@ declaration_function
 			cl_label_free(&pp->labels_table);
 		}
 ;
+
+/*
+function_type
+	: function_type_specifier									{ $$.flags = $1.flags; }
+	| function_type_specifier pointer							{ $$.flags = $1.flags | $2.flags; }
+;
+
+function_type_specifier
+	: type_specifier											{ $$.flags = $1.flags; }
+	| type_specifier function_type_specifier					{ $$.flags = $1.flags | $2.flags; }
+;
+*/
 
 function_args
 	: function_arg
@@ -748,8 +761,8 @@ function_arg
 ;
 
 declaration_statement
-	: declaration_specifiers ';'								{ /* nothing to do */ }
-	| declaration_specifiers
+	//: declaration_specifiers ';'								{ /* nothing to do */ }
+	: declaration_specifiers
 		{
 			if(($1.flags & ZLF_EXTERNAL) && (pp->current_level > 0))
 			{
@@ -877,15 +890,29 @@ init_declarator
 
 			if($1.var->flags & ZLF_ARRAY)
 			{
+				// calculate/convert array element count to size
+				// long int array[2rows][3columns];
+				// X X X
+				// X X X
+				// sizeof(array[0]) == 3*4 bytes
+				// sizeof(array[0][0]) == 4 bytes
+
+				/* debug
+				printf("\n\narray              : %s\n", $1.var->name);
+				printf("$1.var->rows       : %u\n", $1.var->rows);
+				printf("$1.var->size[0]    : %u\n", $1.var->size[0]);
+				printf("$1.var->size[%u]    : %u\n", $1.var->rows, $1.var->size[$1.var->rows]);
+				//*/
+
 				unsigned long level;
-
+				
 				level = $1.var->rows;
-
 				$1.var->size[level] *= $1.var->size[0];
 				level--;
 
 				while(level)
 				{
+					//printf("$1.var->size[%u]    : %u\n", level, $1.var->size[level]);
 					$1.var->size[level] *= $1.var->size[level+1];
 					level--;
 				}
@@ -893,6 +920,12 @@ init_declarator
 				//$1.var->size[0] = $1.var->size[1];
 			}
 
+			// swap array of sizes
+			// sizeof(array)          = $1.var->size[]
+			// sizeof(array[0])       = $1.var->size[]
+			// sizeof(array[0][0])    = $1.var->size[]
+			// sizeof(array[0][0][0]) = $1.var->size[]
+			
 			unsigned long dc, uc, x;
 
 			dc = 1;
@@ -908,6 +941,15 @@ init_declarator
 				uc--;
 			}
 
+			/* debug
+			dc = 0;
+			while(dc <= $1.var->rows)
+			{
+				printf("$1.var->size[%u]    : %u\n", dc, $1.var->size[dc]);
+				dc++;
+			}
+			//*/
+			
 			$1.var->references = 0;
 
 			var = $1.var;
@@ -1141,9 +1183,10 @@ initializer_list
 
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 
-			if($1.size > 1)
+			if(((cl_var_node *) pp->cl_stack->data)->size[0] > 1)
 			{
-				cl_push(pp, OP_ADD_REG_IMM); cl_push(pp, REG_EAX); cl_push_dw(pp, $1.size);
+				//cl_push(pp, OP_ADD_REG_IMM); cl_push(pp, REG_EAX); cl_push_dw(pp, $1.size);
+				cl_push(pp, OP_ADD_REG_IMM); cl_push(pp, REG_EAX); cl_push_dw(pp, ((cl_var_node *) pp->cl_stack->data)->size[0]);
 			}
 			else
 			{
