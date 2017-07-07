@@ -70,9 +70,13 @@ function test_script()
 
 	print("\n");
 	print(__COMPILER__);
+	print("\nScript compiled at: ");
+	print(__DATE__);
+	print(" ");
+	print(__TIME__);
 	print("\nThis is a test script! :)\n");
 
-	print("Test if-else-if-else conditions: ");
+	print("Test if-else-if-else conditions:                       ");
 	pass = 0;
 
 	if(action == 1)
@@ -152,7 +156,7 @@ function test_script()
 	print("  sizeof(p4):      "); print((sizeof(p4) == 4)?"PASSED\n":"FAILED\n");
 	*/
 
-	print("Test for loop with extract array value as condition: ");
+	print("Test for loop with extract array value as condition:   ");
 
 	unsigned long int i, x;
 
@@ -166,7 +170,7 @@ function test_script()
 
 	print((i == 4)?"PASSED\n":"FAILED\n");
 
-	print("Test size override prefix: ");
+	print("Test size override prefix:                             ");
 
 	char message[8];
 
@@ -181,7 +185,7 @@ function test_script()
 
 	print(message);
 
-	print("Test for fixed size multi-level array matrix[5][7]: ");
+	print("Test for fixed size multi-level array matrix[5][7]:    ");
 	pass = 1;
 
 	short int matrix[5][7];
@@ -219,7 +223,7 @@ function test_script()
 
 	print(pass?"PASSED\n":"FAILED\n");
 
-	print("Test goto-loop with external variable: ");
+	print("Test goto-loop with external variable:                 ");
 	pass = 0;
 
 	ext_var = 1;
@@ -236,7 +240,7 @@ function test_script()
 
 	print(pass?"PASSED\n":"FAILED\n");
 
-	print("Test logical conditions (or, and): ");
+	print("Test logical conditions (or, and):                     ");
 	pass = 1;
 
 	pass || print("FAILED ");
@@ -245,9 +249,13 @@ function test_script()
 
 	print(pass?"PASSED\n":"FAILED\n");
 
-	while(0) if(1) {print("Test while loop: FAILED\n"); break;}
+	while(0) if(1)
+	{
+		print("Test while loop:                                       FAILED\n"); 
+		break;
+	}
 
-	print("Test operand size override: ");
+	print("Test operand size override:                            ");
 	pass = 0;
 
 	char test = 0xFFFF;
@@ -293,7 +301,7 @@ function test_script()
 
 	print(pass?"PASSED\n":"FAILED\n");
 
-	print("Test arithmetic operations: ");
+	print("Test arithmetic operations:                            ");
 	pass = 1;
 
 	unsigned long z = 0;
@@ -336,7 +344,7 @@ function test_script()
 	p2[1] = 31;
 	p2[2] = 32;
 	p2[3] = 33;
-	p2[4] = 33;
+	p2[4] = 34;
 
 	p3[0] = "p3[0] = PASSED";
 	p3[1] = "p3[1] = PASSED";
@@ -350,7 +358,7 @@ function test_script()
 	p4[3] = "p4[3] = PASSED";
 	p4[4] = "p4[4] = PASSED";
 
-	print("Test array pointer: ");
+	print("Test array pointer:                                    ");
 
 	pass = 0;
 
@@ -368,7 +376,7 @@ function test_script()
 
 	test_array(p1, p2, p3, p4);
 
-	print("Test internal function call and params order: ");
+	print("Test internal function call and params order:          ");
 
 	print(test_params("one", "two", "three")?"PASSED\n":"FAILED\n");
 
@@ -520,7 +528,7 @@ function small_test()
 	}
 }
 
-function cb_func(void *link)
+function cb_func()
 {
 	print("cb_func\n");
 }

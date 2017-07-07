@@ -431,7 +431,7 @@ NEWLINE						("\r"|"\n"|"\r\n")
 	//char *text;
 	//unsigned long len;
 	
-	yylval->string = cl_strdup("Sep 25 2005");
+	yylval->string = cl_strdate();
 	yylval->size = strlen(yylval->string)+1;
 	//yylval->value = (unsigned long) cl_section_data_push(&YYPP->data_table, ZLF_SECT_CONST, (char *) text, strlen(text)+1);
 	//free_str(text);
@@ -445,7 +445,7 @@ NEWLINE						("\r"|"\n"|"\r\n")
 	//char *text;
 	//unsigned long len;
 	
-	yylval->string = cl_strdup("11:05:16");
+	yylval->string = cl_strtime();
 	yylval->size = strlen(yylval->string)+1;
 	//yylval->value = (unsigned long) cl_section_data_push(&YYPP->data_table, ZLF_SECT_CONST, (char *) text, strlen(text)+1);
 	//free_str(text);
@@ -550,19 +550,41 @@ NEWLINE						("\r"|"\n"|"\r\n")
 	yylval->value = *unesc;
 	free_str(unesc);
 	free_str(text);
-	yylval->flags = ZLF_UNSIGNED | ZLF_CHAR;
+	yylval->flags = ZLF_SIGNED | ZLF_CHAR;
 	return T_CONSTANT_LONG;
 }
 
 <INITIAL,ST_IN_ASM>{LNUM} {
-	yylval->value = cl_strtol(yytext, yyleng);
-	yylval->flags = ZLF_SIGNED | ZLF_LONG | ZLF_INT;
+    // limits: 
+	// 2 bytes:                 –128 ... 127                  255
+	// 2 bytes:               –32768 ... 32767                65 535 
+    // 4 bytes:          –2147483648 ... 2147483647           4 294 967 295
+	// 8 bytes: -9223372036854775808 ... 9223372036854775807  18 446 744 073 709 551 615
+	
+	yylval->uvalue = cl_strtoul(yytext, yyleng);
+
+	if(yylval->uvalue > 2147483647)
+	{
+		yylval->flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
+	}
+	else
+	{
+		yylval->flags = ZLF_SIGNED | ZLF_LONG | ZLF_INT;
+	}
 	return T_CONSTANT_LONG;
 }
 
 <INITIAL,ST_IN_ASM>{HNUM} {
-	yylval->value = cl_strtoul(yytext, yyleng);
-	yylval->flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
+	yylval->uvalue = cl_hextoul(yytext, yyleng);
+
+	if(yylval->uvalue > 2147483647)
+	{
+		yylval->flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
+	}
+	else
+	{
+		yylval->flags = ZLF_SIGNED | ZLF_LONG | ZLF_INT;
+	}
 	return T_CONSTANT_LONG;
 }
 

@@ -139,6 +139,12 @@
 #define OP_JZ_POP_STK		0xC5
 #define OP_JNZ_POP_STK		0xC6
 
+// unsigned compare
+#define OP_UG_STK_STK		0xC7
+#define OP_UGE_STK_STK		0xC8
+#define OP_UL_STK_STK		0xC9
+#define OP_ULE_STK_STK		0xCA
+
 #define OP_NOP				0x90
 #define OP_DBG_PRINT		0xFA
 

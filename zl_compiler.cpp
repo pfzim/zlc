@@ -2,6 +2,7 @@
 #include "zl_opcodes.h"
 #include <windows.h>
 #include <stdio.h>
+#include <time.h>
 #include "../zinc/utstrings.h"
 #include "strtod.h"
 
@@ -1345,12 +1346,12 @@ unsigned long cl_push_op(cl_parser_params *pp, unsigned char code, zlval *arg1, 
 	return 0L;
 }
 
-long cl_strtol(char *text, unsigned long len)
+long cl_strtoul(char *text, unsigned long len)
 {
-	return strtol(text, NULL, 10);
+	return strtoul(text, NULL, 10);
 }
 
-unsigned long cl_strtoul(char *text, unsigned long len)
+unsigned long cl_hextoul(char *text, unsigned long len)
 {
 	return strtoul(text, NULL, 16);
 }
@@ -1381,6 +1382,21 @@ char *cl_sprintf(char *fmt, ...)
 	va_end(marker);
 
 	return temp;
+}
+
+char *cl_strtime()
+{
+	time_t t = time(NULL);
+	struct tm *tm = localtime(&t);
+	return cl_sprintf("%.2d:%.2d:%.2d", tm->tm_hour, tm->tm_min, tm->tm_sec);
+}
+
+char *cl_strdate()
+{
+	char *str_month[] = {"pfzim@mail.ru", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+	time_t t = time(NULL);
+	struct tm *tm = localtime(&t);
+	return cl_sprintf("%s %.2d %.4d", str_month[tm->tm_mon], tm->tm_mday, 1900 + tm->tm_year);
 }
 
 unsigned long cl_do_op(cl_parser_params *pp, unsigned char op, zlval *ss, zlval *s1, zlval *s2)

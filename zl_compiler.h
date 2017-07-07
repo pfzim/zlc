@@ -166,13 +166,15 @@ unsigned long cl_push(cl_parser_params *pp, unsigned char code);
 unsigned long cl_push_dw(cl_parser_params *pp, unsigned long data);
 unsigned long cl_push_op(cl_parser_params *pp, unsigned char code, zlval *arg1, zlval *arg2);
 
-long cl_strtol(char *text, unsigned long len);
-unsigned long cl_strtoul(char *text, unsigned long len);
+long cl_strtoul(char *text, unsigned long len);
+unsigned long cl_hextoul(char *text, unsigned long len);
 double cl_strtod(char *text, unsigned long len);
 
 char *cl_strdup(char *text);
 char *cl_strndup(char *text, unsigned long len);
 char *cl_sprintf(char *fmt, ...);
+char *cl_strtime();
+char *cl_strdate();
 
 unsigned long cl_do_op(cl_parser_params *pp, unsigned char op, zlval *ss, zlval *s1, zlval *s2);
 

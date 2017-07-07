@@ -16,8 +16,10 @@
 
 #define YYSTYPE zlval
 
+#define ZL_WARNING(message) { yywarning(scanner, pp, message); }
 #define ZL_ERROR(message) { yyerror(scanner, pp, message); YYABORT; }
 
+void yywarning(void *scanner, cl_parser_params *pp, const char *err);
 void yyerror(void *scanner, cl_parser_params *pp, const char *err);
 int yylex(zlval *yylval, void *yyscanner);
      
@@ -1156,8 +1158,8 @@ direct_declarator
 initializer
 	: assignment_expression
 		{
-			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
-			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
+			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);  // assignment_expression
+			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);  // var address
 
 			$$.size = 4;
 
@@ -1168,6 +1170,26 @@ initializer
 					case ZLF_CHAR:
 						$$.size = 1;
 						cl_push(pp, OP_SIZE_OVERRIDE_1);
+						
+						/* char text[] = "like this";
+						if(((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY)
+						{
+							mov edx, ecx
+						loop:
+							size_1
+							mov [edx], [eax]
+							inc edx
+							size_1
+							test [eax], [eax]
+							jz lb_exit
+							inc eax
+							jmp lb_loop
+							
+							
+							cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
+							cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
+						}
+						//*/
 						break;
 					case ZLF_INT:
 						if(((cl_var_node *) pp->cl_stack->data)->flags & ZLF_SHORT)
@@ -1775,14 +1797,66 @@ expr
 		{
 			if(($1.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ($3.flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
-				ZL_ERROR("'>': signed/unsigned mismatch");
+				ZL_WARNING("'>': signed/unsigned mismatch");
 			}
 
-			cl_do_op(pp, OP_G_STK_STK, &$$, &$1, &$3);
+			if(($1.flags | $3.flags) & ZLF_UNSIGNED)
+			{
+				cl_do_op(pp, OP_UG_STK_STK, &$$, &$1, &$3);
+			}
+			else
+			{
+				cl_do_op(pp, OP_G_STK_STK, &$$, &$1, &$3);
+			}
 		}
-	| expr '<' expr												{ cl_do_op(pp, OP_L_STK_STK, &$$, &$1, &$3); }
-	| expr T_GE expr											{ cl_do_op(pp, OP_GE_STK_STK, &$$, &$1, &$3); }
-	| expr T_LE expr											{ cl_do_op(pp, OP_LE_STK_STK, &$$, &$1, &$3); }
+	| expr '<' expr
+		{
+			if(($1.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ($3.flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
+			{
+				ZL_WARNING("'>': signed/unsigned mismatch");
+			}
+
+			if(($1.flags | $3.flags) & ZLF_UNSIGNED)
+			{
+				cl_do_op(pp, OP_UL_STK_STK, &$$, &$1, &$3);
+			}
+			else
+			{
+				cl_do_op(pp, OP_L_STK_STK, &$$, &$1, &$3);
+			}
+		}
+	| expr T_GE expr
+		{
+			if(($1.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ($3.flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
+			{
+				ZL_WARNING("'>': signed/unsigned mismatch");
+			}
+
+			if(($1.flags | $3.flags) & ZLF_UNSIGNED)
+			{
+				cl_do_op(pp, OP_UGE_STK_STK, &$$, &$1, &$3);
+			}
+			else
+			{
+				cl_do_op(pp, OP_GE_STK_STK, &$$, &$1, &$3);
+			}
+		}
+	| expr T_LE expr
+		{
+			if(($1.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ($3.flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
+			{
+				ZL_WARNING("'>': signed/unsigned mismatch");
+			}
+
+			if(($1.flags | $3.flags) & ZLF_UNSIGNED)
+			{
+				cl_do_op(pp, OP_ULE_STK_STK, &$$, &$1, &$3);
+			}
+			else
+			{
+				cl_do_op(pp, OP_LE_STK_STK, &$$, &$1, &$3);
+			}
+		}
 	| expr T_EQ expr											{ cl_do_op(pp, OP_E_STK_STK, &$$, &$1, &$3); }
 	| expr T_NE expr											{ cl_do_op(pp, OP_NE_STK_STK, &$$, &$1, &$3); }
 	| expr T_OR
@@ -2255,6 +2329,11 @@ const_expr
 void yyerror(void *scanner, cl_parser_params *pp, const char *err)
 {
 	pp->error_msg = cl_sprintf("zlc: error at line %d: %s", pp->lineno, err);
+}
+
+void yywarning(void *scanner, cl_parser_params *pp, const char *err)
+{
+	//pp->error_msg = cl_sprintf("zlc: warning at line %d: %s", pp->lineno, err);
 }
 
 int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **error_msg,

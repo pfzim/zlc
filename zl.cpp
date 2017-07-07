@@ -1223,19 +1223,36 @@ unsigned long zl_execute(unsigned long *regs)
 				pop(zl_esp);
 				break;
 			case OP_G_STK_STK:
-				pdw(zl_esp-4) = pdw(zl_esp-4) > pdw(zl_esp);
+				pdw(zl_esp-4) = ((signed) pdw(zl_esp-4)) > ((signed) pdw(zl_esp));
 				pop(zl_esp);
 				break;
 			case OP_GE_STK_STK:
-				pdw(zl_esp-4) = pdw(zl_esp-4) >= pdw(zl_esp);
+				pdw(zl_esp-4) = ((signed) pdw(zl_esp - 4)) >= ((signed) pdw(zl_esp));
 				pop(zl_esp);
 				break;
 			case OP_L_STK_STK:
-				pdw(zl_esp-4) = pdw(zl_esp-4) < pdw(zl_esp);
+				pdw(zl_esp-4) = ((signed) pdw(zl_esp - 4)) < ((signed) pdw(zl_esp));
 				pop(zl_esp);
 				break;
 			case OP_LE_STK_STK:
-				pdw(zl_esp-4) = pdw(zl_esp-4) <= pdw(zl_esp);
+				pdw(zl_esp-4) = ((signed) pdw(zl_esp - 4)) <= ((signed) pdw(zl_esp));
+				pop(zl_esp);
+				break;
+
+			case OP_UG_STK_STK:
+				pdw(zl_esp - 4) = pdw(zl_esp - 4) > pdw(zl_esp);
+				pop(zl_esp);
+				break;
+			case OP_UGE_STK_STK:
+				pdw(zl_esp - 4) = pdw(zl_esp - 4) >= pdw(zl_esp);
+				pop(zl_esp);
+				break;
+			case OP_UL_STK_STK:
+				pdw(zl_esp - 4) = pdw(zl_esp - 4) < pdw(zl_esp);
+				pop(zl_esp);
+				break;
+			case OP_ULE_STK_STK:
+				pdw(zl_esp - 4) = pdw(zl_esp - 4) <= pdw(zl_esp);
 				pop(zl_esp);
 				break;
 
@@ -1570,6 +1587,18 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size
 				break;
 			case OP_GE_STK_STK:
 				printf("%.4u:   ge_stk\n", dw(zl_eip) - dw(hardcode));
+				break;
+			case OP_UL_STK_STK:
+				printf("%.4u:   ul_stk\n", dw(zl_eip) - dw(hardcode));
+				break;
+			case OP_ULE_STK_STK:
+				printf("%.4u:   ule_stk\n", dw(zl_eip) - dw(hardcode));
+				break;
+			case OP_UG_STK_STK:
+				printf("%.4u:   ug_stk\n", dw(zl_eip) - dw(hardcode));
+				break;
+			case OP_UGE_STK_STK:
+				printf("%.4u:   uge_stk\n", dw(zl_eip) - dw(hardcode));
 				break;
 			case OP_LNOT_STK:
 				printf("%.4u:   lnot_stk\n", dw(zl_eip) - dw(hardcode));
