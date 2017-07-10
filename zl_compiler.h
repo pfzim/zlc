@@ -27,6 +27,7 @@ typedef struct _cl_parser_params
 	struct _cl_stack_buffer *cl_loop_stack;
 
 	char *error_msg;
+	char *warning_msg;
 	unsigned long error_code;
 	unsigned long lineno;
 
@@ -171,6 +172,7 @@ unsigned long cl_hextoul(char *text, unsigned long len);
 double cl_strtod(char *text, unsigned long len);
 
 char *cl_strdup(char *text);
+char *cl_strcat(char **text, char*text2);
 char *cl_strndup(char *text, unsigned long len);
 char *cl_sprintf(char *fmt, ...);
 char *cl_strtime();

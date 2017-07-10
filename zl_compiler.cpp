@@ -1371,6 +1371,11 @@ char *cl_strdup(char *text)
 	return alloc_string(text);
 }
 
+char *cl_strcat(char **text, char*text2)
+{
+	return alloc_strcat(text, text2);
+}
+
 char *cl_sprintf(char *fmt, ...)
 {
 	va_list marker;

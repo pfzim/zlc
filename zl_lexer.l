@@ -313,6 +313,10 @@ NEWLINE						("\r"|"\n"|"\r\n")
 	return T_SIZEOF;
 }
 
+<INITIAL>"typeof" {
+	return T_TYPEOF;
+}
+
 <INITIAL>"function" {
 	return T_FUNCTION;
 }
@@ -367,10 +371,6 @@ NEWLINE						("\r"|"\n"|"\r\n")
 
 <INITIAL>"extern" {
 	return T_EXTERN;
-}
-
-<INITIAL>"var" {
-	return T_VAR;
 }
 
 <INITIAL>"char" {

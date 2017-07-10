@@ -199,7 +199,8 @@ int main(int argc, char *argv[])
 	//unsigned long *vars_table;
 	//void **map_table;
 	char *error_msg;
-	
+	char *warning_msg;
+
 	/*
 	char data_table[] = {"Hello, User!\0More data!\0Next block internal vars\0"};
 	unsigned long vars_count = 1;
@@ -336,7 +337,7 @@ int main(int argc, char *argv[])
 	printf("compiling...\n");
 
 	//if(!zl_compile(&hardcode, &data_table,/* &vars_count,*/ fn_list, code, &vars_map, &error_msg))
-	if(!zl_compile(&hardcode, &hard_code_size, code, &error_msg,
+	if(!zl_compile(&hardcode, &hard_code_size, code, &warning_msg, &error_msg,
 		&const_sect, &const_size,
 		&data_sect, &data_size,
 		&reloc_sect, &reloc_size,
@@ -354,6 +355,11 @@ int main(int argc, char *argv[])
 		/*
 		zl_memtable_make2(&map_table, vars_map);
 		*/
+
+		if(!isempty(warning_msg))
+		{
+			printf("%s\n", warning_msg);
+		}
 
 		zl_init(zl_offset("main", (zl_export_section *) export_sect, export_size/sizeof(zl_export_section)), hardcode, stack, regs, const_sect, data_sect, reloc_sect, import_sect);
 
@@ -394,6 +400,8 @@ int main(int argc, char *argv[])
 		printf("%s\n", error_msg);
 		zfree(error_msg);
 	}
+
+	zfree(warning_msg);
 
 	//zl_free(&hardcode, NULL, &data_table, &vars_map);
 	zl_free(hardcode, const_sect, data_sect, reloc_sect, import_sect, export_sect, map_sect);

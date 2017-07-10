@@ -107,14 +107,15 @@ extern int yydebug;
     T_FROM = 309,
     T_GOTO = 310,
     T_SIZEOF = 311,
-    T_RETURN = 312,
-    T_REGISTER = 313,
-    T_OPERATOR = 314,
-    T_ASM = 315,
-    T_PARAM_SEPARATOR = 316,
-    T_NOP = 317,
-    T_DBG_PRINT_REGS = 318,
-    T_FUNCTION = 319
+    T_TYPEOF = 312,
+    T_RETURN = 313,
+    T_REGISTER = 314,
+    T_OPERATOR = 315,
+    T_ASM = 316,
+    T_PARAM_SEPARATOR = 317,
+    T_NOP = 318,
+    T_DBG_PRINT_REGS = 319,
+    T_FUNCTION = 320
   };
 #endif
 

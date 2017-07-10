@@ -15,7 +15,7 @@
 
 //int zl_compile(unsigned char **hardcode, char *code, char **error_msg);
 //int zl_compile(unsigned char **hardcode, unsigned char **data_table,/* unsigned long *vars_count,*/ zl_funcs_list *funcs, char *code, zl_names_map **vars_map, char **error_msg);
-int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **error_msg,
+int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
 	unsigned char **const_sect,
 	unsigned long *const_size,
 	unsigned char **data_sect,

@@ -85,6 +85,7 @@ void yyset_extra(cl_parser_params *user_defined, void *yyscanner);
 
 %token T_GOTO
 %token T_SIZEOF
+%token T_TYPEOF
 %token T_RETURN
 
 %token T_REGISTER
@@ -837,7 +838,7 @@ type_specifier
 	| T_SIGNED													{ $$.flags = ZLF_SIGNED; }
 	| T_UNSIGNED												{ $$.flags = ZLF_UNSIGNED; }
 	| T_EXTERN													{ $$.flags = ZLF_EXTERNAL; }
-	| T_VAR														{ $$.flags = ZLF_INTERNAL; }
+//	| T_VAR														{ $$.flags = ZLF_INTERNAL; }
 //	| struct_specifier											{ $$.flags = ZLF_STRUCT; }
 //	| T_LABEL													{ cl_find_in_struct_list(); $$.flags = ZLF_STRUCT; free_str($1.string); }
 ;
@@ -2239,6 +2240,22 @@ expr
 			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $4.var->size[$4.rows]);
 		}
+	| T_TYPEOF '(' declaration_specifiers ')'
+		{
+			$$.flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
+			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $3.flags);
+		}
+	| T_TYPEOF '('
+		{
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill);
+		}
+		unary_expression ')'
+		{
+			pp->hc_fill = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			$$.flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
+			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
+			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $4.var->flags);
+		}
 //*/
 	| '(' cast_expression ')' unary_expression			{ $$ = $4; $$.flags = $2.flags; 
 	//printf("(%s) %s\n", ($2.flags&ZLF_SIGNED)?"signed":(($2.flags&ZLF_UNSIGNED)?"unsigned":""), ($4.flags&ZLF_SIGNED)?"signed":(($4.flags&ZLF_UNSIGNED)?"unsigned":""));
@@ -2297,7 +2314,7 @@ const_expr
 					break;
 			}
 
-			$$.value = var_size;
+			$$.uvalue = var_size;
 		}
 	| T_SIZEOF '('
 		{
@@ -2305,10 +2322,25 @@ const_expr
 		}
 		unary_expression ')'
 		{
-			$$.value = $4.var->size[$4.rows];
+			$$.uvalue = $4.var->size[$4.rows];
+			pp->hc_fill = (unsigned long) cl_stack_pop(&pp->cl_stack);
+		}
+	| T_TYPEOF '(' declaration_specifiers ')'
+		{
+			$$.uvalue = $3.flags;
+		}
+	| T_TYPEOF '('
+		{
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill);
+		}
+		unary_expression ')'
+		{
+			$$.uvalue = $4.var->flags;
 			pp->hc_fill = (unsigned long) cl_stack_pop(&pp->cl_stack);
 		}
 ;
+
+
 
 
 
@@ -2333,10 +2365,13 @@ void yyerror(void *scanner, cl_parser_params *pp, const char *err)
 
 void yywarning(void *scanner, cl_parser_params *pp, const char *err)
 {
-	//pp->error_msg = cl_sprintf("zlc: warning at line %d: %s", pp->lineno, err);
+	char *temp_str;
+	temp_str = cl_sprintf("zlc: warning at line %d: %s\n", pp->lineno, err);
+	cl_strcat(&pp->warning_msg, temp_str);
+	free_str(temp_str);
 }
 
-int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **error_msg,
+int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
 	unsigned char **const_sect,
 	unsigned long *const_size,
 	unsigned char **data_sect,
@@ -2379,6 +2414,15 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	yylex_destroy(scanner);
 
 	cl_push(&pp, OP_EOF);
+
+	if(warning_msg)
+	{
+		*warning_msg = pp.warning_msg;
+	}
+	else if(ret)
+	{
+		free_str(pp.warning_msg);
+	}
 
 	if(error_msg)
 	{
