@@ -52,8 +52,11 @@ void yyset_extra(cl_parser_params *user_defined, void *yyscanner);
 %right '!' '~' T_INC T_DEC '@'
 %nonassoc T_PLUS T_MINUS T_POINTER
 %right '['
+
 %token T_IF
-%left T_ELSE
+//%left T_ELSE
+%nonassoc T_THEN
+%nonassoc T_ELSE
 
 %token '.'
 %token T_PTR_OP
@@ -476,7 +479,7 @@ selection_statement
 ;
 
 else_statement
-	: /* empty */
+	: /* empty */	%prec T_THEN
 	| T_ELSE
 		{
 			cl_label_node *lb_skip, *lb_else;
@@ -1773,8 +1776,8 @@ cast_expression
 //*/
 
 expr
-//	: const_expr												{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value); }
-	: T_CONSTANT_LONG											{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value); }
+//	: const_expr												{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.uvalue); }
+	: T_CONSTANT_LONG											{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.uvalue); }
 //	| T_CONSTANT_DOUBLE											{ cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $1.value); }
 	| T_CONSTANT_STRING											
 		{

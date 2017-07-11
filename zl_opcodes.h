@@ -200,6 +200,10 @@
 #define ZLF_STDCALL			0x00080000		// called function clear stack
 #define ZLF_PARAM			0x00100000
 
+#define ZLF_VARIABLE		0x00200000
+#define ZLF_FUNCTION		0x00400000
+#define ZLF_LABEL			0x00800000
+
 #define ZLF_TYPE			0x0000007C		// mask
 #define ZLF_POINTER			0xFF000000		// mask
 

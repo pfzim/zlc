@@ -17,7 +17,7 @@ import __stdcall MessageBoxA(4) from "user32.dll";
 
 function test_return()
 {
-	return "Function result return test: PASSED\n";
+	return "Function result return test:                           PASSED\n";
 }
 
 function test_array(char p1[], char p2[5], char *p3[], char *p4[5])
@@ -94,6 +94,16 @@ function test_script()
 	action = 1982;
 
 	print(pass?"PASSED\n":"FAILED\n");
+
+	print("if(1) if(0) else . else:                               ");
+
+	if(1)
+		if(0)
+			print("FAILED");
+		else
+			print("PASSED\n");
+	else
+		print("FAILED\n");
 
 	print(test_return());
 
@@ -386,6 +396,71 @@ function test_script()
 	{
 		print(ext_names[i]);
 	}
+
+	print("Test typeof:                                           \n");
+	char var[12][27];
+	unsigned long var_type;
+	var_type = typeof(var);
+	print("  Variable i has type (hex):       "); printh(var_type); print("\n");
+	print("  Variable i has type (string):   ");
+
+	if(var_type & 0x00001000)
+	{
+		print(" internal");
+	}
+	if(var_type & 0x00002000)
+	{
+		print(" external");
+	}
+	if(var_type & 0x00000200)
+	{
+		print(" signed");
+	}
+	if(var_type & 0x00000400)
+	{
+		print(" unsigned");
+	}
+	if(var_type & 0x00000080)
+	{
+		print(" short");
+	}
+	if(var_type & 0x00000100)
+	{
+		print(" long");
+	}
+	if(var_type & 0x00000004)
+	{
+		print(" void");
+	}
+	if(var_type & 0x00000008)
+	{
+		print(" char");
+	}
+	if(var_type & 0x00000010)
+	{
+		print(" double");
+	}
+	if(var_type & 0x00000020)
+	{
+		print(" float");
+	}
+	if(var_type & 0x00000040)
+	{
+		print(" int");
+	}
+	unsigned long ii;
+	ii = (var_type & 0xFF000000) >> 24;
+	print(" ");
+	while(ii--)
+	{
+		print("*");
+	}
+	print("i");
+	if(var_type & 0x00004000)
+	{
+		print("[");printn(sizeof(var)/sizeof(var[0]));print("]");
+	}
+	print(";\n");
 
 	print("Call external MessageBox function: ");
 

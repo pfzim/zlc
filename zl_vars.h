@@ -33,6 +33,39 @@ typedef struct _cl_label_node
 	struct _cl_label_node *next_node;
 } cl_label_node;
 
+typedef struct _cl_var_label_func_node
+{
+	char *name;
+	unsigned long flags;
+	unsigned long offset;
+	union
+	{
+		// for vars
+		unsigned long level; // scope
+		// for imported funcs
+		char *library;
+	};
+	union
+	{
+		// for arrays
+		unsigned long rows;  // count elements in size (array[0][1]...[rows]) = dimensions
+		// for funcs
+		unsigned long params_count;
+	};
+	union
+	{
+		// for arrays
+		unsigned long size[1024]; //1024
+		// for funcs
+		unsigned long params[1024]; //1024
+	};
+	// global vars, labels, functions
+	unsigned long references;
+	unsigned long reference_offsets[1024]; //1024
+
+	struct _cl_var_node *next_node;
+} cl_var_label_func_node;
+
 typedef struct _cl_data_node
 {
 	char *data;
