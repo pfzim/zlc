@@ -534,12 +534,12 @@ jump_statement
 ;
 
 declaration_function
-	: T_IMPORT T_CONSTANT_LONG T_LABEL '(' T_CONSTANT_LONG ')' ';'
+	: T_IMPORT T_CONSTANT_LONG function_type_specifiers pointer T_LABEL '(' T_CONSTANT_LONG ')' ';'
 		{
 			cl_label_node *func;
 
-			func = cl_label_define(&pp->funcs_table, $3.string);
-			free_str($3.string);
+			func = cl_label_define(&pp->funcs_table, $5.string);
+			free_str($5.string);
 
 			if(func->flags & ZLF_DEFINED)
 			{
@@ -547,19 +547,19 @@ declaration_function
 			}
 
 			func->flags = ZLF_DEFINED;
-			if(!$2.uvalue)
+			if(!$4.uvalue)
 			{
 				func->flags |= ZLF_STDCALL;
 			}
 			func->library = NULL;
-			func->params = $5.uvalue;
+			func->params = $7.uvalue;
 		}
-	| T_IMPORT T_CONSTANT_LONG T_LABEL '(' T_CONSTANT_LONG ')' T_FROM T_CONSTANT_STRING ';'
+	| T_IMPORT T_CONSTANT_LONG function_type_specifiers pointer T_LABEL '(' T_CONSTANT_LONG ')' T_FROM T_CONSTANT_STRING ';'
 		{
 			cl_label_node *func;
 
-			func = cl_label_define(&pp->funcs_table, $3.string);
-			free_str($3.string);
+			func = cl_label_define(&pp->funcs_table, $5.string);
+			free_str($5.string);
 
 			if(func->flags & ZLF_DEFINED)
 			{
@@ -567,52 +567,53 @@ declaration_function
 			}
 
 			func->flags = ZLF_DEFINED;
-			if(!$2.uvalue)
+			if(!$4.uvalue)
 			{
 				func->flags |= ZLF_STDCALL;
 			}
-			func->library = $8.string;
-			func->params = $5.uvalue;
+			func->library = $10.string;
+			func->params = $7.uvalue;
 		}
-/*
-	| T_FUNCTION T_LABEL '(' function_args ')' ';' // это требуетс€ чтобы знать кака€ функци€ - внутренн€€ или внешн€€
+	| T_FUNCTION function_type_specifiers pointer T_LABEL f_current_level_increment '(' function_arguments_list ')' ';'
 		{
 			cl_label_node *func;
+			
+			cl_var_free_level(&pp->vars_table, pp->current_level);
+			pp->current_level--;
 
-			func = cl_label_define(&pp->funcs_table, $2.string);
-			free_str($2.string);
+			func = cl_label_define(&pp->funcs_table, $4.string);
+			free_str($4.string);
 
 			if(func->flags & ZLF_DEFINED)
 			{
 				ZL_ERROR("function redefined");
 			}
 
-			func->flags = ZLF_FUNC_INTERNAL;
+			func->flags = ZLF_FUNC_INTERNAL | $2.flags | $3.flags;
 			func->library = NULL;
 		}
-*/
-	//| cast_expression T_LABEL '('
-	| T_FUNCTION T_LABEL '('
-		{
-			pp->current_level++;
-		}
-		function_args ')'
+	| T_FUNCTION function_type_specifiers pointer T_LABEL f_current_level_increment '(' function_arguments_list ')'
 		{
 			cl_label_node *func;
 
 			cl_label_define(&pp->labels_table, "@exit_func");
 
-			func = cl_label_define(&pp->funcs_table, $2.string);
-			free_str($2.string);
+			func = cl_label_define(&pp->funcs_table, $4.string);
+			free_str($4.string);
 
 			if(func->flags & ZLF_DEFINED)
 			{
 				ZL_ERROR("function redefined");
 			}
 
-			func->flags = ZLF_FUNC_INTERNAL | ZLF_DEFINED;
+			if(func->flags && (func->flags != (ZLF_FUNC_INTERNAL | $2.flags | $3.flags)))
+			{
+				ZL_ERROR("function return type different that declared before");
+			}
+			
+			func->flags = ZLF_FUNC_INTERNAL | ZLF_DEFINED | $2.flags | $3.flags;
 			func->offset = pp->hc_fill;
-			//func->params_size = $4.size;
+			//func->params_size = $7.size;
 
 			pp->current_level--;
 			pp->stack_size = 4;
@@ -670,14 +671,16 @@ function_type
 ;
 //*/
 
-function_args
-	: function_arg
+f_current_level_increment: 										{ pp->current_level++; };
+
+function_arguments_list
+	: function_argument
 		{
 			$$.value = 8;
 			$1.var->offset = $$.value;
 			$1.var->flags |= ZLF_PARAM;
 		}
-	| function_arg ',' function_args
+	| function_argument ',' function_arguments_list
 		{
 			$$.value = $3.value + 4;
 			$1.var->offset = $$.value;
@@ -686,7 +689,7 @@ function_args
 	| /* empty - function does not have arguments */
 ;
 
-function_arg
+function_argument
 	: declaration_specifiers
 		{
 			if(($1.flags & ZLF_EXTERNAL) && (pp->current_level > 0))
@@ -790,6 +793,34 @@ declaration_statement
 		init_declarator_list ';'
 		{
 			cl_stack_pop(&pp->cl_stack);
+		}
+;
+
+function_type_specifiers
+	:															{ $$.flags = ZLF_VOID; }
+	| declaration_specifiers									
+		{
+			if($1.flags & ZLF_EXTERNAL)
+			{
+				ZL_ERROR("external variable must be defined global");
+			}
+
+			if(!($1.flags & ZLF_TYPE))
+			{
+				$1.flags |= ZLF_INT;	// set default type
+			}
+			
+			if(($1.flags & (ZLF_INT | ZLF_CHAR)) && (($1.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) == 0))
+			{
+				$1.flags |= ZLF_SIGNED;	// set default modifier
+			}
+			
+			if(($1.flags & ZLF_INT) && (($1.flags & (ZLF_SHORT | ZLF_LONG)) == 0))
+			{
+				$1.flags |= ZLF_LONG;	// set default modifier
+			}
+			
+			$$.flags = $1.flags;
 		}
 ;
 
@@ -1057,7 +1088,7 @@ init_declarator
 ;
 
 pointer
-	: '*'														{ $$.flags = 0x01000000; }
+	: 															{ $$.flags = 0x00000000; }
 	| '*' pointer												{ $$.flags = 0x01000000 + $2.flags; }
 ;
 
@@ -1065,31 +1096,21 @@ declarator
 	: pointer direct_declarator
 		{
 			$$ = $2;
-			//memcpy(&$$, &$2, sizeof($$));
 
-			$$.var->flags += $1.flags;
-			$$.var->size[0] = 4;
-		}
-	| direct_declarator
-		{
-			$$ = $1;
-
-			if($$.var->flags & ZLF_VOID)
+			if($1.flags)
+			{
+				$$.var->flags += $1.flags;
+				$$.var->size[0] = 4;
+			}
+			else if($$.var->flags & ZLF_VOID)
 			{
 				ZL_ERROR("illegal use of type 'void'");
 			}
 		}
 ;
-/*
-var_or_func_label
-	: T_LABEL { }
-	| pointer T_LABEL { }
-;
-*/
 
 direct_declarator
 	: T_LABEL
-	//: var_or_func_label
 		{
 			$$.var = cl_var_define(&pp->vars_table, $1.string, pp->current_level);
 
@@ -1297,9 +1318,15 @@ argument_expression_list
 ;															
 															
 assignment_expression										
-	: expr													
+	: expr														{ $$ = $1; }
 	| unary_expression '=' assignment_expression
 		{
+			if(($1.flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)) != ($3.flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)))
+			{
+				//printf("\n\n###########\n\n %x != %x \n\n###########\n\n", $1.flags, $3.flags);
+				//ZL_ERROR("type mismatch");
+			}
+			
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
 
@@ -1770,8 +1797,30 @@ unary_expression
 
 //*
 cast_expression
-	:	declaration_specifiers									{ $$.flags = $1.flags; }
-	|	declaration_specifiers pointer							{ $$.flags = $1.flags | $2.flags; }
+	: declaration_specifiers pointer							
+		{
+			$$.flags = $1.flags + $2.flags;
+			if($$.flags & ZLF_EXTERNAL)
+			{
+				ZL_ERROR("external variable must be defined global");
+			}
+
+			if(!($$.flags & ZLF_TYPE))
+			{
+				$$.flags |= ZLF_INT;	// set default type
+			}
+			
+			if(($$.flags & (ZLF_INT | ZLF_CHAR)) && (($$.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) == 0))
+			{
+				$$.flags |= ZLF_SIGNED;	// set default modifier
+			}
+			
+			if(($$.flags & ZLF_INT) && (($$.flags & (ZLF_SHORT | ZLF_LONG)) == 0))
+			{
+				$$.flags |= ZLF_LONG;	// set default modifier
+			}
+			
+		}
 ;
 //*/
 
@@ -2139,6 +2188,7 @@ expr
 		{
 			cl_label_node *func;
 
+			/*
 			func = cl_label_define(&pp->funcs_table, $1.string);
 			free_str($1.string);
 
@@ -2147,17 +2197,18 @@ expr
 				func->flags = ZLF_FUNC_INTERNAL;
 				func->library = NULL;
 			}
+			*/
 
 			// - OR - then function must be predefined before call
-			/*
 			func = cl_label_find(pp->funcs_table, $1.string);
 			free_str($1.string);
 			if(!func)
 			{
 				ZL_ERROR("undeclared identifier");
 			}
-			*/
-
+			
+			$$.flags = func->flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY);
+			
 			if(func->flags & ZLF_FUNC_INTERNAL)
 			{
 				cl_push(pp, OP_CALL); // call near
@@ -2260,9 +2311,12 @@ expr
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $4.var->flags);
 		}
 //*/
-	| '(' cast_expression ')' unary_expression			{ $$ = $4; $$.flags = $2.flags; 
-	//printf("(%s) %s\n", ($2.flags&ZLF_SIGNED)?"signed":(($2.flags&ZLF_UNSIGNED)?"unsigned":""), ($4.flags&ZLF_SIGNED)?"signed":(($4.flags&ZLF_UNSIGNED)?"unsigned":""));
-	}
+	| '(' cast_expression ')' unary_expression
+		{
+			$$ = $4;
+			$$.flags = $2.flags; 
+			//printf("(%s) %s\n", ($2.flags&ZLF_SIGNED)?"signed":(($2.flags&ZLF_UNSIGNED)?"unsigned":""), ($4.flags&ZLF_SIGNED)?"signed":(($4.flags&ZLF_UNSIGNED)?"unsigned":""));
+		}
 //	| unary_expression '(' argument_expression_list ')'
 ;
 
@@ -2401,9 +2455,10 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	pp.lineno = 1;
 
 
+	// predefined int main()
 	func = cl_label_define(&pp.funcs_table, "main");
 
-	func->flags = ZLF_FUNC_INTERNAL;
+	func->flags = ZLF_FUNC_INTERNAL | ZLF_SIGNED | ZLF_LONG | ZLF_INT;
 	func->library = NULL;
 	
 	cl_push(&pp, OP_CALL);
