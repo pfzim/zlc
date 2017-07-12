@@ -611,6 +611,8 @@ declaration_function
 				ZL_ERROR("function return type different that declared before");
 			}
 			
+			// здесь надо будет пересчитывать offset параметров function_arguments_list в обратный порядок
+			
 			func->flags = ZLF_FUNC_INTERNAL | ZLF_DEFINED | $2.flags | $3.flags;
 			func->offset = pp->hc_fill[pp->hc_active];
 			//func->params_size = $7.size;
@@ -677,14 +679,16 @@ function_arguments_list
 	: function_argument
 		{
 			$$.value = 8;
-			$1.var->offset = $$.value;
+			$1.var->offset = $$.uvalue;
 			$1.var->flags |= ZLF_PARAM;
+			//ZL_WARNING("first");
 		}
-	| function_argument ',' function_arguments_list
+	| function_arguments_list ',' function_argument
 		{
-			$$.value = $3.value + 4;
-			$1.var->offset = $$.value;
-			$1.var->flags |= ZLF_PARAM;
+			$$.value = $1.value + 4;
+			$3.var->offset = $$.uvalue;
+			$3.var->flags |= ZLF_PARAM;
+			//ZL_WARNING("second");
 		}
 	| /* empty - function does not have arguments */
 ;
@@ -1313,13 +1317,36 @@ expression
 															
 argument_expression_list									
 	: /* empty */														{ $$.size = 0; }
-	|  assignment_expression								{ $$.size = 4; }
-	|  assignment_expression ',' argument_expression_list	{ $$.size = 4 + $3.size; }
+	|  f_sw_context assignment_expression								
+		{
+			$$.size = 4;
+			//here ha is 1
+		}
+	|  argument_expression_list ',' f_sw_context assignment_expression
+		{
+			$$.size = 4 + $1.size;
+			//here ha is 2
+
+			//hc[1] = concat(hc[2], hc[1]);
+			cl_code_add(pp, pp->hard_code[pp->hc_active-1], pp->hc_fill[pp->hc_active-1]);
+
+			zfree(pp->hard_code[pp->hc_active-1]);
+
+			pp->hard_code[pp->hc_active-1] = pp->hard_code[pp->hc_active];
+			pp->hc_fill[pp->hc_active-1] = pp->hc_fill[pp->hc_active];
+			pp->hc_buffer_size[pp->hc_active-1] = pp->hc_buffer_size[pp->hc_active];
+
+			pp->hc_active--;
+
+			pp->hard_code[pp->hc_active+1] = NULL;
+			pp->hc_fill[pp->hc_active+1] = 0;
+			pp->hc_buffer_size[pp->hc_active+1] = 0;
+		}
 ;															
 
 f_sw_context
 :	{
-		//pp->hc_active++;
+		pp->hc_active++;
 	}
 ;
 
@@ -2192,6 +2219,17 @@ expr
 		}
 	| T_LABEL '(' argument_expression_list ')'
 		{
+			if(pp->hc_active > 0)
+			{
+				pp->hc_active--;
+				cl_code_add(pp, pp->hard_code[pp->hc_active+1], pp->hc_fill[pp->hc_active+1]);
+
+				zfree(pp->hard_code[pp->hc_active+1]);
+
+				pp->hard_code[pp->hc_active+1] = NULL;
+				pp->hc_fill[pp->hc_active+1] = 0;
+				pp->hc_buffer_size[pp->hc_active+1] = 0;
+			}
 			cl_label_node *func;
 
 			/*

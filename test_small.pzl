@@ -14,14 +14,17 @@ import __cdecl merge(2);
 import __cdecl encode(1);
 import __cdecl free(1);
 
-function main()
+function int test(char *one, char *two)
 {
-	if(-2 > 0)
-	{
-		print("-1 > 0\n");
-	}
-	else
-	{
-		print("-1 < 0\n");
-	}
+	print("one: ");
+	print(one);
+	print("\ntwo: ");
+	print(two);
+	print("\n");
+	return 0;
+}
+
+function int main()
+{
+	test("one", "two");
 }

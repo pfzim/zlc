@@ -885,7 +885,7 @@ unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned lo
 		pp->hard_code[pp->hc_active] = new_buf;
 	}
 
-	memcpy((void *)(((unsigned long)pp->hard_code[pp->hc_active]) + pp->hc_fill[pp->hc_active]), data, size);
+	memcpy((void *)(((unsigned long)(pp->hard_code[pp->hc_active])) + pp->hc_fill[pp->hc_active]), data, size);
 
 	offset = pp->hc_fill[pp->hc_active];
 	pp->hc_fill[pp->hc_active] += size;
