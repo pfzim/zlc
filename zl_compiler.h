@@ -19,9 +19,10 @@ typedef struct _cl_parser_params
 	unsigned long sc_length;
 	
 	// hard code
-	unsigned char *hard_code;
-	unsigned long hc_fill;
-	unsigned long hc_buffer_size;
+	unsigned char *hard_code[32];
+	unsigned long hc_active;    // mean count, last, active hard_code
+	unsigned long hc_fill[32];
+	unsigned long hc_buffer_size[32];
 	
 	struct _cl_stack_buffer *cl_stack;
 	struct _cl_stack_buffer *cl_loop_stack;
@@ -47,7 +48,7 @@ typedef struct _cl_parser_params
 	//?unsigned long current_func;
 
 	// revision 2
-	unsigned long current_level;	// autoincrement
+	unsigned long current_level;	// autoincrement    // rename to current_scope
 	unsigned long stack_size;		// function stack usage
 	struct _cl_var_node *vars_table;
 	struct _cl_data_node *data_table;

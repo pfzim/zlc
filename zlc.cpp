@@ -133,12 +133,12 @@ int main(int argc, char *argv[])
 	unsigned long action = 3;
 	char *ext_names[] =
 		{
-			"1. PASSED\n",
-			"2. PASSED\n",
-			"3. PASSED\n",
-			"4. PASSED\n",
-			"5. PASSED\n",
-			"6. FAILED\n",
+			"1.                                                     PASSED\n",
+			"2.                                                     PASSED\n",
+			"3.                                                     PASSED\n",
+			"4.                                                     PASSED\n",
+			"5.                                                     PASSED\n",
+			"6.                                                     FAILED\n",
 		};
 
 	// lea eax, [ebp-4] - помещает значение ebp-4 в eax

@@ -15,6 +15,8 @@ import __cdecl encode(1);
 import __cdecl free(1);
 import __stdcall MessageBoxA(4) from "user32.dll";
 
+function test_params(char *one, char *two, char *three);
+
 function test_return()
 {
 	return "Function result return test:                           PASSED\n";
@@ -112,11 +114,11 @@ function test_script()
 	char *arr_msg[5];
 	unsigned long msg_code;
 
-	arr_msg[0] = "0. PASSED\n";
-	arr_msg[1] = "1. PASSED\n";
-	arr_msg[2] = "2. PASSED\n";
-	arr_msg[3] = "3. PASSED\n";
-	arr_msg[4] = "4. FAILED\n";
+	arr_msg[0] = "0.                                                     PASSED\n";
+	arr_msg[1] = "1.                                                     PASSED\n";
+	arr_msg[2] = "2.                                                     PASSED\n";
+	arr_msg[3] = "3.                                                     PASSED\n";
+	arr_msg[4] = "4.                                                     FAILED\n";
 
 	for(msg_code = 0; TRUE; msg_code++)
 	{
@@ -139,25 +141,25 @@ function test_script()
 	char uk[][3] = {1,2,3,4,5};
 	short int uk2[][4][2] = {1,2,3,4,5,6,7,8,9,10};
 
-	print("  sizeof(text):              "); print((sizeof(text) == 20)?"PASSED\n":"FAILED\n");
-	print("  sizeof(text[0]):           "); print((sizeof(text[0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(text[0][0]):        "); print((sizeof(text[0][0]) == 1)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size):          "); print((sizeof(ptr_size) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size[0]):       "); print((sizeof(ptr_size[0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size[0][0]):    "); print((sizeof(ptr_size[0][0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size[0][0][0]): "); print((sizeof(ptr_size[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ch):                "); print((sizeof(ch) == 10)?"PASSED\n":"FAILED\n");
-	print("  sizeof(hello):             "); print((sizeof(hello) == 8)?hello:"FAILED\n");
-	print("  sizeof(uk):                "); print((sizeof(uk) == 6)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2):               "); print((sizeof(uk2) == 32)?"PASSED\n":"FAILED\n");
-	print("  sizeof(short int):         "); print((sizeof(short int) == 2)?"PASSED\n":"FAILED\n");
-	print("  sizeof(int):               "); print((sizeof(int) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(unsigned long):     "); print((sizeof(unsigned long) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(double):            "); print((sizeof(double) == 8)?"PASSED\n":"FAILED\n");
-	print("  sizeof(char):              "); print((sizeof(char) == 1)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2[0]):            "); print((sizeof(uk2[0]) == 16)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2[0][0]):         "); print((sizeof(uk2[0][0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2[0][0][0]):      "); print((sizeof(uk2[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
+	print("  sizeof(text):                                        "); print((sizeof(text) == 20)?"PASSED\n":"FAILED\n");
+	print("  sizeof(text[0]):                                     "); print((sizeof(text[0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(text[0][0]):                                  "); print((sizeof(text[0][0]) == 1)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size):                                    "); print((sizeof(ptr_size) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size[0]):                                 "); print((sizeof(ptr_size[0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size[0][0]):                              "); print((sizeof(ptr_size[0][0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ptr_size[0][0][0]):                           "); print((sizeof(ptr_size[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
+	print("  sizeof(ch):                                          "); print((sizeof(ch) == 10)?"PASSED\n":"FAILED\n");
+	print("  sizeof(hello):                                       "); print((sizeof(hello) == 8)?hello:"FAILED\n");
+	print("  sizeof(uk):                                          "); print((sizeof(uk) == 6)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2):                                         "); print((sizeof(uk2) == 32)?"PASSED\n":"FAILED\n");
+	print("  sizeof(short int):                                   "); print((sizeof(short int) == 2)?"PASSED\n":"FAILED\n");
+	print("  sizeof(int):                                         "); print((sizeof(int) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(unsigned long):                               "); print((sizeof(unsigned long) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(double):                                      "); print((sizeof(double) == 8)?"PASSED\n":"FAILED\n");
+	print("  sizeof(char):                                        "); print((sizeof(char) == 1)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2[0]):                                      "); print((sizeof(uk2[0]) == 16)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2[0][0]):                                   "); print((sizeof(uk2[0][0]) == 4)?"PASSED\n":"FAILED\n");
+	print("  sizeof(uk2[0][0][0]):                                "); print((sizeof(uk2[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
 
 	/*
 	print("  sizeof(p1):      "); print((sizeof(p1) == 1)?"PASSED\n":"FAILED\n");
@@ -356,17 +358,17 @@ function test_script()
 	p2[3] = 33;
 	p2[4] = 34;
 
-	p3[0] = "p3[0] = PASSED";
-	p3[1] = "p3[1] = PASSED";
-	p3[2] = "p3[2] = PASSED";
-	p3[3] = "p3[3] = PASSED";
-	p3[4] = "p3[4] = PASSED";
+	p3[0] = "p3[0] =                                                PASSED";
+	p3[1] = "p3[1] =                                                PASSED";
+	p3[2] = "p3[2] =                                                PASSED";
+	p3[3] = "p3[3] =                                                PASSED";
+	p3[4] = "p3[4] =                                                PASSED";
 
-	p4[0] = "p4[0] = PASSED";
-	p4[1] = "p4[1] = PASSED";
-	p4[2] = "p4[2] = PASSED";
-	p4[3] = "p4[3] = PASSED";
-	p4[4] = "p4[4] = PASSED";
+	p4[0] = "p4[0] =                                                PASSED";
+	p4[1] = "p4[1] =                                                PASSED";
+	p4[2] = "p4[2] =                                                PASSED";
+	p4[3] = "p4[3] =                                                PASSED";
+	p4[4] = "p4[4] =                                                PASSED";
 
 	print("Test array pointer:                                    ");
 
@@ -401,8 +403,8 @@ function test_script()
 	char var[12][27];
 	unsigned long var_type;
 	var_type = typeof(var);
-	print("  Variable i has type (hex):       "); printh(var_type); print("\n");
-	print("  Variable i has type (string):   ");
+	print("  Variable i has type (hex):                           "); printh(var_type); print("\n");
+	print("  Variable i has type (string):   signed char i[12] ==");
 
 	if(var_type & 0x00001000)
 	{
@@ -630,7 +632,7 @@ function print_params(char **one, char *two, char *three)
 	return 1982;
 }
 
-function main()
+function int main()
 {
 	//_asm
 	//{

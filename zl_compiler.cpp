@@ -872,23 +872,23 @@ unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned lo
 {
 	unsigned long offset;
 
-	if((pp->hc_fill + size) > pp->hc_buffer_size)
+	if((pp->hc_fill[pp->hc_active] + size) > pp->hc_buffer_size[pp->hc_active])
 	{
 		unsigned char *new_buf;
-		pp->hc_buffer_size = pp->hc_fill + size + (65536 - size%65536);
-		new_buf = (unsigned char *) zalloc(pp->hc_buffer_size);
-		if(pp->hard_code)
+		pp->hc_buffer_size[pp->hc_active] = pp->hc_fill[pp->hc_active] + size + (65536 - size%65536);
+		new_buf = (unsigned char *) zalloc(pp->hc_buffer_size[pp->hc_active]);
+		if(pp->hard_code[pp->hc_active])
 		{
-			memcpy(new_buf, pp->hard_code, pp->hc_fill);
-			zfree(pp->hard_code);
+			memcpy(new_buf, pp->hard_code[pp->hc_active], pp->hc_fill[pp->hc_active]);
+			zfree(pp->hard_code[pp->hc_active]);
 		}
-		pp->hard_code = new_buf;
+		pp->hard_code[pp->hc_active] = new_buf;
 	}
 
-	memcpy((void *)(((unsigned long)pp->hard_code) + pp->hc_fill), data, size);
+	memcpy((void *)(((unsigned long)pp->hard_code[pp->hc_active]) + pp->hc_fill[pp->hc_active]), data, size);
 
-	offset = pp->hc_fill;
-	pp->hc_fill += size;
+	offset = pp->hc_fill[pp->hc_active];
+	pp->hc_fill[pp->hc_active] += size;
 
 	return offset;
 }

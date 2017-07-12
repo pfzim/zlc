@@ -169,7 +169,7 @@ assembler_command
 			}
 
 			cl_push(pp, (unsigned char) $1.value);
-			cl_label_reference(label, pp->hc_fill);
+			cl_label_reference(label, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 	| T_OPERATOR operator_parameter ',' operator_parameter		{ cl_push_op(pp, (unsigned char) $1.value, &$2, &$4); }
@@ -194,7 +194,7 @@ assembler_command
 				ZL_ERROR("unsupported far call");
 			}
 
-			cl_label_reference(func, pp->hc_fill);
+			cl_label_reference(func, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 	| /* empty */
@@ -263,7 +263,7 @@ buildin_statement
 			cl_push(pp, OP_JMP);
 			if(!pp->cl_loop_stack) ZL_ERROR("break not in loop");
 
-			cl_label_reference((cl_label_node *) pp->cl_loop_stack->next_node->data, pp->hc_fill);
+			cl_label_reference((cl_label_node *) pp->cl_loop_stack->next_node->data, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 	| T_CONTINUE ';'
@@ -271,7 +271,7 @@ buildin_statement
 			cl_push(pp, OP_JMP);
 			if(!pp->cl_loop_stack || !pp->cl_loop_stack->next_node) ZL_ERROR("continue not in loop");
 
-			cl_label_reference((cl_label_node *) pp->cl_loop_stack->data, pp->hc_fill);
+			cl_label_reference((cl_label_node *) pp->cl_loop_stack->data, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 	| T_BREAK T_CONSTANT_LONG ';'
@@ -286,7 +286,7 @@ buildin_statement
 			}
 			cl_push(pp, OP_JMP);
 
-			cl_label_reference((cl_label_node *) lsb->data, pp->hc_fill);
+			cl_label_reference((cl_label_node *) lsb->data, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 	| T_CONTINUE T_CONSTANT_LONG ';'
@@ -301,7 +301,7 @@ buildin_statement
 			}
 			cl_push(pp, OP_JMP);
 
-			cl_label_reference((cl_label_node *) lsb->data, pp->hc_fill);
+			cl_label_reference((cl_label_node *) lsb->data, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 	| T_RETURN ';'
@@ -311,7 +311,7 @@ buildin_statement
 			lb_label = cl_label_find(pp->labels_table, "@exit_func");
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_label, pp->hc_fill);
+			cl_label_reference(lb_label, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 	| T_RETURN assignment_expression ';'
@@ -322,7 +322,7 @@ buildin_statement
 
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_label, pp->hc_fill);
+			cl_label_reference(lb_label, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 ;
@@ -335,7 +335,7 @@ selection_statement
 			cl_stack_push(&pp->cl_stack, lb_skip);
 
 			cl_push(pp, OP_JZ_POP_STK);
-			cl_label_reference(lb_skip, pp->hc_fill);
+			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 		statement
@@ -343,7 +343,7 @@ selection_statement
 		{
 			cl_label_node *lb_skip;
 			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
-			lb_skip->offset = pp->hc_fill;
+			lb_skip->offset = pp->hc_fill[pp->hc_active];
 			lb_skip->flags = ZLF_DEFINED;
 		}
 	| T_WHILE
@@ -351,7 +351,7 @@ selection_statement
 			cl_label_node *lb_exit, *lb_condition;
 			lb_exit = cl_label_define(&pp->labels_table, NULL);
 			lb_condition = cl_label_define(&pp->labels_table, NULL);
-			lb_condition->offset = pp->hc_fill;
+			lb_condition->offset = pp->hc_fill[pp->hc_active];
 			lb_condition->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_loop_stack, lb_exit);			// exit loop
 			cl_stack_push(&pp->cl_loop_stack, lb_condition);	// condition
@@ -361,7 +361,7 @@ selection_statement
 			cl_label_node *lb_exit;
 			lb_exit= (cl_label_node *) pp->cl_loop_stack->next_node->data;
 			cl_push(pp, OP_JZ_POP_STK);
-			cl_label_reference(lb_exit, pp->hc_fill);
+			cl_label_reference(lb_exit, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 		statement
@@ -371,9 +371,9 @@ selection_statement
 			lb_exit = (cl_label_node *) cl_stack_pop(&pp->cl_loop_stack);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_condition, pp->hc_fill);
+			cl_label_reference(lb_condition, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
-			lb_exit->offset = pp->hc_fill;
+			lb_exit->offset = pp->hc_fill[pp->hc_active];
 			lb_exit->flags = ZLF_DEFINED;
 		}
 	| T_DO
@@ -382,7 +382,7 @@ selection_statement
 			lb_exit = cl_label_define(&pp->labels_table, NULL);
 			lb_condition = cl_label_define(&pp->labels_table, NULL);
 			lb_start = cl_label_define(&pp->labels_table, NULL);
-			lb_start->offset = pp->hc_fill;
+			lb_start->offset = pp->hc_fill[pp->hc_active];
 			lb_start->flags = ZLF_DEFINED;
 
 			cl_stack_push(&pp->cl_loop_stack, lb_exit);			// exit loop
@@ -394,7 +394,7 @@ selection_statement
 		{
 			cl_label_node *lb_condition;
 			lb_condition = (cl_label_node *) pp->cl_loop_stack->data;
-			lb_condition->offset = pp->hc_fill;
+			lb_condition->offset = pp->hc_fill[pp->hc_active];
 			lb_condition->flags = ZLF_DEFINED;
 		}
 		'(' assignment_expression ')'
@@ -404,9 +404,9 @@ selection_statement
 			lb_exit = (cl_label_node *) cl_stack_pop(&pp->cl_loop_stack);
 
 			cl_push(pp, OP_JNZ_POP_STK);
-			cl_label_reference((cl_label_node *) cl_stack_pop(&pp->cl_stack), pp->hc_fill);
+			cl_label_reference((cl_label_node *) cl_stack_pop(&pp->cl_stack), pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
-			lb_exit->offset = pp->hc_fill;
+			lb_exit->offset = pp->hc_fill[pp->hc_active];
 			lb_exit->flags = ZLF_DEFINED;
 		}';'
 	| T_FOR '(' expression ';'
@@ -422,11 +422,11 @@ selection_statement
 			cl_push(pp, REG_EAX);
 
 			lb_condition = cl_label_define(&pp->labels_table, NULL);
-			lb_condition->offset = pp->hc_fill;
+			lb_condition->offset = pp->hc_fill[pp->hc_active];
 			lb_condition->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_stack, lb_condition);
 		}
-		expression ';'
+		assignment_expression ';'
 		{
 			cl_label_node *lb_loop, *lb_exit, *lb_statement;
 
@@ -437,14 +437,14 @@ selection_statement
 			cl_stack_push(&pp->cl_stack, lb_statement);
 
 			cl_push(pp, OP_JNZ_POP_STK);
-			cl_label_reference(lb_statement, pp->hc_fill);
+			cl_label_reference(lb_statement, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_exit, pp->hc_fill);
+			cl_label_reference(lb_exit, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
-			lb_loop->offset = pp->hc_fill;
+			lb_loop->offset = pp->hc_fill[pp->hc_active];
 			lb_loop->flags = ZLF_DEFINED;
 		}
 		expression ')'
@@ -457,10 +457,10 @@ selection_statement
 			cl_push(pp, REG_EAX);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_condition, pp->hc_fill);
+			cl_label_reference(lb_condition, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
-			lb_statement->offset = pp->hc_fill;
+			lb_statement->offset = pp->hc_fill[pp->hc_active];
 			lb_statement->flags = ZLF_DEFINED;
 		}
 		statement
@@ -470,10 +470,10 @@ selection_statement
 			lb_exit = (cl_label_node *) cl_stack_pop(&pp->cl_loop_stack);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_loop, pp->hc_fill);
+			cl_label_reference(lb_loop, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
-			lb_exit->offset = pp->hc_fill;
+			lb_exit->offset = pp->hc_fill[pp->hc_active];
 			lb_exit->flags = ZLF_DEFINED;
 		}
 ;
@@ -487,9 +487,9 @@ else_statement
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_skip, pp->hc_fill);
+			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
-			lb_else->offset = pp->hc_fill;
+			lb_else->offset = pp->hc_fill[pp->hc_active];
 			lb_else->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_stack, lb_skip);
 		}
@@ -509,7 +509,7 @@ labeled_statement
 				ZL_ERROR("label redefined");
 			}
 
-			label->offset = pp->hc_fill;
+			label->offset = pp->hc_fill[pp->hc_active];
 			label->flags = ZLF_DEFINED;
 		}
 ;
@@ -528,7 +528,7 @@ jump_statement
 			}
 
 			cl_push(pp, (unsigned char) $1.value);
-			cl_label_reference(label, pp->hc_fill);
+			cl_label_reference(label, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 ;
@@ -612,7 +612,7 @@ declaration_function
 			}
 			
 			func->flags = ZLF_FUNC_INTERNAL | ZLF_DEFINED | $2.flags | $3.flags;
-			func->offset = pp->hc_fill;
+			func->offset = pp->hc_fill[pp->hc_active];
 			//func->params_size = $7.size;
 
 			pp->current_level--;
@@ -622,7 +622,7 @@ declaration_function
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBP);
 			cl_push(pp, OP_MOV_REG_REG); cl_push(pp, REG_EBP); cl_push(pp, REG_ESP);
 			cl_push(pp, OP_ADD_REG_IMM); cl_push(pp, REG_ESP);
-			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			//cl_push(pp, OP_NOP);
 		}
@@ -633,7 +633,7 @@ declaration_function
 
 			label = cl_label_find(pp->labels_table, "@exit_func");
 
-			label->offset = pp->hc_fill;
+			label->offset = pp->hc_fill[pp->hc_active];
 			label->flags = ZLF_DEFINED;
 
 			//cl_push(pp, OP_NOP);
@@ -650,12 +650,12 @@ declaration_function
 
 			fix_point = (unsigned long) cl_stack_pop(&pp->cl_stack);
 
-			pp->hard_code[fix_point] = (char)((unsigned long) (pp->stack_size & 0xFF));
-			pp->hard_code[fix_point+1] = (char)((unsigned long) ((pp->stack_size >> 8) & 0xFF));
-			pp->hard_code[fix_point+2] = (char)((unsigned long) ((pp->stack_size >> 16) & 0xFF));
-			pp->hard_code[fix_point+3] = (char)((unsigned long) (pp->stack_size >> 24));
+			pp->hard_code[pp->hc_active][fix_point] = (char)((unsigned long) (pp->stack_size & 0xFF));
+			pp->hard_code[pp->hc_active][fix_point+1] = (char)((unsigned long) ((pp->stack_size >> 8) & 0xFF));
+			pp->hard_code[pp->hc_active][fix_point+2] = (char)((unsigned long) ((pp->stack_size >> 16) & 0xFF));
+			pp->hard_code[pp->hc_active][fix_point+3] = (char)((unsigned long) (pp->stack_size >> 24));
 
-			if(cl_label_fix(pp->labels_table, pp->hard_code))
+			if(cl_label_fix(pp->labels_table, pp->hard_code[pp->hc_active]))
 			{
 				ZL_ERROR("error, jump to undefined label");
 			}
@@ -1024,13 +1024,13 @@ init_declarator
 			if($1.var->flags & ZLF_EXTERNAL)
 			{
 				cl_push(pp, OP_PUSH_PMEM);
-				cl_var_reference(var, pp->hc_fill);
+				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else if($1.var->level == 0) // global var
 			{
 				cl_push(pp, OP_PUSH_MEM);
-				cl_var_reference(var, pp->hc_fill);
+				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else // local var
@@ -1308,17 +1308,23 @@ struct_declarator_list
 
 expression
 	: assignment_expression
-	| assignment_expression ',' expression						{ cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX); }
+	| assignment_expression ',' expression								{ cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX); }
 ;															
 															
 argument_expression_list									
-	: /* empty */												{ $$.size = 0; }
-	| assignment_expression										{ $$.size = 4; }
-	| assignment_expression ',' argument_expression_list		{ $$.size = 4 + $3.size; }
+	: /* empty */														{ $$.size = 0; }
+	|  assignment_expression								{ $$.size = 4; }
+	|  assignment_expression ',' argument_expression_list	{ $$.size = 4 + $3.size; }
 ;															
-															
+
+f_sw_context
+:	{
+		//pp->hc_active++;
+	}
+;
+
 assignment_expression										
-	: expr														{ $$ = $1; }
+	: expr																{ $$ = $1; }
 	| unary_expression '=' assignment_expression
 		{
 			if(($1.flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)) != ($3.flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)))
@@ -1668,13 +1674,13 @@ unary_expression
 			if($$.flags & ZLF_EXTERNAL)
 			{
 				cl_push(pp, OP_PUSH_PMEM);
-				cl_var_reference(var, pp->hc_fill);
+				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else if($$.var->level == 0) // global var
 			{
 				cl_push(pp, OP_PUSH_MEM);
-				cl_var_reference(var, pp->hc_fill);
+				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else // local var
@@ -1831,7 +1837,7 @@ expr
 	| T_CONSTANT_STRING											
 		{
 			cl_push(pp, OP_PUSH_OFFSET);
-			cl_const_define(&pp->data_table, $1.string, $1.size, pp->hc_fill); // добавляем ссылку на эти данные
+			cl_const_define(&pp->data_table, $1.string, $1.size, pp->hc_fill[pp->hc_active]); // добавляем ссылку на эти данные
 			free_str($1.string);
 			cl_push_dw(pp, 0);						// ставим заглушку
 		}
@@ -1921,7 +1927,7 @@ expr
 			cl_stack_push(&pp->cl_stack, lb_skip);
 
 			cl_push(pp, OP_JNZ_STK);
-			cl_label_reference(lb_skip, pp->hc_fill);
+			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 		}
@@ -1929,7 +1935,7 @@ expr
 		{
 			cl_label_node *lb_skip;
 			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
-			lb_skip->offset = pp->hc_fill;
+			lb_skip->offset = pp->hc_fill[pp->hc_active];
 			lb_skip->flags = ZLF_DEFINED;
 		}
 	| expr T_AND
@@ -1941,7 +1947,7 @@ expr
 			cl_stack_push(&pp->cl_stack, lb_skip);
 
 			cl_push(pp, OP_JZ_STK);
-			cl_label_reference(lb_skip, pp->hc_fill);
+			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 		}
@@ -1949,7 +1955,7 @@ expr
 		{
 			cl_label_node *lb_skip;
 			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
-			lb_skip->offset = pp->hc_fill;
+			lb_skip->offset = pp->hc_fill[pp->hc_active];
 			lb_skip->flags = ZLF_DEFINED;
 		}
 	| expr '?'
@@ -1959,7 +1965,7 @@ expr
 			cl_stack_push(&pp->cl_stack, lb_skip);
 
 			cl_push(pp, OP_JZ_POP_STK);
-			cl_label_reference(lb_skip, pp->hc_fill);
+			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 		expr ':'
@@ -1969,9 +1975,9 @@ expr
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_skip, pp->hc_fill);
+			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
-			lb_else->offset = pp->hc_fill;
+			lb_else->offset = pp->hc_fill[pp->hc_active];
 			lb_else->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_stack, lb_skip);
 		}
@@ -1979,7 +1985,7 @@ expr
 		{
 			cl_label_node *lb_skip;
 			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
-			lb_skip->offset = pp->hc_fill;
+			lb_skip->offset = pp->hc_fill[pp->hc_active];
 			lb_skip->flags = ZLF_DEFINED;
 		}
 	| '~' expr													{ $$ = $2; cl_push(pp, OP_BNOT_STK); }
@@ -2217,7 +2223,7 @@ expr
 			{
 				cl_push(pp, OP_RCALL_FAR); // rcall far
 			}
-			cl_label_reference(func, pp->hc_fill);
+			cl_label_reference(func, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			if($3.size)
 			{
@@ -2285,11 +2291,11 @@ expr
 		}
 	| T_SIZEOF '('
 		{
-			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
 		unary_expression ')'
 		{
-			pp->hc_fill = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			$$.flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $4.var->size[$4.rows]);
@@ -2301,11 +2307,11 @@ expr
 		}
 	| T_TYPEOF '('
 		{
-			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
 		unary_expression ')'
 		{
-			pp->hc_fill = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			$$.flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, $4.var->flags);
@@ -2375,12 +2381,12 @@ const_expr
 		}
 	| T_SIZEOF '('
 		{
-			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
 		unary_expression ')'
 		{
 			$$.uvalue = $4.var->size[$4.rows];
-			pp->hc_fill = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 		}
 	| T_TYPEOF '(' declaration_specifiers ')'
 		{
@@ -2388,12 +2394,12 @@ const_expr
 		}
 	| T_TYPEOF '('
 		{
-			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
 		unary_expression ')'
 		{
 			$$.uvalue = $4.var->flags;
-			pp->hc_fill = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 		}
 ;
 
@@ -2462,7 +2468,7 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	func->library = NULL;
 	
 	cl_push(&pp, OP_CALL);
-	cl_label_reference(func, pp.hc_fill);
+	cl_label_reference(func, pp.hc_fill[0]);
 	cl_push_dw(&pp, 0);
 	cl_push(&pp, OP_EOF);
 
@@ -2491,9 +2497,9 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 		free_str(pp.error_msg);
 	}
 
-	*hard_code_size = pp.hc_fill;
+	*hard_code_size = pp.hc_fill[0];
 
-	if(!ret && cl_label_fix(pp.funcs_table, pp.hard_code))
+	if(!ret && cl_label_fix(pp.funcs_table, pp.hard_code[0]))
 	{
 		ret = 1;
 		if(error_msg)
@@ -2503,7 +2509,7 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	}
 
 
-	cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code, pp.hc_fill,
+	cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code[0], pp.hc_fill[0],
 		const_sect, const_size,
 		data_sect, data_size,
 		reloc_sect, reloc_size,
@@ -2519,7 +2525,7 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	cl_stack_free(&pp.cl_stack);
 	cl_stack_free(&pp.cl_loop_stack);
 
-	*hardcode = pp.hard_code;
+	*hardcode = pp.hard_code[0];
 
 	return ret;
 }

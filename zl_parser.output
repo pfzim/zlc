@@ -1,3 +1,8 @@
+Nonterminals useless in grammar
+
+   f_sw_context
+
+
 Terminals unused in grammar
 
    '@'
@@ -10,6 +15,11 @@ Terminals unused in grammar
    T_STRING
    T_VAR
    T_PARAM_SEPARATOR
+
+
+Rules useless in grammar
+
+  201 f_sw_context: %empty
 
 
 Grammar
@@ -95,7 +105,7 @@ Grammar
 
    54 $@10: %empty
 
-   55 selection_statement: T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55 selection_statement: T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
 
    56 else_statement: %empty
 
@@ -495,8 +505,8 @@ argument_expression_list (142)
     on left: 107 108 109, on right: 109 161
 assignment_expression (143)
     on left: 110 111 112 113 114 115 116 117 118 119 120 121, on right:
-    42 44 47 51 100 105 106 108 109 111 112 113 114 115 116 117 118
-    119 120 121 124
+    42 44 47 51 55 100 105 106 108 109 111 112 113 114 115 116 117
+    118 119 120 121 124
 unary_expression (144)
     on left: 122 123 124, on right: 111 112 113 114 115 116 117 118
     119 120 121 123 124 156 157 158 159 160 162 165 168 169 197 200
@@ -9014,7 +9024,7 @@ State 267
    44 selection_statement: . T_IF '(' assignment_expression ')' $@2 statement else_statement
    47                    | . T_WHILE $@3 '(' assignment_expression ')' $@4 statement
    51                    | . T_DO $@5 statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
-   55                    | . T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55                    | . T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
    59 labeled_statement: . T_LABEL ':'
    60 jump_statement: . T_GOTO T_LABEL ';'
    73 declaration_statement: . declaration_specifiers $@14 init_declarator_list ';'
@@ -9255,7 +9265,7 @@ State 273
 
 State 274
 
-   55 selection_statement: T_FOR . '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55 selection_statement: T_FOR . '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
 
     '('  shift, and go to state 302
 
@@ -9439,7 +9449,7 @@ State 283
    44 selection_statement: . T_IF '(' assignment_expression ')' $@2 statement else_statement
    47                    | . T_WHILE $@3 '(' assignment_expression ')' $@4 statement
    51                    | . T_DO $@5 statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
-   55                    | . T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55                    | . T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
    59 labeled_statement: . T_LABEL ':'
    60 jump_statement: . T_GOTO T_LABEL ';'
    73 declaration_statement: . declaration_specifiers $@14 init_declarator_list ';'
@@ -9817,7 +9827,7 @@ State 297
    47                    | . T_WHILE $@3 '(' assignment_expression ')' $@4 statement
    51                    | . T_DO $@5 statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
    51                    | T_DO $@5 . statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
-   55                    | . T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55                    | . T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
    59 labeled_statement: . T_LABEL ':'
    60 jump_statement: . T_GOTO T_LABEL ';'
    73 declaration_statement: . declaration_specifiers $@14 init_declarator_list ';'
@@ -9974,7 +9984,7 @@ State 301
 
 State 302
 
-   55 selection_statement: T_FOR '(' . expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55 selection_statement: T_FOR '(' . expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
   105 expression: . assignment_expression
   106           | . assignment_expression ',' expression
   110 assignment_expression: . expr
@@ -10378,7 +10388,7 @@ State 323
 
 State 324
 
-   55 selection_statement: T_FOR '(' expression . ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55 selection_statement: T_FOR '(' expression . ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
 
     ';'  shift, and go to state 340
 
@@ -10531,7 +10541,7 @@ State 339
 State 340
 
    52 $@8: . %empty
-   55 selection_statement: T_FOR '(' expression ';' . $@8 expression ';' $@9 expression ')' $@10 statement
+   55 selection_statement: T_FOR '(' expression ';' . $@8 assignment_expression ';' $@9 expression ')' $@10 statement
 
     $default  reduce using rule 52 ($@8)
 
@@ -10609,7 +10619,7 @@ State 346
    44                    | T_IF '(' assignment_expression ')' $@2 . statement else_statement
    47                    | . T_WHILE $@3 '(' assignment_expression ')' $@4 statement
    51                    | . T_DO $@5 statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
-   55                    | . T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55                    | . T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
    59 labeled_statement: . T_LABEL ':'
    60 jump_statement: . T_GOTO T_LABEL ';'
    73 declaration_statement: . declaration_specifiers $@14 init_declarator_list ';'
@@ -10755,9 +10765,7 @@ State 348
 
 State 349
 
-   55 selection_statement: T_FOR '(' expression ';' $@8 . expression ';' $@9 expression ')' $@10 statement
-  105 expression: . assignment_expression
-  106           | . assignment_expression ',' expression
+   55 selection_statement: T_FOR '(' expression ';' $@8 . assignment_expression ';' $@9 expression ')' $@10 statement
   110 assignment_expression: . expr
   111                      | . unary_expression '=' assignment_expression
   112                      | . unary_expression T_ADD_ASSIGN assignment_expression
@@ -10827,8 +10835,7 @@ State 349
     T_TYPEOF           shift, and go to state 73
     '('                shift, and go to state 75
 
-    expression             go to state 357
-    assignment_expression  go to state 293
+    assignment_expression  go to state 357
     unary_expression       go to state 78
     expr                   go to state 79
 
@@ -10915,7 +10922,7 @@ State 355
    47                    | . T_WHILE $@3 '(' assignment_expression ')' $@4 statement
    47                    | T_WHILE $@3 '(' assignment_expression ')' $@4 . statement
    51                    | . T_DO $@5 statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
-   55                    | . T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55                    | . T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
    59 labeled_statement: . T_LABEL ':'
    60 jump_statement: . T_GOTO T_LABEL ';'
    73 declaration_statement: . declaration_specifiers $@14 init_declarator_list ';'
@@ -11121,7 +11128,7 @@ State 356
 
 State 357
 
-   55 selection_statement: T_FOR '(' expression ';' $@8 expression . ';' $@9 expression ')' $@10 statement
+   55 selection_statement: T_FOR '(' expression ';' $@8 assignment_expression . ';' $@9 expression ')' $@10 statement
 
     ';'  shift, and go to state 363
 
@@ -11167,7 +11174,7 @@ State 362
 State 363
 
    53 $@9: . %empty
-   55 selection_statement: T_FOR '(' expression ';' $@8 expression ';' . $@9 expression ')' $@10 statement
+   55 selection_statement: T_FOR '(' expression ';' $@8 assignment_expression ';' . $@9 expression ')' $@10 statement
 
     $default  reduce using rule 53 ($@9)
 
@@ -11199,7 +11206,7 @@ State 364
    44 selection_statement: . T_IF '(' assignment_expression ')' $@2 statement else_statement
    47                    | . T_WHILE $@3 '(' assignment_expression ')' $@4 statement
    51                    | . T_DO $@5 statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
-   55                    | . T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
+   55                    | . T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
    58 else_statement: T_ELSE $@11 . statement
    59 labeled_statement: . T_LABEL ':'
    60 jump_statement: . T_GOTO T_LABEL ';'
@@ -11339,7 +11346,7 @@ State 365
 
 State 366
 
-   55 selection_statement: T_FOR '(' expression ';' $@8 expression ';' $@9 . expression ')' $@10 statement
+   55 selection_statement: T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 . expression ')' $@10 statement
   105 expression: . assignment_expression
   106           | . assignment_expression ',' expression
   110 assignment_expression: . expr
@@ -11433,7 +11440,7 @@ State 368
 
 State 369
 
-   55 selection_statement: T_FOR '(' expression ';' $@8 expression ';' $@9 expression . ')' $@10 statement
+   55 selection_statement: T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression . ')' $@10 statement
 
     ')'  shift, and go to state 371
 
@@ -11448,7 +11455,7 @@ State 370
 State 371
 
    54 $@10: . %empty
-   55 selection_statement: T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' . $@10 statement
+   55 selection_statement: T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' . $@10 statement
 
     $default  reduce using rule 54 ($@10)
 
@@ -11480,8 +11487,8 @@ State 372
    44 selection_statement: . T_IF '(' assignment_expression ')' $@2 statement else_statement
    47                    | . T_WHILE $@3 '(' assignment_expression ')' $@4 statement
    51                    | . T_DO $@5 statement T_WHILE $@6 '(' assignment_expression ')' $@7 ';'
-   55                    | . T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement
-   55                    | T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 . statement
+   55                    | . T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement
+   55                    | T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 . statement
    59 labeled_statement: . T_LABEL ':'
    60 jump_statement: . T_GOTO T_LABEL ';'
    73 declaration_statement: . declaration_specifiers $@14 init_declarator_list ';'
@@ -11610,6 +11617,6 @@ State 372
 
 State 373
 
-   55 selection_statement: T_FOR '(' expression ';' $@8 expression ';' $@9 expression ')' $@10 statement .
+   55 selection_statement: T_FOR '(' expression ';' $@8 assignment_expression ';' $@9 expression ')' $@10 statement .
 
     $default  reduce using rule 55 (selection_statement)
