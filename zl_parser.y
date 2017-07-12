@@ -547,7 +547,7 @@ declaration_function
 			}
 
 			func->flags = ZLF_DEFINED;
-			if(!$4.uvalue)
+			if(!$2.uvalue)
 			{
 				func->flags |= ZLF_STDCALL;
 			}
@@ -567,7 +567,7 @@ declaration_function
 			}
 
 			func->flags = ZLF_DEFINED;
-			if(!$4.uvalue)
+			if(!$2.uvalue)
 			{
 				func->flags |= ZLF_STDCALL;
 			}

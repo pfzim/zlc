@@ -2173,7 +2173,7 @@ yyreduce:
 			}
 
 			func->flags = ZLF_DEFINED;
-			if(!(yyvsp[-5]).uvalue)
+			if(!(yyvsp[-7]).uvalue)
 			{
 				func->flags |= ZLF_STDCALL;
 			}
@@ -2197,7 +2197,7 @@ yyreduce:
 			}
 
 			func->flags = ZLF_DEFINED;
-			if(!(yyvsp[-7]).uvalue)
+			if(!(yyvsp[-9]).uvalue)
 			{
 				func->flags |= ZLF_STDCALL;
 			}
