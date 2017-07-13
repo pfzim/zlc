@@ -851,16 +851,21 @@ unsigned long zl_execute(unsigned long *regs)
 						mov		eax, ebx
 						add		eax, 4
 						mov		eax, [eax]
+						//shl     ecx, 2
 						//mov		ecx, dword ptr regs[REG_ESP*4]
 						mov		ecx, regs
 						add		ecx, REG_ESP*4
 						mov		ecx, [ecx]				// regs[REG_ESP] value
+						mov     edx, eax
+						sub     edx, 1
+						shl     edx, 2
+						sub     ecx, edx
 					lb_loop:
 						test	eax, eax
 						jz		lb_exec
 						dec		eax
-						add		ecx, 4
 						push	[ecx]
+						add		ecx, 4
 						jmp		lb_loop
 					lb_exec:
 						call	[ebx]

@@ -526,21 +526,21 @@ static const yytype_uint16 yyrline[] =
      223,   227,   228,   229,   254,   255,   259,   260,   261,   269,
      277,   292,   307,   317,   332,   331,   350,   360,   349,   380,
      394,   401,   379,   413,   430,   451,   412,   482,   484,   483,
-     500,   518,   537,   557,   577,   596,   595,   674,   677,   684,
+     500,   518,   537,   557,   577,   596,   595,   676,   679,   686,
      693,   698,   697,   774,   773,   804,   805,   832,   833,   869,
      870,   871,   872,   873,   874,   875,   876,   877,   878,   885,
      886,   890,   950,   949,  1095,  1096,  1100,  1117,  1148,  1167,
     1181,  1188,  1240,  1247,  1255,  1254,  1314,  1315,  1319,  1320,
-    1325,  1348,  1354,  1355,  1388,  1417,  1446,  1475,  1504,  1533,
-    1562,  1591,  1620,  1649,  1681,  1735,  1748,  1833,  1862,  1864,
-    1871,  1872,  1873,  1874,  1875,  1876,  1877,  1878,  1879,  1880,
-    1881,  1882,  1898,  1914,  1930,  1946,  1947,  1949,  1948,  1969,
-    1968,  1989,  1999,  1988,  2018,  2019,  2020,  2021,  2028,  2044,
-    2088,  2132,  2176,  2220,  2272,  2304,  2331,  2330,  2341,  2347,
-    2346,  2358,  2368,  2371,  2372,  2373,  2374,  2375,  2376,  2377,
-    2378,  2379,  2380,  2381,  2382,  2383,  2384,  2385,  2386,  2387,
-    2388,  2389,  2390,  2391,  2392,  2393,  2394,  2395,  2421,  2420,
-    2429,  2434,  2433
+    1325,  1351,  1357,  1358,  1391,  1420,  1449,  1478,  1507,  1536,
+    1565,  1594,  1623,  1652,  1684,  1738,  1751,  1836,  1865,  1867,
+    1874,  1875,  1876,  1877,  1878,  1879,  1880,  1881,  1882,  1883,
+    1884,  1885,  1901,  1917,  1933,  1949,  1950,  1952,  1951,  1980,
+    1979,  2008,  2021,  2007,  2054,  2055,  2056,  2057,  2064,  2080,
+    2124,  2168,  2212,  2256,  2313,  2345,  2372,  2371,  2382,  2388,
+    2387,  2399,  2409,  2412,  2413,  2414,  2415,  2416,  2417,  2418,
+    2419,  2420,  2421,  2422,  2423,  2424,  2425,  2426,  2427,  2428,
+    2429,  2430,  2431,  2432,  2433,  2434,  2435,  2436,  2462,  2461,
+    2470,  2475,  2474
 };
 #endif
 
@@ -600,58 +600,58 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -285
+#define YYPACT_NINF -284
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-285)))
+  (!!((Yystate) == (-284)))
 
-#define YYTABLE_NINF -109
+#define YYTABLE_NINF -1
 
 #define yytable_value_is_error(Yytable_value) \
-  (!!((Yytable_value) == (-109)))
+  (!!((Yytable_value) == (-1)))
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     235,  -285,  -285,  -285,  -285,  -285,  -285,  -285,  -285,  -285,
-    -285,   -53,   163,    31,   235,  -285,  -285,  -285,   163,   163,
-       0,  -285,  -285,  -285,     0,  -285,     0,     0,   -13,     1,
-    -285,   -31,    49,    59,  -285,  -285,     0,  -285,  -285,     0,
-      11,  -285,    57,    63,  -285,    72,   521,   504,    58,   163,
-    -285,   160,   160,   160,   160,  -285,    84,    88,   160,  -285,
-     238,    -8,   532,   532,    -8,   532,   532,    -8,    -8,    97,
-    -285,  -285,   103,   105,   504,   456,  -285,  -285,   272,   647,
-     107,     4,  -285,  -285,  -285,  -285,  -285,  -285,   163,   163,
+     235,  -284,  -284,  -284,  -284,  -284,  -284,  -284,  -284,  -284,
+    -284,   -23,   163,    41,   235,  -284,  -284,  -284,   163,   163,
+      15,  -284,  -284,  -284,    15,  -284,    15,    15,     0,     1,
+    -284,   -31,   109,    86,  -284,  -284,    15,  -284,  -284,    15,
+      71,  -284,    53,    57,  -284,    68,   521,   504,   110,   163,
+    -284,   160,   160,   160,   160,  -284,    84,    88,   160,  -284,
+     238,    -2,   532,   532,    -2,   532,   532,    -2,    -2,    97,
+    -284,  -284,   103,   105,   504,   456,  -284,  -284,   272,   647,
+      85,     4,  -284,  -284,  -284,  -284,  -284,  -284,   163,   163,
      313,   160,   160,   160,   160,   160,   160,   160,   160,   160,
      160,   160,   160,   160,   160,   160,   160,   160,   160,   160,
-    -285,  -285,   155,     5,  -285,  -285,   155,  -285,  -285,   155,
-     155,    25,   163,   163,   196,   113,     0,   112,   333,   532,
+    -284,  -284,   141,     5,  -284,  -284,   141,  -284,  -284,   141,
+     141,  -284,   163,   163,   194,   111,    15,   112,   333,   532,
      532,   532,   532,   532,   532,   532,   532,   532,   532,   532,
-    -285,  -285,   532,  -285,  -285,  -285,   532,   532,   532,   532,
+    -284,  -284,   532,  -284,  -284,  -284,   532,   532,   532,   532,
      532,   532,   532,   532,   532,   532,   532,   532,   532,   532,
-     532,   532,    68,   163,   114,     0,   115,    -8,   117,    -8,
-    -285,   607,   700,   733,   438,   778,   805,   818,   818,   473,
-     473,   473,   473,   124,   124,   147,   147,  -285,  -285,  -285,
-      26,   532,   118,    -8,   119,    -8,  -285,  -285,  -285,    -8,
-    -285,  -285,  -285,  -285,  -285,  -285,  -285,  -285,  -285,  -285,
-    -285,  -285,   120,   532,   532,   532,   764,   792,   831,   844,
-     844,   855,   855,   855,   855,   138,   138,   150,   150,  -285,
-    -285,  -285,   156,  -285,  -285,  -285,   126,  -285,  -285,   -35,
-    -285,   -34,   160,  -285,  -285,  -285,  -285,    -9,  -285,    69,
-     504,   155,  -285,   627,   717,   749,   122,  -285,  -285,  -285,
-    -285,   665,   532,  -285,  -285,  -285,  -285,  -285,   355,  -285,
-     532,   130,  -285,  -285,   -54,    83,   141,   -11,   177,   419,
-      86,   143,   146,  -285,   152,   355,  -285,  -285,  -285,  -285,
-    -285,  -285,  -285,  -285,   148,   230,   683,   532,   153,   355,
-     149,  -285,   151,  -285,   532,  -285,   154,  -285,   162,   -10,
-     191,    95,   161,   159,    86,  -285,  -285,  -285,  -285,  -285,
-     532,   183,   532,   225,  -285,  -285,   195,  -285,  -285,    95,
-    -285,   209,  -285,  -285,   286,  -285,    86,  -285,  -285,  -285,
-     200,  -285,  -285,   201,   299,   212,    95,  -285,   355,  -285,
-     216,   532,  -285,    95,  -285,  -285,   261,   355,   532,   220,
-    -285,  -285,  -285,  -285,   223,  -285,   355,  -285,   532,  -285,
-     222,   226,  -285,  -285,   355,  -285
+     532,   532,    65,   163,   107,    15,   115,    -2,   116,    -2,
+    -284,   607,   700,   733,   438,   778,   805,   818,   818,   473,
+     473,   473,   473,   138,   138,   122,   122,  -284,  -284,  -284,
+      25,   532,   117,    -2,   118,    -2,  -284,  -284,  -284,    -2,
+    -284,  -284,  -284,  -284,  -284,  -284,  -284,  -284,  -284,  -284,
+    -284,  -284,   120,   532,   532,   532,   764,   792,   831,   844,
+     844,   855,   855,   855,   855,   149,   149,   128,   128,  -284,
+    -284,  -284,   143,  -284,  -284,  -284,   123,  -284,  -284,   -35,
+    -284,   -34,   160,  -284,  -284,  -284,  -284,    -9,  -284,    69,
+     504,   141,  -284,   627,   717,   749,   121,  -284,  -284,  -284,
+    -284,   665,   532,  -284,  -284,  -284,  -284,  -284,   355,  -284,
+     532,   125,  -284,  -284,   -54,    60,   130,   -11,   158,   419,
+     -51,   139,   146,  -284,   148,   355,  -284,  -284,  -284,  -284,
+    -284,  -284,  -284,  -284,   147,   227,   683,   532,   144,   355,
+     150,  -284,   151,  -284,   532,  -284,   153,  -284,   154,   -10,
+     186,    95,   161,   159,   -51,  -284,  -284,  -284,  -284,  -284,
+     532,   164,   532,   192,  -284,  -284,   181,  -284,  -284,    95,
+    -284,   195,  -284,  -284,   284,  -284,   -51,  -284,  -284,  -284,
+     198,  -284,  -284,   199,   287,   200,    95,  -284,   355,  -284,
+     213,   532,  -284,    95,  -284,  -284,   257,   355,   532,   215,
+    -284,  -284,  -284,  -284,   222,  -284,   355,  -284,   532,  -284,
+     221,   224,  -284,  -284,   355,  -284
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -678,7 +678,7 @@ static const yytype_uint8 yydefact[] =
        0,     0,     0,     0,    65,    94,     0,     0,     0,     0,
      173,     0,   190,   191,   178,   181,   179,   188,   189,   185,
      187,   184,   186,   182,   183,   174,   175,   176,   177,   180,
-       0,     0,     0,     0,     0,     0,   104,   102,   127,     0,
+       0,   108,     0,     0,     0,     0,   104,   102,   127,     0,
      130,   113,   123,   122,   119,   120,   114,   118,   117,   116,
      115,   121,     0,     0,     0,     0,   135,   138,   136,   145,
      146,   142,   144,   141,   143,   139,   140,   131,   132,   133,
@@ -702,13 +702,13 @@ static const yytype_uint8 yydefact[] =
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -285,   303,  -285,    34,  -181,    82,  -285,  -285,  -284,  -285,
-     -30,  -266,  -285,  -285,  -285,  -285,  -285,  -285,  -285,  -285,
-    -285,  -285,  -285,  -285,  -285,  -285,  -279,  -285,  -285,  -285,
-    -285,  -285,   158,  -285,    33,  -285,   305,   129,  -285,  -285,
-     289,  -285,    24,   -29,  -285,   275,    76,  -285,  -167,  -285,
-     106,   -47,   -50,  -285,   -26,  -285,  -285,  -285,  -285,  -285,
-    -285,   -32,  -285,  -285
+    -284,   291,  -284,    31,  -181,    81,  -284,  -284,  -283,  -284,
+     -30,  -266,  -284,  -284,  -284,  -284,  -284,  -284,  -284,  -284,
+    -284,  -284,  -284,  -284,  -284,  -284,  -279,  -284,  -284,  -284,
+    -284,  -284,   155,  -284,    32,  -284,   300,   129,  -284,  -284,
+     285,  -284,    24,   -29,  -284,   275,    74,  -284,  -167,  -284,
+      82,   -47,   -50,  -284,   -26,  -284,  -284,  -284,  -284,  -284,
+    -284,   -32,  -284,  -284
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -728,41 +728,41 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      77,   314,   300,    19,    36,   305,   305,   163,   142,   142,
+      77,   314,   300,   309,    36,   305,   305,   163,   142,   142,
       45,   112,   113,   113,   116,   113,   113,   119,   120,    84,
-      85,    86,    87,    38,    64,   113,    90,    77,  -108,   243,
-     337,    22,    27,    16,   142,   314,   114,   115,   301,   117,
-     118,    35,   140,   141,    28,   334,   111,    16,   142,   128,
-      33,    34,   347,    41,    46,   259,   260,   314,    39,   171,
+      85,    86,    87,    38,   310,   113,    90,    77,   243,   311,
+      64,   337,    16,    19,   142,   314,   114,   115,   301,   117,
+     118,    22,   140,   141,    28,   334,    16,    27,   142,   128,
+      33,    34,   111,   347,    35,   259,   260,   314,    39,   171,
      172,   173,   174,   175,   176,   177,   178,   179,   180,   181,
      182,   183,   184,   185,   186,   187,   188,   189,   121,   329,
      355,   263,   201,   202,   203,   204,   205,   206,   207,   208,
      209,   210,   211,    37,   164,   212,   113,   113,   113,   113,
      113,   113,   113,   113,   113,   113,   113,   113,   113,   113,
-     113,   113,   142,    42,    80,  -108,   244,   239,   323,   241,
+     113,   113,   142,    41,    46,   244,   302,   239,   323,   241,
      216,   217,   218,   219,   220,   221,   222,   223,   224,   225,
-     226,   227,   228,   229,   230,   231,   237,   326,   331,   302,
-     309,    21,   232,   247,   245,   249,    48,    25,    21,   251,
-     198,   332,    49,   338,   105,   106,   107,   108,   109,   264,
-     233,   310,    50,   113,   113,   113,   311,   356,   157,   158,
-     159,   160,   161,    88,   333,   303,   363,    89,    83,   107,
-     108,   109,   159,   160,   161,   369,   121,   253,   254,   255,
-      51,    52,   122,   375,   123,    53,    54,   162,   142,   196,
-     197,   371,   199,    77,   126,   238,   235,   240,   246,   248,
-     261,   252,   257,   256,   267,   269,    55,   166,   168,   297,
+     226,   227,   228,   229,   230,   231,   237,   326,   331,   232,
+      42,    21,    48,   247,   245,   249,    49,    25,    21,   251,
+     198,   332,   303,   338,   107,   108,   109,   233,    50,   264,
+     159,   160,   161,   113,   113,   113,    80,   356,   105,   106,
+     107,   108,   109,    88,   333,   162,   363,    89,    83,   157,
+     158,   159,   160,   161,   142,   369,   121,   253,   254,   255,
+      51,    52,   122,   375,   123,    53,    54,   196,   197,   235,
+     256,   371,   199,    77,   126,   238,   240,   246,   248,   257,
+     261,   252,   306,   267,   297,   269,    55,   166,   168,   304,
      113,     1,     2,     3,     4,     5,     6,     7,     8,     9,
-     304,   306,   308,   320,    10,   315,    56,    57,   316,   317,
-     319,   324,   322,   325,   296,   330,   327,   336,   335,    58,
-     321,   192,   194,    91,   328,    92,    93,    94,    95,    96,
+     320,   315,   308,   322,    10,   317,    56,    57,   316,   319,
+     330,   341,   324,   325,   296,   327,   328,   336,   335,    58,
+     321,   192,   194,    91,   339,    92,    93,    94,    95,    96,
       97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
-     107,   108,   109,   339,   341,   340,   129,   130,   131,   132,
-     133,   134,   135,   136,   137,   138,   139,   342,   345,   346,
-     349,   352,    83,     1,     2,     3,     4,     5,     6,     7,
-       8,     9,   353,   354,   359,   358,    10,   361,    11,   140,
-     141,   364,   365,   367,   372,   142,   373,    23,   258,   318,
-      12,   234,    76,   360,    26,    44,   265,     0,    91,   110,
+     107,   108,   109,   342,   345,   340,   129,   130,   131,   132,
+     133,   134,   135,   136,   137,   138,   139,   346,   349,   352,
+     353,   354,    83,     1,     2,     3,     4,     5,     6,     7,
+       8,     9,   358,   361,   359,    23,    10,   365,    11,   140,
+     141,   364,   367,   372,   373,   142,   318,   258,   234,    26,
+      12,    44,    76,   360,   265,   262,     0,     0,    91,   110,
       92,    93,    94,    95,    96,    97,    98,    99,   100,   101,
-     102,   103,   104,   105,   106,   107,   108,   109,   143,   262,
+     102,   103,   104,   105,   106,   107,   108,   109,   143,     0,
      144,   145,   146,   147,   148,   149,   150,   151,   152,   153,
      154,   155,   156,   157,   158,   159,   160,   161,     0,     0,
        0,     0,     0,     0,     0,     0,    61,     0,     0,     0,
@@ -777,8 +777,8 @@ static const yytype_int16 yytable[] =
       97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
      107,   108,   109,    69,     0,    70,    71,    61,     0,     0,
        0,     0,     0,     0,     0,     0,    62,    63,    64,     0,
-       0,    65,    66,    67,    68,    72,    73,  -109,  -109,  -109,
-    -109,   103,   104,   105,   106,   107,   108,   109,    75,     0,
+       0,    65,    66,    67,    68,    72,    73,    -1,    -1,    -1,
+      -1,   103,   104,   105,   106,   107,   108,   109,    75,     0,
       69,   307,    70,    71,     1,     2,     3,     4,     5,     6,
        7,     8,     9,     0,     0,    61,     0,    10,     0,     0,
        0,     0,    72,    73,    62,    63,    64,     0,     0,    65,
@@ -812,50 +812,50 @@ static const yytype_int16 yytable[] =
      107,   108,   109,   148,   149,   150,   151,   152,   153,   154,
      155,   156,   157,   158,   159,   160,   161,    97,    98,    99,
      100,   101,   102,   103,   104,   105,   106,   107,   108,   109,
-    -109,  -109,    99,   100,   101,   102,   103,   104,   105,   106,
+      -1,    -1,    99,   100,   101,   102,   103,   104,   105,   106,
      107,   108,   109,   149,   150,   151,   152,   153,   154,   155,
-     156,   157,   158,   159,   160,   161,  -109,  -109,   151,   152,
-     153,   154,   155,   156,   157,   158,   159,   160,   161,  -109,
-    -109,  -109,  -109,   155,   156,   157,   158,   159,   160,   161
+     156,   157,   158,   159,   160,   161,    -1,    -1,   151,   152,
+     153,   154,   155,   156,   157,   158,   159,   160,   161,    -1,
+      -1,    -1,    -1,   155,   156,   157,   158,   159,   160,   161
 };
 
 static const yytype_int16 yycheck[] =
 {
-      47,   280,    56,    56,     3,    16,    16,     3,    43,    43,
+      47,   280,    56,    54,     3,    16,    16,     3,    43,    43,
       39,    61,    62,    63,    64,    65,    66,    67,    68,    51,
-      52,    53,    54,    54,    32,    75,    58,    74,     3,     3,
-     314,     0,    32,     0,    43,   314,    62,    63,    92,    65,
-      66,    54,    37,    38,    20,   311,    54,    14,    43,    75,
-      26,    27,   336,     4,    43,    90,    90,   336,    89,    91,
+      52,    53,    54,    54,    75,    75,    58,    74,     3,    80,
+      32,   314,     0,    56,    43,   314,    62,    63,    92,    65,
+      66,     0,    37,    38,    20,   311,    14,    32,    43,    75,
+      26,    27,    54,   336,    54,    90,    90,   336,    89,    91,
       92,    93,    94,    95,    96,    97,    98,    99,   100,   101,
      102,   103,   104,   105,   106,   107,   108,   109,    89,    89,
      346,    90,   129,   130,   131,   132,   133,   134,   135,   136,
      137,   138,   139,    92,    90,   142,   146,   147,   148,   149,
      150,   151,   152,   153,   154,   155,   156,   157,   158,   159,
-     160,   161,    43,    54,    56,    90,    90,   167,   299,   169,
+     160,   161,    43,     4,    43,    90,    56,   167,   299,   169,
      146,   147,   148,   149,   150,   151,   152,   153,   154,   155,
-     156,   157,   158,   159,   160,   161,   165,   304,    43,    56,
-      54,    12,    74,   193,   191,   195,    89,    18,    19,   199,
-     126,    56,    89,   320,    30,    31,    32,    33,    34,    90,
-      92,    75,    90,   213,   214,   215,    80,   348,    30,    31,
-      32,    33,    34,    89,    79,    92,   357,    89,    49,    32,
-      33,    34,    32,    33,    34,   366,    89,   213,   214,   215,
-      30,    31,    89,   374,    89,    35,    36,    90,    43,     3,
-      87,   368,    90,   250,    75,    90,    92,    90,    90,    90,
-     242,    91,    86,    57,    92,   262,    56,    88,    89,    89,
+     156,   157,   158,   159,   160,   161,   165,   304,    43,    74,
+      54,    12,    89,   193,   191,   195,    89,    18,    19,   199,
+     126,    56,    92,   320,    32,    33,    34,    92,    90,    90,
+      32,    33,    34,   213,   214,   215,    56,   348,    30,    31,
+      32,    33,    34,    89,    79,    90,   357,    89,    49,    30,
+      31,    32,    33,    34,    43,   366,    89,   213,   214,   215,
+      30,    31,    89,   374,    89,    35,    36,     3,    87,    92,
+      57,   368,    90,   250,    75,    90,    90,    90,    90,    86,
+     242,    91,    54,    92,    89,   262,    56,    88,    89,    89,
      270,    58,    59,    60,    61,    62,    63,    64,    65,    66,
-      89,    54,   279,     3,    71,    92,    76,    77,    92,    87,
-      92,    92,    89,    92,   270,    54,    92,    88,    87,    89,
-     297,   122,   123,    15,    92,    17,    18,    19,    20,    21,
+       3,    92,   279,    89,    71,    87,    76,    77,    92,    92,
+      54,    49,    92,    92,   270,    92,    92,    88,    87,    89,
+     297,   122,   123,    15,    90,    17,    18,    19,    20,    21,
       22,    23,    24,    25,    26,    27,    28,    29,    30,    31,
-      32,    33,    34,    90,    49,   322,     4,     5,     6,     7,
-       8,     9,    10,    11,    12,    13,    14,    92,    79,     3,
-      90,    90,   163,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,     3,    91,   351,    89,    71,    46,    73,    37,
-      38,   358,    92,    90,    92,    43,    90,    14,   236,   285,
-      85,   163,    47,   353,    19,    36,   250,    -1,    15,    91,
+      32,    33,    34,    92,    79,   322,     4,     5,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,     3,    90,    90,
+       3,    91,   163,    58,    59,    60,    61,    62,    63,    64,
+      65,    66,    89,    46,   351,    14,    71,    92,    73,    37,
+      38,   358,    90,    92,    90,    43,   285,   236,   163,    19,
+      85,    36,    47,   353,   250,   243,    -1,    -1,    15,    91,
       17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
-      27,    28,    29,    30,    31,    32,    33,    34,    15,   243,
+      27,    28,    29,    30,    31,    32,    33,    34,    15,    -1,
       17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
       27,    28,    29,    30,    31,    32,    33,    34,    -1,    -1,
       -1,    -1,    -1,    -1,    -1,    -1,    21,    -1,    -1,    -1,
@@ -995,7 +995,7 @@ static const yytype_uint8 yyr2[] =
        0,     0,     3,     0,     4,     0,     1,     1,     2,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        3,     1,     0,     4,     0,     2,     2,     1,     4,     3,
-       3,     1,     3,     1,     0,     4,     1,     3,     0,     2,
+       3,     1,     3,     1,     0,     4,     1,     3,     1,     2,
        4,     0,     1,     3,     3,     3,     3,     3,     3,     3,
        3,     3,     3,     3,     1,     2,     4,     2,     1,     1,
        3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
@@ -1720,7 +1720,7 @@ yyreduce:
 			}
 
 			cl_push(pp, (unsigned char) (yyvsp[-1]).value);
-			cl_label_reference(label, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(label, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1727 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1764,7 +1764,7 @@ yyreduce:
 				ZL_ERROR("unsupported far call");
 			}
 
-			cl_label_reference(func, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(func, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1771 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1824,7 +1824,7 @@ yyreduce:
 			cl_push(pp, OP_JMP);
 			if(!pp->cl_loop_stack) ZL_ERROR("break not in loop");
 
-			cl_label_reference((cl_label_node *) pp->cl_loop_stack->next_node->data, pp->hc_fill[pp->hc_active]);
+			cl_label_reference((cl_label_node *) pp->cl_loop_stack->next_node->data, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1831 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1836,7 +1836,7 @@ yyreduce:
 			cl_push(pp, OP_JMP);
 			if(!pp->cl_loop_stack || !pp->cl_loop_stack->next_node) ZL_ERROR("continue not in loop");
 
-			cl_label_reference((cl_label_node *) pp->cl_loop_stack->data, pp->hc_fill[pp->hc_active]);
+			cl_label_reference((cl_label_node *) pp->cl_loop_stack->data, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1843 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1855,7 +1855,7 @@ yyreduce:
 			}
 			cl_push(pp, OP_JMP);
 
-			cl_label_reference((cl_label_node *) lsb->data, pp->hc_fill[pp->hc_active]);
+			cl_label_reference((cl_label_node *) lsb->data, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1862 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1874,7 +1874,7 @@ yyreduce:
 			}
 			cl_push(pp, OP_JMP);
 
-			cl_label_reference((cl_label_node *) lsb->data, pp->hc_fill[pp->hc_active]);
+			cl_label_reference((cl_label_node *) lsb->data, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1881 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1888,7 +1888,7 @@ yyreduce:
 			lb_label = cl_label_find(pp->labels_table, "@exit_func");
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_label, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_label, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1895 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1903,7 +1903,7 @@ yyreduce:
 
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_label, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_label, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1910 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1917,7 +1917,7 @@ yyreduce:
 			cl_stack_push(&pp->cl_stack, lb_skip);
 
 			cl_push(pp, OP_JZ_POP_STK);
-			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_skip, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1924 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1954,7 +1954,7 @@ yyreduce:
 			cl_label_node *lb_exit;
 			lb_exit= (cl_label_node *) pp->cl_loop_stack->next_node->data;
 			cl_push(pp, OP_JZ_POP_STK);
-			cl_label_reference(lb_exit, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_exit, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 1961 "zl_parser.cpp" /* yacc.c:1646  */
@@ -1968,7 +1968,7 @@ yyreduce:
 			lb_exit = (cl_label_node *) cl_stack_pop(&pp->cl_loop_stack);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_condition, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_condition, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			lb_exit->offset = pp->hc_fill[pp->hc_active];
 			lb_exit->flags = ZLF_DEFINED;
@@ -2012,7 +2012,7 @@ yyreduce:
 			lb_exit = (cl_label_node *) cl_stack_pop(&pp->cl_loop_stack);
 
 			cl_push(pp, OP_JNZ_POP_STK);
-			cl_label_reference((cl_label_node *) cl_stack_pop(&pp->cl_stack), pp->hc_fill[pp->hc_active]);
+			cl_label_reference((cl_label_node *) cl_stack_pop(&pp->cl_stack), pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			lb_exit->offset = pp->hc_fill[pp->hc_active];
 			lb_exit->flags = ZLF_DEFINED;
@@ -2053,11 +2053,11 @@ yyreduce:
 			cl_stack_push(&pp->cl_stack, lb_statement);
 
 			cl_push(pp, OP_JNZ_POP_STK);
-			cl_label_reference(lb_statement, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_statement, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_exit, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_exit, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
 			lb_loop->offset = pp->hc_fill[pp->hc_active];
@@ -2077,7 +2077,7 @@ yyreduce:
 			cl_push(pp, REG_EAX);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_condition, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_condition, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
 			lb_statement->offset = pp->hc_fill[pp->hc_active];
@@ -2094,7 +2094,7 @@ yyreduce:
 			lb_exit = (cl_label_node *) cl_stack_pop(&pp->cl_loop_stack);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_loop, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_loop, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 
 			lb_exit->offset = pp->hc_fill[pp->hc_active];
@@ -2111,7 +2111,7 @@ yyreduce:
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(lb_skip, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			lb_else->offset = pp->hc_fill[pp->hc_active];
 			lb_else->flags = ZLF_DEFINED;
@@ -2153,7 +2153,7 @@ yyreduce:
 			}
 
 			cl_push(pp, (unsigned char) (yyvsp[-2]).value);
-			cl_label_reference(label, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(label, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 		}
 #line 2160 "zl_parser.cpp" /* yacc.c:1646  */
@@ -2249,6 +2249,8 @@ yyreduce:
 				ZL_ERROR("function return type different that declared before");
 			}
 			
+			// здесь надо будет пересчитывать offset параметров function_arguments_list в обратный порядок
+			
 			func->flags = ZLF_FUNC_INTERNAL | ZLF_DEFINED | (yyvsp[-6]).flags | (yyvsp[-5]).flags;
 			func->offset = pp->hc_fill[pp->hc_active];
 			//func->params_size = $7.size;
@@ -2264,11 +2266,11 @@ yyreduce:
 			cl_push_dw(pp, 0);
 			//cl_push(pp, OP_NOP);
 		}
-#line 2268 "zl_parser.cpp" /* yacc.c:1646  */
+#line 2270 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 630 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 632 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_label_node *label;
 			unsigned long fix_point;
@@ -2304,33 +2306,31 @@ yyreduce:
 
 			cl_label_free(&pp->labels_table);
 		}
-#line 2308 "zl_parser.cpp" /* yacc.c:1646  */
+#line 2310 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 674 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 676 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { pp->current_level++; }
-#line 2314 "zl_parser.cpp" /* yacc.c:1646  */
+#line 2316 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 678 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 680 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).value = 8;
-			(yyvsp[0]).var->offset = (yyval).value;
+			(yyvsp[0]).var->offset = (yyval).uvalue;
 			(yyvsp[0]).var->flags |= ZLF_PARAM;
 			//ZL_WARNING("first");
 		}
-#line 2325 "zl_parser.cpp" /* yacc.c:1646  */
+#line 2327 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 685 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 687 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
-			(yyvsp[-2]).var->offset = (yyvsp[0]).var->offset;
-			
 			(yyval).value = (yyvsp[-2]).value + 4;
-			(yyvsp[0]).var->offset = (yyval).value;
+			(yyvsp[0]).var->offset = (yyval).uvalue;
 			(yyvsp[0]).var->flags |= ZLF_PARAM;
 			//ZL_WARNING("second");
 		}
@@ -2748,13 +2748,13 @@ yyreduce:
 			if((yyvsp[-1]).var->flags & ZLF_EXTERNAL)
 			{
 				cl_push(pp, OP_PUSH_PMEM);
-				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
+				cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else if((yyvsp[-1]).var->level == 0) // global var
 			{
 				cl_push(pp, OP_PUSH_MEM);
-				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
+				cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else // local var
@@ -3073,6 +3073,9 @@ yyreduce:
 			//here ha is 2
 
 			//hc[1] = concat(hc[2], hc[1]);
+			cl_var_shift_dimension(pp->vars_table, pp->hc_active-1, pp->hc_active, pp->hc_fill[pp->hc_active]);
+			cl_label_shift_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
+			cl_const_shift_dimension(pp->data_table, pp->hc_active-1, pp->hc_fill[pp->hc_active]);
 			cl_code_add(pp, pp->hard_code[pp->hc_active-1], pp->hc_fill[pp->hc_active-1]);
 
 			zfree(pp->hard_code[pp->hc_active-1]);
@@ -3087,25 +3090,25 @@ yyreduce:
 			pp->hc_fill[pp->hc_active+1] = 0;
 			pp->hc_buffer_size[pp->hc_active+1] = 0;
 		}
-#line 3091 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3094 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 111:
-#line 1348 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1351 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 		pp->hc_active++;
 	}
-#line 3099 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3102 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 112:
-#line 1354 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1357 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); }
-#line 3105 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3108 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 113:
-#line 1356 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1359 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)) != ((yyvsp[0]).flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)))
 			{
@@ -3138,11 +3141,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 		}
-#line 3142 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3145 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 114:
-#line 1389 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1392 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3171,11 +3174,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 		}
-#line 3175 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3178 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 115:
-#line 1418 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1421 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3204,11 +3207,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3208 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3211 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 116:
-#line 1447 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1450 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3237,11 +3240,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3241 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3244 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 117:
-#line 1476 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1479 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3270,11 +3273,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3274 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3277 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 118:
-#line 1505 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1508 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3303,11 +3306,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3307 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3310 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 119:
-#line 1534 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1537 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3336,11 +3339,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3340 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3343 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 120:
-#line 1563 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1566 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3369,11 +3372,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3373 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3376 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 121:
-#line 1592 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1595 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3402,11 +3405,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3406 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3409 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 122:
-#line 1621 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1624 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3435,11 +3438,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3439 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3442 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 123:
-#line 1650 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1653 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3468,11 +3471,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3472 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3475 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 124:
-#line 1682 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1685 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			// push address of value to stack
 
@@ -3495,13 +3498,13 @@ yyreduce:
 			if((yyval).flags & ZLF_EXTERNAL)
 			{
 				cl_push(pp, OP_PUSH_PMEM);
-				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
+				cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else if((yyval).var->level == 0) // global var
 			{
 				cl_push(pp, OP_PUSH_MEM);
-				cl_var_reference(var, pp->hc_fill[pp->hc_active]);
+				cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 			}
 			else // local var
@@ -3526,11 +3529,11 @@ yyreduce:
 				cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 			}
 		}
-#line 3530 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3533 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 125:
-#line 1736 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1739 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval) = (yyvsp[0]);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
@@ -3543,11 +3546,11 @@ yyreduce:
 
 			(yyval).flags -= 0x01000000;
 		}
-#line 3547 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3550 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 126:
-#line 1749 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1752 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			// pop address
 			// add to address offset
@@ -3625,11 +3628,11 @@ yyreduce:
 				ZL_ERROR("subscript requires array or pointer type");
 			}
 		}
-#line 3629 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3632 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 127:
-#line 1834 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1837 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).flags = (yyvsp[-1]).flags + (yyvsp[0]).flags;
 			if((yyval).flags & ZLF_EXTERNAL)
@@ -3653,94 +3656,94 @@ yyreduce:
 			}
 			
 		}
-#line 3657 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3660 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 128:
-#line 1862 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1865 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[0]).uvalue); }
-#line 3663 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3666 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 1865 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1868 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_PUSH_OFFSET);
-			cl_const_define(&pp->data_table, (yyvsp[0]).string, (yyvsp[0]).size, pp->hc_fill[pp->hc_active]); // добавляем ссылку на эти данные
+			cl_const_define(&pp->data_table, pp->hc_active, (yyvsp[0]).string, (yyvsp[0]).size, pp->hc_fill[pp->hc_active]); // добавляем ссылку на эти данные
 			free_str((yyvsp[0]).string);
 			cl_push_dw(pp, 0);						// ставим заглушку
 		}
-#line 3674 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3677 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 130:
-#line 1871 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1874 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[-1]); }
-#line 3680 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3683 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 1872 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1875 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_ADD_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3686 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3689 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 1873 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1876 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_SUB_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3692 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3695 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 133:
-#line 1874 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1877 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_MUL_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3698 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3701 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 1875 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1878 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_DIV_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3704 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3707 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 1876 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1879 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_OR_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3710 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3713 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 136:
-#line 1877 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1880 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_AND_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3716 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3719 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 137:
-#line 1878 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1881 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_MOD_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3722 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3725 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 138:
-#line 1879 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1882 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_XOR_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3728 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3731 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 139:
-#line 1880 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1883 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_SHL_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3734 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3737 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 140:
-#line 1881 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1884 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_SHR_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3740 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3743 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 141:
-#line 1883 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1886 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -3756,11 +3759,11 @@ yyreduce:
 				cl_do_op(pp, OP_G_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 3760 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3763 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 142:
-#line 1899 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1902 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -3776,11 +3779,11 @@ yyreduce:
 				cl_do_op(pp, OP_L_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 3780 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3783 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 143:
-#line 1915 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1918 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -3796,11 +3799,11 @@ yyreduce:
 				cl_do_op(pp, OP_GE_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 3800 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3803 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 1931 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1934 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -3816,156 +3819,189 @@ yyreduce:
 				cl_do_op(pp, OP_LE_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 3820 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3823 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 1946 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1949 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_E_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3826 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3829 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 1947 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1950 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_NE_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 3832 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3835 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 1949 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1952 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			/*
 			cl_label_node *lb_skip;
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
 			//lb_skip->offset = pp->hc_fill;
 			//lb_skip->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_stack, lb_skip);
+			*/
 
 			cl_push(pp, OP_JNZ_STK);
-			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			//cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 		}
-#line 3849 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3855 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 148:
-#line 1962 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1968 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			/*
 			cl_label_node *lb_skip;
 			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
 			lb_skip->offset = pp->hc_fill[pp->hc_active];
 			lb_skip->flags = ZLF_DEFINED;
+			*/
+			unsigned long lb_skip;
+			lb_skip = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
-#line 3860 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3871 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 1969 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1980 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			/*
 			cl_label_node *lb_skip;
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
 			//lb_skip->offset = pp->hc_fill;
 			//lb_skip->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_stack, lb_skip);
+			*/
 
 			cl_push(pp, OP_JZ_STK);
-			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			//cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 		}
-#line 3877 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3891 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 1982 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1996 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			/*
 			cl_label_node *lb_skip;
 			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
 			lb_skip->offset = pp->hc_fill[pp->hc_active];
 			lb_skip->flags = ZLF_DEFINED;
+			*/
+			unsigned long lb_skip;
+			lb_skip = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
-#line 3888 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3907 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 151:
-#line 1989 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2008 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			/*
 			cl_label_node *lb_skip;
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
 			cl_stack_push(&pp->cl_stack, lb_skip);
+			*/
 
 			cl_push(pp, OP_JZ_POP_STK);
-			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			//cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			cl_stack_push(&pp->cl_stack, (void *) (pp->hc_fill[pp->hc_active]));
 			cl_push_dw(pp, 0);
 		}
-#line 3902 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3924 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 152:
-#line 1999 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2021 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			/*
 			cl_label_node *lb_skip, *lb_else;
 			lb_else = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
+			*/
+			unsigned long lb_else;
+			lb_else = (unsigned long) cl_stack_pop(&pp->cl_stack);
 
+			
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			//cl_label_reference(lb_skip, pp->hc_fill[pp->hc_active]);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
+			/*
 			lb_else->offset = pp->hc_fill[pp->hc_active];
 			lb_else->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_stack, lb_skip);
+			*/
+			cl_code_replace(pp->hard_code[pp->hc_active], lb_else, pp->hc_fill[pp->hc_active] - lb_else);
 		}
-#line 3919 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3950 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 153:
-#line 2012 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2043 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			/*
 			cl_label_node *lb_skip;
 			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
 			lb_skip->offset = pp->hc_fill[pp->hc_active];
 			lb_skip->flags = ZLF_DEFINED;
+			*/
+			unsigned long lb_skip;
+			lb_skip = (unsigned long)cl_stack_pop(&pp->cl_stack);
+			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
-#line 3930 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3966 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 154:
-#line 2018 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2054 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); cl_push(pp, OP_BNOT_STK); }
-#line 3936 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3972 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 155:
-#line 2019 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2055 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); cl_push(pp, OP_LNOT_STK); }
-#line 3942 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3978 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 156:
-#line 2020 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2056 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); }
-#line 3948 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3984 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 157:
-#line 2022 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2058 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval) = (yyvsp[0]);
 			(yyval).flags &= ~ZLF_UNSIGNED;
 			(yyval).flags |= ZLF_SIGNED;
 			cl_push(pp, OP_MINUS_STK);
 		}
-#line 3959 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3995 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 158:
-#line 2028 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2064 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nothing to do */ }
-#line 3965 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4001 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 159:
-#line 2045 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2081 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[-1]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4009,11 +4045,11 @@ yyreduce:
 
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 		}
-#line 4013 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4049 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 160:
-#line 2089 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2125 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[-1]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4057,11 +4093,11 @@ yyreduce:
 
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 		}
-#line 4061 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4097 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 161:
-#line 2133 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2169 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[0]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4105,11 +4141,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
 		}
-#line 4109 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4145 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 162:
-#line 2177 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2213 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[0]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4153,15 +4189,20 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
 		}
-#line 4157 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4193 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 163:
-#line 2221 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2257 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
-			if(pp->hc_active > 0)
+			//if(pp->hc_fill[pp->hc_active] > 0)
 			{
+				//hc[active-1] = concat(hc[active-1], hc[active])
+				cl_var_shift_dimension(pp->vars_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
+				cl_label_shift_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
+				cl_const_shift_dimension(pp->data_table, pp->hc_active, pp->hc_fill[pp->hc_active-1]);
 				pp->hc_active--;
+				cl_const_shift_dimension(pp->data_table, pp->hc_active, 0);
 				cl_code_add(pp, pp->hard_code[pp->hc_active+1], pp->hc_fill[pp->hc_active+1]);
 
 				zfree(pp->hard_code[pp->hc_active+1]);
@@ -4199,9 +4240,9 @@ yyreduce:
 			}
 			else
 			{
-				cl_push(pp, OP_RCALL_FAR); // rcall far
+				cl_push(pp, OP_CALL_FAR); // rcall far
 			}
-			cl_label_reference(func, pp->hc_fill[pp->hc_active]);
+			cl_label_reference(func, pp->hc_active, pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
 			if((yyvsp[-1]).size)
 			{
@@ -4209,11 +4250,11 @@ yyreduce:
 			}
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 		}
-#line 4213 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4254 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 164:
-#line 2273 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2314 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			// get value from address and push
 			if(!((yyvsp[0]).flags & (ZLF_STRUCT | ZLF_ARRAY)))
@@ -4245,11 +4286,11 @@ yyreduce:
 				cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 			}
 		}
-#line 4249 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4290 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 165:
-#line 2305 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2346 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			unsigned long var_size;
@@ -4275,218 +4316,218 @@ yyreduce:
 
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, var_size);
 		}
-#line 4279 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4320 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 166:
-#line 2331 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2372 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4287 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4328 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 167:
-#line 2335 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2376 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[-1]).var->size[(yyvsp[-1]).rows]);
 		}
-#line 4298 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4339 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 168:
-#line 2342 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2383 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[-1]).flags);
 		}
-#line 4307 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4348 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 169:
-#line 2347 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2388 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4315 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4356 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 170:
-#line 2351 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2392 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[-1]).var->flags);
 		}
-#line 4326 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4367 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 171:
-#line 2359 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2400 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval) = (yyvsp[0]);
 			(yyval).flags = (yyvsp[-2]).flags; 
 			//printf("(%s) %s\n", ($2.flags&ZLF_SIGNED)?"signed":(($2.flags&ZLF_UNSIGNED)?"unsigned":""), ($4.flags&ZLF_SIGNED)?"signed":(($4.flags&ZLF_UNSIGNED)?"unsigned":""));
 		}
-#line 4336 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4377 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 172:
-#line 2368 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2409 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nop */ }
-#line 4342 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4383 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 173:
-#line 2371 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2412 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nop */ }
-#line 4348 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4389 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 174:
-#line 2372 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2413 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value + (yyvsp[0]).value; }
-#line 4354 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4395 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 175:
-#line 2373 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2414 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value - (yyvsp[0]).value; }
-#line 4360 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4401 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 176:
-#line 2374 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2415 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value * (yyvsp[0]).value; }
-#line 4366 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4407 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 177:
-#line 2375 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2416 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value / (yyvsp[0]).value; }
-#line 4372 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4413 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 178:
-#line 2376 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2417 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value | (yyvsp[0]).value; }
-#line 4378 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4419 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 179:
-#line 2377 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2418 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value & (yyvsp[0]).value; }
-#line 4384 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4425 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 180:
-#line 2378 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2419 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value % (yyvsp[0]).value; }
-#line 4390 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4431 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 181:
-#line 2379 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2420 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value ^ (yyvsp[0]).value; }
-#line 4396 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4437 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 182:
-#line 2380 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2421 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value << (yyvsp[0]).value; }
-#line 4402 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4443 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 183:
-#line 2381 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2422 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value >> (yyvsp[0]).value; }
-#line 4408 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4449 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 184:
-#line 2382 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2423 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value < (yyvsp[0]).value; }
-#line 4414 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4455 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 185:
-#line 2383 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2424 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value > (yyvsp[0]).value; }
-#line 4420 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4461 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 186:
-#line 2384 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2425 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value >= (yyvsp[0]).value; }
-#line 4426 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4467 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 187:
-#line 2385 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2426 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value <= (yyvsp[0]).value; }
-#line 4432 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4473 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 188:
-#line 2386 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2427 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value == (yyvsp[0]).value; }
-#line 4438 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4479 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 189:
-#line 2387 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2428 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value != (yyvsp[0]).value; }
-#line 4444 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4485 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 190:
-#line 2388 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2429 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value || (yyvsp[0]).value; }
-#line 4450 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4491 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 191:
-#line 2389 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2430 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value && (yyvsp[0]).value; }
-#line 4456 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4497 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 192:
-#line 2390 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2431 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-4]).value ? (yyvsp[-2]).value : (yyvsp[0]).value; }
-#line 4462 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4503 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 193:
-#line 2391 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2432 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = ~(yyvsp[0]).value; }
-#line 4468 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4509 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 194:
-#line 2392 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2433 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = !(yyvsp[0]).value; }
-#line 4474 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4515 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 195:
-#line 2393 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2434 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nothing to do */ }
-#line 4480 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4521 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 196:
-#line 2394 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2435 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = -(yyvsp[0]).value; }
-#line 4486 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4527 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 197:
-#line 2396 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2437 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			unsigned long var_size;
 			switch((yyvsp[-1]).flags & ZLF_TYPE)
@@ -4511,53 +4552,53 @@ yyreduce:
 
 			(yyval).uvalue = var_size;
 		}
-#line 4515 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4556 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 198:
-#line 2421 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2462 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4523 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4564 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 199:
-#line 2425 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2466 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).uvalue = (yyvsp[-1]).var->size[(yyvsp[-1]).rows];
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 		}
-#line 4532 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4573 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 200:
-#line 2430 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2471 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).uvalue = (yyvsp[-1]).flags;
 		}
-#line 4540 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4581 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 201:
-#line 2434 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2475 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4548 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4589 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 202:
-#line 2438 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2479 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).uvalue = (yyvsp[-1]).var->flags;
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 		}
-#line 4557 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4598 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 4561 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4602 "zl_parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -4785,7 +4826,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 2452 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1906  */
+#line 2493 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1906  */
 
 
 
@@ -4843,7 +4884,7 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	func->library = NULL;
 	
 	cl_push(&pp, OP_CALL);
-	cl_label_reference(func, pp.hc_fill[0]);
+	cl_label_reference(func, 0, pp.hc_fill[0]);
 	cl_push_dw(&pp, 0);
 	cl_push(&pp, OP_EOF);
 

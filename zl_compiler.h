@@ -20,7 +20,7 @@ typedef struct _cl_parser_params
 	
 	// hard code
 	unsigned char *hard_code[32];
-	unsigned long hc_active;    // mean count, last, active hard_code
+	unsigned long hc_active;    // mean count, last, active hard_code dimension
 	unsigned long hc_fill[32];
 	unsigned long hc_buffer_size[32];
 	
@@ -80,13 +80,16 @@ typedef struct _zl_section_node
 cl_var_node *cl_var_define(cl_var_node **vars_table, char *name, unsigned long level);
 cl_var_node *cl_var_find(cl_var_node *vars_table, char *name);
 unsigned long cl_var_free_level(cl_var_node **vars_table, unsigned long level);
-unsigned long cl_var_reference(cl_var_node *var_node, unsigned long offset);
+unsigned long cl_var_reference(cl_var_node *var_node, unsigned long dimension, unsigned long offset);
+void cl_var_shift_dimension(cl_var_node *vars_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset);
 cl_label_node *cl_label_define(cl_label_node **labels_table, char *name);
 cl_label_node *cl_label_find(cl_label_node *labels_table, char *name);
-unsigned long cl_label_reference(cl_label_node *label_node, unsigned long offset);
+unsigned long cl_label_reference(cl_label_node *label_node, unsigned long dimension, unsigned long offset);
+void cl_label_shift_dimension(cl_label_node *label_node, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset);
 unsigned long cl_label_fix(cl_label_node *labels_table, unsigned char *hard_code);
 unsigned long cl_label_free(cl_label_node **labels_table);
-cl_data_node *cl_const_define(cl_data_node **data_table, char *data, unsigned long size, unsigned long reference);
+cl_data_node *cl_const_define(cl_data_node **data_table, unsigned long dimension, char *data, unsigned long size, unsigned long reference);
+void cl_const_shift_dimension(cl_data_node *data_table, unsigned long dimension, unsigned long offset);
 cl_data_node *cl_const_free(cl_data_node **data_table);
 //unsigned long cl_const_build_fix_free(cl_data_node *const_table, unsigned char *hard_code, unsigned char **const_section, unsigned long *size);
 unsigned long cl_link_sections(
@@ -119,6 +122,7 @@ unsigned long cl_link_sections(
 //возвращает офсет занесённых данных относительно начала таблицы.
 
 unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned long size);
+void cl_code_replace(unsigned char *hard_code, unsigned long offset, unsigned long data);
 
 /*
 zl_names_map *cl_label_define(zl_names_map **labels_table, char *name, unsigned long offset);

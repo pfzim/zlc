@@ -82,6 +82,13 @@ unsigned long fn_print(char *message)
 	return 0;
 }
 
+unsigned long fn_print2(char *message, char *t)
+{
+	printf("%s %s", message, t);
+
+	return 0;
+}
+
 unsigned long fn_printn(unsigned long n)
 {
 	printf("%u", n);
@@ -98,9 +105,9 @@ unsigned long fn_printh(unsigned long n)
 
 unsigned long strcmp2(char *m1, char *m2)
 {
-	printf("%.8X = %.8X\n", m1, m2);
+	//printf("%.8X = %.8X\n", m1, m2);
 
-	return 0;
+	return strcmp(m1, m2);
 }
 
 // *** end demo funcs ************************
@@ -147,10 +154,12 @@ int main(int argc, char *argv[])
 	// user defined table
 	zl_funcs_list fn_list[] = {
 		{"print",	fn_print},
+		{"print2",	fn_print2},
 		{"printn",	fn_printn},
 		{"printh",	fn_printh},
 		{"msg",		fn_msg},
 		{"strcmp",	strcmp},
+		{"strcmp2",	strcmp2},
 		{"isset",	fn_isset},
 		{"merge",	fn_merge},
 		{"encode",	fn_encode},

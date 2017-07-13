@@ -15,6 +15,7 @@ typedef struct _cl_var_node
 	// global vars
 	unsigned long references;
 	unsigned long reference_offsets[1024]; //1024
+	unsigned long dimensions[1024]; //1024
 
 	struct _cl_var_node *next_node;
 } cl_var_node;
@@ -28,6 +29,7 @@ typedef struct _cl_label_node
 	unsigned long offset;
 	unsigned long references;
 	unsigned long reference_offsets[1024];
+	unsigned long dimensions[1024];			//1024
 	unsigned long params;
 
 	struct _cl_label_node *next_node;
@@ -70,6 +72,7 @@ typedef struct _cl_data_node
 {
 	char *data;
 	unsigned long size;
+	unsigned long dimension;
 	unsigned long references;
 	unsigned long reference_offsets[1024];
 

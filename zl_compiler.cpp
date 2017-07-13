@@ -161,6 +161,23 @@ cl_var_node *cl_var_find(cl_var_node *vars_table, char *name)
 	return temp_node;
 }
 
+void cl_var_shift_dimension(cl_var_node *vars_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
+{
+	while(vars_table)
+	{
+		unsigned long i;
+		for(i = 0; i < vars_table->references; i++)
+		{
+			if(vars_table->dimensions[i] == dimension_src)
+			{
+				vars_table->reference_offsets[i] += offset;
+				vars_table->dimensions[i] = dimension_dst;
+			}
+		}
+		vars_table = vars_table->next_node;
+	}
+}
+
 unsigned long cl_var_free_level(cl_var_node **vars_table, unsigned long level)
 {
 	cl_var_node **temp_node;
@@ -189,7 +206,7 @@ unsigned long cl_var_free_level(cl_var_node **vars_table, unsigned long level)
 	return 0L;
 }
 
-unsigned long cl_var_reference(cl_var_node *var_node, unsigned long offset)
+unsigned long cl_var_reference(cl_var_node *var_node, unsigned long dimension, unsigned long offset)
 {
 	if(var_node->references >= 1024)
 	{
@@ -197,6 +214,7 @@ unsigned long cl_var_reference(cl_var_node *var_node, unsigned long offset)
 	}
 
 	var_node->reference_offsets[var_node->references] = offset;
+	var_node->dimensions[var_node->references] = dimension;
 	var_node->references++;
 
 	return 0L;
@@ -246,7 +264,7 @@ cl_label_node *cl_label_find(cl_label_node *labels_table, char *name)
 	return labels_table;
 }
 
-unsigned long cl_label_reference(cl_label_node *label_node, unsigned long offset)
+unsigned long cl_label_reference(cl_label_node *label_node, unsigned long dimension, unsigned long offset)
 {
 	if(label_node->references >= 1024)
 	{
@@ -254,9 +272,27 @@ unsigned long cl_label_reference(cl_label_node *label_node, unsigned long offset
 	}
 
 	label_node->reference_offsets[label_node->references] = offset;
+	label_node->dimensions[label_node->references] = dimension;
 	label_node->references++;
 
 	return 0L;
+}
+
+void cl_label_shift_dimension(cl_label_node *label_node, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
+{
+	while(label_node)
+	{
+		unsigned long i;
+		for(i = 0; i < label_node->references; i++)
+		{
+			if(label_node->dimensions[i] == dimension_src)
+			{
+				label_node->reference_offsets[i] += offset;
+				label_node->dimensions[i] = dimension_dst;
+			}
+		}
+		label_node = label_node->next_node;
+	}
 }
 
 unsigned long cl_label_fix(cl_label_node *labels_table, unsigned char *hard_code)
@@ -308,10 +344,11 @@ unsigned long cl_label_free(cl_label_node **labels_table)
 	return 0L;
 }
 
-cl_data_node *cl_const_define(cl_data_node **data_table, char *data, unsigned long size, unsigned long reference)
+cl_data_node *cl_const_define(cl_data_node **data_table, unsigned long dimension, char *data, unsigned long size, unsigned long reference)
 {
 	cl_data_node *temp_node;
 
+	/* deduplication data - temparary disabled because incompatible with hardcode dimensions (hc_active)
 	temp_node = *data_table;
 
 	while(temp_node && ((temp_node->size != (size+1)) || memcmp(temp_node->data, data, size)))
@@ -326,6 +363,7 @@ cl_data_node *cl_const_define(cl_data_node **data_table, char *data, unsigned lo
 
 		return temp_node;
 	}
+	*/
 
 	temp_node = (cl_data_node *) zalloc(sizeof(cl_label_node));
 	if(temp_node)
@@ -336,6 +374,7 @@ cl_data_node *cl_const_define(cl_data_node **data_table, char *data, unsigned lo
 		memcpy(temp_node->data, data, size);
 		temp_node->data[size] = 0;
 		temp_node->size = size+1;
+		temp_node->dimension = dimension;
 		temp_node->references = 1;
 		temp_node->reference_offsets[0] = reference;
 
@@ -344,6 +383,48 @@ cl_data_node *cl_const_define(cl_data_node **data_table, char *data, unsigned lo
 	}
 
 	return temp_node;
+}
+
+/*
+void cl_concat_dimensions(cl_parser_params *pp, cl_data_node *data_table, unsigned long dimension1, unsigned long dimension2)
+{
+	//hc[1] = concat(hc[2], hc[1]);
+	cl_const_merge_dimensions(pp->data_table, pp->hc_active - 1, pp->hc_fill[pp->hc_active]);
+
+	cl_code_add(pp, dimension1, pp->hard_code[dimension2], pp->hc_fill[dimension2]);
+
+	zfree(pp->hard_code[pp->hc_active - 1]);
+
+	pp->hard_code[pp->hc_active - 1] = pp->hard_code[pp->hc_active];
+	pp->hc_fill[pp->hc_active - 1] = pp->hc_fill[pp->hc_active];
+	pp->hc_buffer_size[pp->hc_active - 1] = pp->hc_buffer_size[pp->hc_active];
+
+	pp->hc_active--;
+
+	pp->hard_code[pp->hc_active + 1] = NULL;
+	pp->hc_fill[pp->hc_active + 1] = 0;
+	pp->hc_buffer_size[pp->hc_active + 1] = 0;
+}
+*/
+
+void cl_const_shift_dimension(cl_data_node *data_table, unsigned long dimension, unsigned long offset)
+{
+	cl_data_node *temp_node;
+
+	temp_node = data_table;
+
+	while(temp_node)
+	{
+		if(temp_node->dimension == (dimension+1))
+		{
+			temp_node->dimension--;
+		}
+		else if(temp_node->dimension == dimension)
+		{
+			temp_node->reference_offsets[0] += offset;
+		}
+		temp_node = temp_node->next_node;
+	}
 }
 
 cl_data_node *cl_const_free(cl_data_node **data_table)
@@ -891,6 +972,14 @@ unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned lo
 	pp->hc_fill[pp->hc_active] += size;
 
 	return offset;
+}
+
+void cl_code_replace(unsigned char *hard_code, unsigned long offset, unsigned long data)
+{
+	hard_code[offset] = (char)(data & 0xFF);
+	hard_code[offset + 1] = (char)((data >> 8) & 0xFF);
+	hard_code[offset + 2] = (char)((data >> 16) & 0xFF);
+	hard_code[offset + 3] = (char)((data >> 24));
 }
 
 /*

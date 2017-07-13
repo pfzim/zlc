@@ -6,14 +6,17 @@ extern char *ext_names[5];
 //extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
 
 import __cdecl print(1);
+import __cdecl print2(2);
 import __cdecl printn(1);
 import __cdecl printh(1);
 import __cdecl strcmp(2);
+import __cdecl strcmp2(2);
 import __cdecl isset(1);
 import __cdecl merge(2);
 import __cdecl encode(1);
 import __cdecl free(1);
 
+/*
 function int test(char *one, char *two)
 {
 	print("one: ");
@@ -23,8 +26,20 @@ function int test(char *one, char *two)
 	print("\n");
 	return 0;
 }
+//*/
+function char *test2(char *p1, char *p2, char *p3, char *p4, char *p5, char *p6)
+{
+	print(p1);
+	print(p2);
+	print(p3);
+	print(p4);
+	print(p5);
+	print(p6);
+}
 
 function int main()
 {
-	test("one", "two");
+	test2("one\n", "two\n", "three\n", "four\n", "five\n", "six\n");
+	//print2(1?test2():"FALSE\n", "two");
+	//test("one", "two");
 }

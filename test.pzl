@@ -5,6 +5,8 @@ extern unsigned long action;
 extern char *ext_names[5];
 //extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
 
+import __cdecl print2(2);
+import __cdecl strcmp2(2);
 import __cdecl print(1);
 import __cdecl printn(1);
 import __cdecl printh(1);

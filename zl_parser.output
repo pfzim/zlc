@@ -177,7 +177,7 @@ Grammar
   105 expression: assignment_expression
   106           | assignment_expression ',' expression
 
-  107 argument_expression_list: %empty
+  107 argument_expression_list: f_sw_context
   108                         | f_sw_context assignment_expression
   109                         | argument_expression_list ',' f_sw_context assignment_expression
 
@@ -496,7 +496,7 @@ expression (141)
 argument_expression_list (142)
     on left: 107 108 109, on right: 109 162
 f_sw_context (143)
-    on left: 110, on right: 108 109
+    on left: 110, on right: 107 108 109
 assignment_expression (144)
     on left: 111 112 113 114 115 116 117 118 119 120 121 122, on right:
     42 44 47 51 55 100 105 106 108 109 112 113 114 115 116 117 118
@@ -3659,14 +3659,12 @@ State 120
 
 State 121
 
-  107 argument_expression_list: . %empty  [',', ')']
+  107 argument_expression_list: . f_sw_context
   108                         | . f_sw_context assignment_expression
   109                         | . argument_expression_list ',' f_sw_context assignment_expression
-  110 f_sw_context: . %empty  ['&', '+', '-', '*', '!', '~', T_INC, T_DEC, T_LABEL, T_CONSTANT_LONG, T_CONSTANT_STRING, T_SIZEOF, T_TYPEOF, '(']
+  110 f_sw_context: . %empty
   162 expr: T_LABEL '(' . argument_expression_list ')'
 
-    ','       reduce using rule 107 (argument_expression_list)
-    ')'       reduce using rule 107 (argument_expression_list)
     $default  reduce using rule 110 (f_sw_context)
 
     argument_expression_list  go to state 190
@@ -7002,7 +7000,8 @@ State 190
 
 State 191
 
-  108 argument_expression_list: f_sw_context . assignment_expression
+  107 argument_expression_list: f_sw_context .  [',', ')']
+  108                         | f_sw_context . assignment_expression
   111 assignment_expression: . expr
   112                      | . unary_expression '=' assignment_expression
   113                      | . unary_expression T_ADD_ASSIGN assignment_expression
@@ -7071,6 +7070,8 @@ State 191
     T_SIZEOF           shift, and go to state 72
     T_TYPEOF           shift, and go to state 73
     '('                shift, and go to state 75
+
+    $default  reduce using rule 107 (argument_expression_list)
 
     assignment_expression  go to state 245
     unary_expression       go to state 78
