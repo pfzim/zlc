@@ -26,7 +26,7 @@ function int test(char *one, char *two)
 	print("\n");
 	return 0;
 }
-//*/
+
 function char *test2(char *p1, char *p2, char *p3, char *p4, char *p5, char *p6)
 {
 	print(p1);
@@ -36,10 +36,22 @@ function char *test2(char *p1, char *p2, char *p3, char *p4, char *p5, char *p6)
 	print(p5);
 	print(p6);
 }
+//*/
+
+function int test3(int p1, int p2, int p3, int p4, int p5, int p6)
+{
+	printn(p1);
+	printn(p2);
+	printn(p3);
+	printn(p4);
+	printn(p5);
+	printn(p6);
+}
 
 function int main()
 {
-	test2("one\n", "two\n", "three\n", "four\n", "five\n", "six\n");
+	//test2("one\n", "two\n", "three\n", "four\n", "five\n", "six\n");
+	test3(1, 2, 3, 4, 5, 6);
 	//print2(1?test2():"FALSE\n", "two");
 	//test("one", "two");
 }
