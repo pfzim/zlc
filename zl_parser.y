@@ -328,25 +328,7 @@ buildin_statement
 ;
 
 selection_statement
-	: T_IF '(' assignment_expression ')'
-		{
-			cl_label_node *lb_skip;
-			lb_skip = cl_label_define(&pp->labels_table, NULL);
-			cl_stack_push(&pp->cl_stack, lb_skip);
-
-			cl_push(pp, OP_JZ_POP_STK);
-			cl_label_reference(lb_skip, pp->hc_active, pp->hc_fill[pp->hc_active]);
-			cl_push_dw(pp, 0);
-		}
-		statement
-		else_statement
-		{
-			cl_label_node *lb_skip;
-			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
-			lb_skip->offset = pp->hc_fill[pp->hc_active];
-			lb_skip->flags = ZLF_DEFINED;
-		}
-	| T_WHILE
+	: T_WHILE
 		{
 			cl_label_node *lb_exit, *lb_condition;
 			lb_exit = cl_label_define(&pp->labels_table, NULL);
@@ -476,22 +458,56 @@ selection_statement
 			lb_exit->offset = pp->hc_fill[pp->hc_active];
 			lb_exit->flags = ZLF_DEFINED;
 		}
+	| T_IF '(' assignment_expression ')'
+		{
+			/*
+			cl_label_node *lb_skip;
+			lb_skip = cl_label_define(&pp->labels_table, NULL);
+			cl_stack_push(&pp->cl_stack, lb_skip);
+			*/
+
+			cl_push(pp, OP_JZ_POP_STK);
+			//cl_label_reference(lb_skip, pp->hc_active, pp->hc_fill[pp->hc_active]);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
+			cl_push_dw(pp, 0);
+		}
+		statement
+		else_statement
+		{
+			/*
+			cl_label_node *lb_skip;
+			lb_skip = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
+			lb_skip->offset = pp->hc_fill[pp->hc_active];
+			lb_skip->flags = ZLF_DEFINED;
+			*/
+			unsigned long lb_skip;
+			lb_skip = (unsigned long) cl_stack_pop(&pp->cl_stack);
+			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
+		}
 ;
 
 else_statement
 	: /* empty */	%prec T_THEN
 	| T_ELSE
 		{
+			/*
 			cl_label_node *lb_skip, *lb_else;
 			lb_else = (cl_label_node *) cl_stack_pop(&pp->cl_stack);
 			lb_skip = cl_label_define(&pp->labels_table, NULL);
+			*/
+			unsigned long lb_skip;
+			lb_skip = (unsigned long) cl_stack_pop(&pp->cl_stack);
 
 			cl_push(pp, OP_JMP);
-			cl_label_reference(lb_skip, pp->hc_active, pp->hc_fill[pp->hc_active]);
+			//cl_label_reference(lb_skip, pp->hc_active, pp->hc_fill[pp->hc_active]);
+			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
+			/*
 			lb_else->offset = pp->hc_fill[pp->hc_active];
 			lb_else->flags = ZLF_DEFINED;
 			cl_stack_push(&pp->cl_stack, lb_skip);
+			*/
+			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
 		statement
 ;
@@ -682,6 +698,7 @@ function_arguments_list
 			$1.var->offset = $$.uvalue;
 			$1.var->flags |= ZLF_PARAM;
 			//ZL_WARNING("first");
+			//printf("first rule:  %s %d\n", $1.var->name, $1.var->offset);
 		}
 	| function_arguments_list ',' function_argument
 		{
@@ -689,6 +706,7 @@ function_arguments_list
 			$3.var->offset = $$.uvalue;
 			$3.var->flags |= ZLF_PARAM;
 			//ZL_WARNING("second");
+			//printf("second rule: %s offset: %d\n", $3.var->name, $3.var->offset);
 		}
 	| /* empty - function does not have arguments */
 ;
@@ -1328,9 +1346,9 @@ argument_expression_list
 			//here ha is 2
 
 			//hc[1] = concat(hc[2], hc[1]);
-			cl_var_shift_dimension(pp->vars_table, pp->hc_active-1, pp->hc_active, pp->hc_fill[pp->hc_active]);
-			cl_label_shift_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
-			cl_const_shift_dimension(pp->data_table, pp->hc_active-1, pp->hc_fill[pp->hc_active]);
+			cl_var_join_dimension(pp->vars_table, pp->hc_active-1, pp->hc_active, pp->hc_fill[pp->hc_active]);
+			cl_label_join_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
+			cl_const_swap_and_join_dimensions(pp->data_table, pp->hc_active-1, pp->hc_fill[pp->hc_active]);
 			cl_code_add(pp, pp->hard_code[pp->hc_active-1], pp->hc_fill[pp->hc_active-1]);
 
 			zfree(pp->hard_code[pp->hc_active-1]);
@@ -2258,11 +2276,11 @@ expr
 			//if(pp->hc_fill[pp->hc_active] > 0)
 			{
 				//hc[active-1] = concat(hc[active-1], hc[active])
-				cl_var_shift_dimension(pp->vars_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
-				cl_label_shift_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
-				cl_const_shift_dimension(pp->data_table, pp->hc_active, pp->hc_fill[pp->hc_active-1]);
+				cl_var_join_dimension(pp->vars_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
+				cl_label_join_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
+				cl_const_join_dimension(pp->data_table, pp->hc_active, pp->hc_fill[pp->hc_active-1]);
 				pp->hc_active--;
-				cl_const_shift_dimension(pp->data_table, pp->hc_active, 0);
+				//cl_const_shift_dimension(pp->data_table, pp->hc_active, 0);
 				cl_code_add(pp, pp->hard_code[pp->hc_active+1], pp->hc_fill[pp->hc_active+1]);
 
 				zfree(pp->hard_code[pp->hc_active+1]);

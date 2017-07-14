@@ -161,7 +161,7 @@ cl_var_node *cl_var_find(cl_var_node *vars_table, char *name)
 	return temp_node;
 }
 
-void cl_var_shift_dimension(cl_var_node *vars_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
+void cl_var_join_dimension(cl_var_node *vars_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
 {
 	while(vars_table)
 	{
@@ -278,7 +278,7 @@ unsigned long cl_label_reference(cl_label_node *label_node, unsigned long dimens
 	return 0L;
 }
 
-void cl_label_shift_dimension(cl_label_node *label_node, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
+void cl_label_join_dimension(cl_label_node *label_node, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
 {
 	while(label_node)
 	{
@@ -407,7 +407,10 @@ void cl_concat_dimensions(cl_parser_params *pp, cl_data_node *data_table, unsign
 }
 */
 
-void cl_const_shift_dimension(cl_data_node *data_table, unsigned long dimension, unsigned long offset)
+// before hc[dimension] = concat(hc[dimension+1], hc[dimension])
+//   for [dimension+1] decrease id number
+//   for [dimension] add offset to size of [dimension+1]
+void cl_const_swap_and_join_dimensions(cl_data_node *data_table, unsigned long dimension, unsigned long offset)
 {
 	cl_data_node *temp_node;
 
@@ -422,6 +425,23 @@ void cl_const_shift_dimension(cl_data_node *data_table, unsigned long dimension,
 		else if(temp_node->dimension == dimension)
 		{
 			temp_node->reference_offsets[0] += offset;
+		}
+		temp_node = temp_node->next_node;
+	}
+}
+
+void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension, unsigned long offset)
+{
+	cl_data_node *temp_node;
+
+	temp_node = data_table;
+
+	while(temp_node)
+	{
+		if(temp_node->dimension == dimension)
+		{
+			temp_node->reference_offsets[0] += offset;
+			temp_node->dimension--;
 		}
 		temp_node = temp_node->next_node;
 	}

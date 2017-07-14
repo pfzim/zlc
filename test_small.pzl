@@ -1,42 +1,18 @@
 // zlc testing script
 
-unsigned long ext_var;
+unsigned long ext_var = 12345;
 extern unsigned long action;
 extern char *ext_names[5];
 //extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
 
 import __cdecl print(1);
-import __cdecl print2(2);
 import __cdecl printn(1);
 import __cdecl printh(1);
 import __cdecl strcmp(2);
-import __cdecl strcmp2(2);
 import __cdecl isset(1);
 import __cdecl merge(2);
 import __cdecl encode(1);
 import __cdecl free(1);
-
-/*
-function int test(char *one, char *two)
-{
-	print("one: ");
-	print(one);
-	print("\ntwo: ");
-	print(two);
-	print("\n");
-	return 0;
-}
-
-function char *test2(char *p1, char *p2, char *p3, char *p4, char *p5, char *p6)
-{
-	print(p1);
-	print(p2);
-	print(p3);
-	print(p4);
-	print(p5);
-	print(p6);
-}
-//*/
 
 function int test3(int p1, int p2, int p3, int p4, int p5, int p6)
 {
@@ -51,7 +27,162 @@ function int test3(int p1, int p2, int p3, int p4, int p5, int p6)
 function int main()
 {
 	//test2("one\n", "two\n", "three\n", "four\n", "five\n", "six\n");
-	test3(1, 2, 3, 4, 5, 6);
-	//print2(1?test2():"FALSE\n", "two");
-	//test("one", "two");
+	if(1)
+	{
+		test3(1, 2, 3, 4, 5, 6);
+	}
+	else
+	{
+		print("FALSE\n");
+	}
+/*
+	int xx;
+	xx = sum(3, 5);
+	print("Test sum():         "); printn(xx); print("\n");
+	unsigned jj = 2;
+	xx = (int *) jj;
+	if(jj > sum(1,1));
+
+	char var[12][27];
+	unsigned long var_type;
+	var_type = typeof(var);
+	print("Variable i has type (hex):       "); printh(var_type); print("\n");
+	print("Variable i has type (string):   ");
+
+	if(var_type & 0x00001000)
+	{
+		print(" internal");
+	}
+	if(var_type & 0x00002000)
+	{
+		print(" external");
+	}
+	if(var_type & 0x00000200)
+	{
+		print(" signed");
+	}
+	if(var_type & 0x00000400)
+	{
+		print(" unsigned");
+	}
+	if(var_type & 0x00000080)
+	{
+		print(" short");
+	}
+	if(var_type & 0x00000100)
+	{
+		print(" long");
+	}
+	if(var_type & 0x00000004)
+	{
+		print(" void");
+	}
+	if(var_type & 0x00000008)
+	{
+		print(" char");
+	}
+	if(var_type & 0x00000010)
+	{
+		print(" double");
+	}
+	if(var_type & 0x00000020)
+	{
+		print(" float");
+	}
+	if(var_type & 0x00000040)
+	{
+		print(" int");
+	}
+	unsigned long i;
+	i = (var_type & 0xFF000000) >> 24;
+	print(" ");
+	while(i--)
+	{
+		print("*");
+	}
+	print("i");
+	if(var_type & 0x00004000)
+	{
+		print("[");printn(sizeof(var)/sizeof(var[0]));print("]");
+	}
+	print(";\n");
+
+	if(1)
+		if(0)
+			print("IF(1) IF(0) ELSE ELSE - FAILED");
+		else
+			print("IF(1) IF(0) ELSE ELSE - PASSED\n");
+	else
+		print("IF(1) IF(0) ELSE ELSE - FAILED\n");
+
+//	char t[] = "TEST";
+/*	signed int i = 1;
+	int j = -1;
+	if(i > j)
+	{
+		print("TRUE\n");
+	}
+	else
+	{
+		print("FALSE\n");
+	}
+
+	short int x[3][4] = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+	char t[] = "TEST";
+	print("\nsizeof(t)       : "); printn(sizeof(t));
+	print("\nsizeof(t[0])    : "); printn(sizeof(t[0]));
+	print("\nsizeof(x)       : "); printn(sizeof(x));
+	print("\nsizeof(x[0])    : "); printn(sizeof(x[0]));
+	print("\nsizeof(x[0][0]) : "); printn(sizeof(x[0][0]));
+	x[1][2] = 99;
+	print("\n");
+	for(i = 0; i < 3; i++)
+	{
+		for(j = 0; j < 4; j++)
+		{
+			printn(x[i][j]);
+			print(", ");
+		}
+		print("\n");
+	}
+/*
+	print("Test array with auto size and values pointed to words: ");
+	int pass = 0;
+
+	unsigned long offset;
+	char *arr_of_words[] =
+	{
+		"bird",
+		"snake",
+		"tiger",
+		"wolf",
+		NULL
+	};
+
+	char *key = "tiger";
+
+	if(sizeof(arr_of_words) != 20) pass = 0;
+
+	for(offset = 0; arr_of_words[offset]; offset++)
+	{
+		print(arr_of_words[offset]);
+		if(!strcmp(arr_of_words[offset], key)) pass = 1;
+	}
+
+	if(!pass) goto lb_end_test_01;
+
+	pass = 0;
+
+	char **word = arr_of_words;
+
+	while(*word)
+	{
+		if(!strcmp(*word, key)) pass = 1;
+		word++;
+	}
+
+	lb_end_test_01:
+
+	print(pass?"PASSED\n":"FAILED\n");
+//*/
 }
