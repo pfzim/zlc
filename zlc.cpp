@@ -43,6 +43,16 @@ unsigned long fn_pint(unsigned long itr)
 	return 0;
 }
 
+unsigned long fn_setcolor(unsigned long color)
+{
+	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+	if(hStdout != INVALID_HANDLE_VALUE)
+	{
+		SetConsoleTextAttribute(hStdout, color);
+	}
+	return 0;
+}
+
 unsigned long fn_isset(char *text)
 {
 	return !isempty(text);
@@ -169,7 +179,8 @@ int main(int argc, char *argv[])
 		{"merge",	fn_merge},
 		{"encode",	fn_encode},
 		{"decode",	fn_decode},
-		{"free",	fn_free,},
+		{"free",	fn_free},
+		{"settextcolor",	fn_setcolor},
 		{NULL,		NULL}
 		};
 

@@ -5,64 +5,169 @@ extern unsigned long action;
 extern char *ext_names[5];
 //extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
 
-import __cdecl print2(2);
-import __cdecl strcmp2(2);
-import __cdecl print(1);
-import __cdecl printn(1);
-import __cdecl printh(1);
-import __cdecl strcmp(2);
-import __cdecl isset(1);
-import __cdecl merge(2);
-import __cdecl encode(1);
-import __cdecl decode(1);
-import __cdecl free(1);
-import __stdcall MessageBoxA(4) from "user32.dll";
+import __cdecl print2(char *, char *);
+import __cdecl int strcmp2(char *, char *);
+import __cdecl print(char *);
+import __cdecl printn(int);
+import __cdecl printh(unsigned long);
+import __cdecl int settextcolor(unsigned long);
+import __cdecl strcmp(char *, char *);
+import __cdecl isset(char *);
+import __cdecl merge(char **, char *);
+import __cdecl char *encode(char *);
+import __cdecl char *decode(char *);
+import __cdecl free(char *);
+import __stdcall int MessageBoxA(unsigned long, char *, char *, unsigned long) from "user32.dll";
 
 function test_params(char *one, char *two, char *three);
 
+function print_ascii(char *text)
+{
+	unsigned long i;
+	i = 0;
+	while(text[i])
+	{
+		if((text[i] == '\x1b') && (text[i+1] == '['))
+		{
+			unsigned long color;
+			color = 0;
+		while(text[i+2] && text[i+3] && (text[i+4] == ';'))
+		{
+			unsigned long color1;
+			color1 = ((text[i+2] - '0') *10) + (text[i+3] - '0');
+//#define FOREGROUND_BLUE      0x0001 // text color contains blue.
+//#define FOREGROUND_GREEN     0x0002 // text color contains green.
+//#define FOREGROUND_RED       0x0004 // text color contains red.
+//#define FOREGROUND_INTENSITY 0x0008 // text color is intensified.
+
+//#define BACKGROUND_BLUE      0x0010 // background color contains blue.
+//#define BACKGROUND_GREEN     0x0020 // background color contains green.
+//#define BACKGROUND_RED       0x0040 // background color contains red.
+//#define BACKGROUND_INTENSITY 0x0080 // background color is intensified.
+			if(color1 == 30)
+			{
+				color |= 0;
+			}
+			else if(color1 == 31)
+			{	
+				color |= 0x0008 | 0x0004;
+			}
+			else if(color1 == 32)
+			{	
+				color |= 0x0008 | 0x0002;
+			}
+			else if(color1 == 33)
+			{	
+				color |= 0x0008 | 0x0002 | 0x0004;
+			}
+			else if(color1 == 34)
+			{	
+				color |= 0x0008 | 0x0001;
+			}
+			else if(color1 == 35)
+			{	
+				color |= 0x0008 | 0x0001 | 0x0004;
+			}
+			else if(color1 == 36)
+			{	
+				color |= 0x0008 | 0x0001 | 0x0002;
+			}
+			else if(color1 == 37)
+			{	
+				color |= 0x0008 | 0x0001 | 0x0002 | 0x0004;
+			}
+			else if(color1 == 40)
+			{	
+				color |= 0x0080 | 0x0040;
+			}
+			else if(color1 == 41)
+			{	
+				color |= 0x0080 | 0x0040;
+			}
+			else if(color1 == 42)
+			{	
+				color |= 0x0080 | 0x0020;
+			}
+			else if(color1 == 43)
+			{	
+				color |= 0x0080 | 0x0020 | 0x0040;
+			}
+			else if(color1 == 44)
+			{	
+				color |= 0x0080 | 0x0010;
+			}
+			else if(color1 == 45)
+			{	
+				color |= 0x0080 | 0x0010 | 0x0040;
+			}
+			else if(color1 == 46)
+			{	
+				color |= 0x0080 | 0x0010 | 0x0020;
+			}
+			else if(color1 == 47)
+			{	
+				color |= 0x0080 | 0x0010 | 0x0020 | 0x0040;
+			}
+			i += 3;
+		}
+			settextcolor(color);
+			i += 1;
+		}
+		else
+		{	
+			char out[2];
+			out[0] = text[i];
+			out[1] = 0;
+			print(out);
+		}
+		i++;
+	}
+	settextcolor(0x0001 | 0x0002 | 0x0004);
+}
+
 function test_return()
 {
-	return "Function result return test:                           PASSED\n";
+	return "Function result return test:                           \x1B[32;PASSED\n";
 }
 
 function test_array(char p1[], char p2[5], char *p3[], char *p4[5])
 {
 	unsigned long i;
 	
-	printh(p1); print("\n");
-	printh(p2); print("\n");
-	printh(p3); print("\n");
-	printh(p4); print("\n");
+	printh(p1); print_ascii("\n");
+	printh(p2); print_ascii("\n");
+	printh(p3); print_ascii("\n");
+	printh(p4); print_ascii("\n");
 
-	printn(sizeof(p1)); print("\n");
-	printn(sizeof(p2)); print("\n");
-	printn(sizeof(p3)); print("\n");
-	printn(sizeof(p4)); print("\n");
+	printn(sizeof(p1)); print_ascii("\n");
+	printn(sizeof(p2)); print_ascii("\n");
+	printn(sizeof(p3)); print_ascii("\n");
+	printn(sizeof(p4)); print_ascii("\n");
 //*
-	print("Test array p1:\n");
+	print_ascii("Test array p1:\n");
 	for(i = 0; i < 5; i++)
 	{
-		printn(i); print(". ");
-		printn(p1[i]); print("\n");
+		printn(i); print_ascii(". ");
+		printn(p1[i]); print_ascii("\n");
 	}
 
-	print("Test array p2:\n");
+	print_ascii("Test array p2:\n");
 	for(i = 0; i < 5; i++)
 	{
-		printn(i); print(". ");
-		printn(p2[i]); print("\n");
+		printn(i); print_ascii(". ");
+		printn(p2[i]); print_ascii("\n");
 	}
 
-	print("Test array p3:\n");
+	print_ascii("Test array p3:\n");
 	for(i = 0; i < 5; i++)
 	{
-		print(p3[i]); print("\n");
+		print_ascii(p3[i]); print_ascii("\n");
 	}
 
-	print("Test array p4:\n");
+	print_ascii("Test array p4:\n");
 	for(i = 0; i < 5; i++)
 	{
-		print(p4[i]); print("\n");
+		print_ascii(p4[i]); print_ascii("\n");
 	}
 //*/
 }
@@ -73,15 +178,15 @@ function test_script()
 
 	//___dbg_print_regs;
 
-	print("\n");
-	print(__COMPILER__);
-	print("\nScript compiled at: ");
-	print(__DATE__);
-	print(" ");
-	print(__TIME__);
-	print("\nThis is a test script! :)\n");
+	print_ascii("\n");
+	print_ascii(__COMPILER__);
+	print_ascii("\nScript compiled at: ");
+	print_ascii(__DATE__);
+	print_ascii(" ");
+	print_ascii(__TIME__);
+	print_ascii("\nThis is a test script! :)\n");
 
-	print("Test if-else-if-else conditions:                       ");
+	print_ascii("Test if-else-if-else conditions:                       ");
 	pass = 0;
 
 	if(action == 1)
@@ -98,36 +203,36 @@ function test_script()
 
 	action = 1982;
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	print("if(1) if(0) else . else:                               ");
+	print_ascii("if(1) if(0) else . else:                               ");
 
 	if(1)
 		if(0)
-			print("FAILED");
+			print_ascii("\x1B[31;FAILED");
 		else
-			print("PASSED\n");
+			print_ascii("\x1B[32;PASSED\n");
 	else
-		print("FAILED\n");
+		print_ascii("\x1B[31;FAILED\n");
 
-	print(test_return());
+	print_ascii(test_return());
 
-	print("Test infinity loop to print 4 messages from array with break:\n");
+	print_ascii("Test infinity loop to print 4 messages from array with break:\n");
 
 	char *arr_msg[5];
 	unsigned long msg_code;
 
-	arr_msg[0] = "0.                                                     PASSED\n";
-	arr_msg[1] = "1.                                                     PASSED\n";
-	arr_msg[2] = "2.                                                     PASSED\n";
-	arr_msg[3] = "3.                                                     PASSED\n";
-	arr_msg[4] = "4.                                                     FAILED\n";
+	arr_msg[0] = "0.                                                     \x1B[32;PASSED\n";
+	arr_msg[1] = "1.                                                     \x1B[32;PASSED\n";
+	arr_msg[2] = "2.                                                     \x1B[32;PASSED\n";
+	arr_msg[3] = "3.                                                     \x1B[32;PASSED\n";
+	arr_msg[4] = "4.                                                     \x1B[31;FAILED\n";
 
 	for(msg_code = 0; TRUE; msg_code++)
 	{
 		if(msg_code <= 3)
 		{
-			print(arr_msg[msg_code]);
+			print_ascii(arr_msg[msg_code]);
 		}
 		else
 		{
@@ -135,7 +240,7 @@ function test_script()
 		}
 	}
 
-	print("Test sizeof for variables, types and arrays:\n");
+	print_ascii("Test sizeof for variables, types and arrays:\n");
 
 	char *text[2+3];
 	short int ***ptr_size = &ptr_size;
@@ -144,34 +249,34 @@ function test_script()
 	char uk[][3] = {1,2,3,4,5};
 	short int uk2[][4][2] = {1,2,3,4,5,6,7,8,9,10};
 
-	print("  sizeof(text):                                        "); print((sizeof(text) == 20)?"PASSED\n":"FAILED\n");
-	print("  sizeof(text[0]):                                     "); print((sizeof(text[0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(text[0][0]):                                  "); print((sizeof(text[0][0]) == 1)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size):                                    "); print((sizeof(ptr_size) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size[0]):                                 "); print((sizeof(ptr_size[0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size[0][0]):                              "); print((sizeof(ptr_size[0][0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ptr_size[0][0][0]):                           "); print((sizeof(ptr_size[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
-	print("  sizeof(ch):                                          "); print((sizeof(ch) == 10)?"PASSED\n":"FAILED\n");
-	print("  sizeof(hello):                                       "); print((sizeof(hello) == 8)?hello:"FAILED\n");
-	print("  sizeof(uk):                                          "); print((sizeof(uk) == 6)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2):                                         "); print((sizeof(uk2) == 32)?"PASSED\n":"FAILED\n");
-	print("  sizeof(short int):                                   "); print((sizeof(short int) == 2)?"PASSED\n":"FAILED\n");
-	print("  sizeof(int):                                         "); print((sizeof(int) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(unsigned long):                               "); print((sizeof(unsigned long) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(double):                                      "); print((sizeof(double) == 8)?"PASSED\n":"FAILED\n");
-	print("  sizeof(char):                                        "); print((sizeof(char) == 1)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2[0]):                                      "); print((sizeof(uk2[0]) == 16)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2[0][0]):                                   "); print((sizeof(uk2[0][0]) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(uk2[0][0][0]):                                "); print((sizeof(uk2[0][0][0]) == 2)?"PASSED\n":"FAILED\n");
+	print_ascii("  sizeof(text):                                        "); print_ascii((sizeof(text) == 20)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(text[0]):                                     "); print_ascii((sizeof(text[0]) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(text[0][0]):                                  "); print_ascii((sizeof(text[0][0]) == 1)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(ptr_size):                                    "); print_ascii((sizeof(ptr_size) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(ptr_size[0]):                                 "); print_ascii((sizeof(ptr_size[0]) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(ptr_size[0][0]):                              "); print_ascii((sizeof(ptr_size[0][0]) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(ptr_size[0][0][0]):                           "); print_ascii((sizeof(ptr_size[0][0][0]) == 2)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(ch):                                          "); print_ascii((sizeof(ch) == 10)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(hello):                                       "); print_ascii((sizeof(hello) == 8)?hello:"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(uk):                                          "); print_ascii((sizeof(uk) == 6)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(uk2):                                         "); print_ascii((sizeof(uk2) == 32)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(short int):                                   "); print_ascii((sizeof(short int) == 2)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(int):                                         "); print_ascii((sizeof(int) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(unsigned long):                               "); print_ascii((sizeof(unsigned long) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(double):                                      "); print_ascii((sizeof(double) == 8)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(char):                                        "); print_ascii((sizeof(char) == 1)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(uk2[0]):                                      "); print_ascii((sizeof(uk2[0]) == 16)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(uk2[0][0]):                                   "); print_ascii((sizeof(uk2[0][0]) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(uk2[0][0][0]):                                "); print_ascii((sizeof(uk2[0][0][0]) == 2)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
 	/*
-	print("  sizeof(p1):      "); print((sizeof(p1) == 1)?"PASSED\n":"FAILED\n");
-	print("  sizeof(p2):      "); print((sizeof(p2) == 4)?"PASSED\n":"FAILED\n");
-	print("  sizeof(p3):      "); print((sizeof(p3) == 5)?"PASSED\n":"FAILED\n");
-	print("  sizeof(p4):      "); print((sizeof(p4) == 4)?"PASSED\n":"FAILED\n");
+	print_ascii("  sizeof(p1):      "); print_ascii((sizeof(p1) == 1)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(p2):      "); print_ascii((sizeof(p2) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(p3):      "); print_ascii((sizeof(p3) == 5)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(p4):      "); print_ascii((sizeof(p4) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 	*/
 
-	print("Test for loop with extract array value as condition:   ");
+	print_ascii("Test for loop with extract array value as condition:   ");
 
 	unsigned long int i, x;
 
@@ -183,9 +288,9 @@ function test_script()
 
 	for(i = 0; text[i]; i++) nop;
 
-	print((i == 4)?"PASSED\n":"FAILED\n");
+	print_ascii((i == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	print("Test size override prefix:                             ");
+	print_ascii("Test size override prefix:                             ");
 
 	char message[8];
 
@@ -198,9 +303,9 @@ function test_script()
 	message[6] = '\n';
 	message[7] = 0;
 
-	print(message);
+	print_ascii(message);
 
-	print("Test for fixed size multi-level array matrix[5][7]:    ");
+	print_ascii("Test for fixed size multi-level array matrix[5][7]:    ");
 	pass = 1;
 
 	short int matrix[5][7];
@@ -236,9 +341,9 @@ function test_script()
 		}
 	}
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	print("Test goto-loop with external variable:                 ");
+	print_ascii("Test goto-loop with external variable:                 ");
 	pass = 0;
 
 	ext_var = 1;
@@ -253,32 +358,32 @@ function test_script()
 		   pass = 1;
 	   }
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	print("Test logical conditions (or, and):                     ");
+	print_ascii("Test logical conditions (or, and):                     ");
 	pass = 1;
 
-	pass || print("FAILED ");
-	0 && print("FAILED ");
-	1 || print("FAILED ");
+	pass || print_ascii("\x1B[31;FAILED ");
+	0 && print_ascii("\x1B[31;FAILED ");
+	1 || print_ascii("\x1B[31;FAILED ");
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
 	while(0) if(1)
 	{
-		print("Test while loop:                                       FAILED\n"); 
+		print_ascii("Test while loop:                                       \x1B[31;FAILED\n"); 
 		break;
 	}
 
-	print("Test operand size override:                            ");
+	print_ascii("Test operand size override:                            ");
 	pass = 0;
 
 	char test = 0xFFFF;
 	if(test == 0xFF) pass = 1;
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	print("Test array with auto size and values pointed to words: ");
+	print_ascii("Test array with auto size and values pointed to words: ");
 	pass = 0;
 
 	unsigned long offset;
@@ -314,9 +419,9 @@ function test_script()
 
 	lb_end_test_01:
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	print("Test arithmetic operations:                            ");
+	print_ascii("Test arithmetic operations:                            ");
 	pass = 1;
 
 	unsigned long z = 0;
@@ -342,7 +447,7 @@ function test_script()
 	z ^= 0x0100;
 	if(z) pass = 0;
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
 	char p1[5];
 	char p2[5];
@@ -361,19 +466,19 @@ function test_script()
 	p2[3] = 33;
 	p2[4] = 34;
 
-	p3[0] = "p3[0] =                                                PASSED";
-	p3[1] = "p3[1] =                                                PASSED";
-	p3[2] = "p3[2] =                                                PASSED";
-	p3[3] = "p3[3] =                                                PASSED";
-	p3[4] = "p3[4] =                                                PASSED";
+	p3[0] = "p3[0] =                                                \x1B[32;PASSED";
+	p3[1] = "p3[1] =                                                \x1B[32;PASSED";
+	p3[2] = "p3[2] =                                                \x1B[32;PASSED";
+	p3[3] = "p3[3] =                                                \x1B[32;PASSED";
+	p3[4] = "p3[4] =                                                \x1B[32;PASSED";
 
-	p4[0] = "p4[0] =                                                PASSED";
-	p4[1] = "p4[1] =                                                PASSED";
-	p4[2] = "p4[2] =                                                PASSED";
-	p4[3] = "p4[3] =                                                PASSED";
-	p4[4] = "p4[4] =                                                PASSED";
+	p4[0] = "p4[0] =                                                \x1B[32;PASSED";
+	p4[1] = "p4[1] =                                                \x1B[32;PASSED";
+	p4[2] = "p4[2] =                                                \x1B[32;PASSED";
+	p4[3] = "p4[3] =                                                \x1B[32;PASSED";
+	p4[4] = "p4[4] =                                                \x1B[32;PASSED";
 
-	print("Test array pointer:                                    ");
+	print_ascii("Test array pointer:                                    ");
 
 	pass = 0;
 
@@ -382,110 +487,110 @@ function test_script()
 		pass = 1;
 	}
 
-	print(pass?"PASSED\n":"FAILED\n");
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	printh(p1); print("\n");
-	printh(p2); print("\n");
-	printh(p3); print("\n");
-	printh(p4); print("\n\n");
+	printh(p1); print_ascii("\n");
+	printh(p2); print_ascii("\n");
+	printh(p3); print_ascii("\n");
+	printh(p4); print_ascii("\n\n");
 
 	test_array(p1, p2, p3, p4);
 
-	print("Test internal function call and params order:          ");
+	print_ascii("Test internal function call and params order:          ");
 
-	print(test_params("one", "two", "three")?"PASSED\n":"FAILED\n");
+	print_ascii(test_params("one", "two", "three")?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
-	print("Test external array:\n");
+	print_ascii("Test external array:\n");
 
 	for(i = 0; i < 5; i++)
 	{
-		print(ext_names[i]);
+		print_ascii(ext_names[i]);
 	}
 
-	print("Test typeof:                                           \n");
+	print_ascii("Test typeof:                                           \n");
 	char var[12][27];
 	unsigned long var_type;
 	var_type = typeof(var);
-	print("  Variable i has type (hex):                           "); printh(var_type); print("\n");
-	print("  Variable i has type (string):   signed char i[12] ==");
+	print_ascii("  Variable i has type (hex):                           "); printh(var_type); print_ascii("\n");
+	print_ascii("  Variable i has type (string):   signed char i[12] ==");
 
 	if(var_type & 0x00001000)
 	{
-		print(" internal");
+		print_ascii(" internal");
 	}
 	if(var_type & 0x00002000)
 	{
-		print(" external");
+		print_ascii(" external");
 	}
 	if(var_type & 0x00000200)
 	{
-		print(" signed");
+		print_ascii(" signed");
 	}
 	if(var_type & 0x00000400)
 	{
-		print(" unsigned");
+		print_ascii(" unsigned");
 	}
 	if(var_type & 0x00000080)
 	{
-		print(" short");
+		print_ascii(" short");
 	}
 	if(var_type & 0x00000100)
 	{
-		print(" long");
+		print_ascii(" long");
 	}
 	if(var_type & 0x00000004)
 	{
-		print(" void");
+		print_ascii(" void");
 	}
 	if(var_type & 0x00000008)
 	{
-		print(" char");
+		print_ascii(" char");
 	}
 	if(var_type & 0x00000010)
 	{
-		print(" double");
+		print_ascii(" double");
 	}
 	if(var_type & 0x00000020)
 	{
-		print(" float");
+		print_ascii(" float");
 	}
 	if(var_type & 0x00000040)
 	{
-		print(" int");
+		print_ascii(" int");
 	}
 	unsigned long ii;
 	ii = (var_type & 0xFF000000) >> 24;
-	print(" ");
+	print_ascii(" ");
 	while(ii--)
 	{
-		print("*");
+		print_ascii("*");
 	}
-	print("i");
+	print_ascii("i");
 	if(var_type & 0x00004000)
 	{
-		print("[");printn(sizeof(var)/sizeof(var[0]));print("]");
+		print_ascii("[");printn(sizeof(var)/sizeof(var[0]));print_ascii("]");
 	}
-	print(";\n");
+	print_ascii(";\n");
 
-	print("Call external MessageBox function: ");
+	print_ascii("Call external MessageBox function: ");
 
 	if(MessageBoxA(0, "MessageBox function loaded from user32.dll", "Test caption", 0x00000004 | 0x00000010) == 6)
 	{
-		print("You choice: YES\n");
+		print_ascii("You choice:         \x1B[32;YES\n");
 	}
 	else
 	{
-		print("You choice: NO\n");
+		print_ascii("You choice:         \x1B[31;NO\n");
 	}
 
-	print("Test swap parameters when push to call stack:          ");
+	print_ascii("Test swap parameters when push to call stack:          ");
 	char *temp;
 	char *temp2;
 	char *header = NULL;
-	char *query = "PASSED\n";
+	char *query = "\x1B[32;PASSED\n";
 	merge(&header, temp = encode(query));
 	free(temp);
-	print(temp2 = decode(header));
+	print_ascii(temp2 = decode(header));
 	free(temp2);
 
 
@@ -497,7 +602,7 @@ function test_script()
 
 lb_exit_script:
 
-print("\nexit regs check:");
+print_ascii("\nexit regs check:");
 _asm {
    dbg_print_regs
 }
@@ -537,7 +642,7 @@ _asm {nop}
 _asm {lb_test1:}
 _asm {lb_test2: nop}
 
-print("Test inline assembler: ");
+print_ascii("Test inline assembler: ");
 pass = 0;
 
 _asm
@@ -561,7 +666,7 @@ lb_exit:
 	//dbg_print_regs
 }
 
-print(pass?"PASSED\n":"FAILED\n");
+print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
 
 //*/
@@ -601,9 +706,9 @@ function proxy_rd(char **header, char *referer, char *method, char *protocol, ch
 	}
 	merge(header, "\r\n");
 
-	print("\n---- header ----\n");
-	print(*header);
-	print("---- header ----\n");
+	print_ascii("\n---- header ----\n");
+	print_ascii(*header);
+	print_ascii("---- header ----\n");
 }
 
 function small_test()
@@ -621,7 +726,7 @@ function small_test()
 
 function cb_func()
 {
-	print("cb_func\n");
+	print_ascii("cb_func\n");
 }
 
 function test_params(char *one, char *two, char *three)
@@ -639,9 +744,9 @@ function test_params(char *one, char *two, char *three)
 
 function print_params(char **one, char *two, char *three)
 {
-	print(*one);
-	print(two);
-	print(three);
+	print_ascii(*one);
+	print_ascii(two);
+	print_ascii(three);
 
 	return 1982;
 }
