@@ -23,7 +23,7 @@
 void yywarning(void *scanner, cl_parser_params *pp, const char *err);
 void yyerror(void *scanner, cl_parser_params *pp, const char *err);
 int yylex(zlval *yylval, void *yyscanner);
-     
+
 int yylex_init(void  **ptr_yy_globals);
 int yylex_destroy(void *yyscanner);
 void yyset_extra(cl_parser_params *user_defined, void *yyscanner);
@@ -591,6 +591,46 @@ declaration_function
 			func->library = $10.string;
 			func->params = $7.uvalue;
 		}
+	| T_IMPORT T_CONSTANT_LONG function_type_specifiers pointer T_LABEL '(' function_arguments_specifiers ')' ';'
+		{
+			cl_label_node *func;
+
+			func = cl_label_define(&pp->funcs_table, $5.string);
+			free_str($5.string);
+
+			if(func->flags & ZLF_DEFINED)
+			{
+				ZL_ERROR("function redefined");
+			}
+
+			func->flags = ZLF_DEFINED;
+			if(!$2.uvalue)
+			{
+				func->flags |= ZLF_STDCALL;
+			}
+			func->library = NULL;
+			func->params = $7.uvalue;
+		}
+	| T_IMPORT T_CONSTANT_LONG function_type_specifiers pointer T_LABEL '(' function_arguments_specifiers ')' T_FROM T_CONSTANT_STRING ';'
+		{
+			cl_label_node *func;
+
+			func = cl_label_define(&pp->funcs_table, $5.string);
+			free_str($5.string);
+
+			if(func->flags & ZLF_DEFINED)
+			{
+				ZL_ERROR("function redefined");
+			}
+
+			func->flags = ZLF_DEFINED;
+			if(!$2.uvalue)
+			{
+				func->flags |= ZLF_STDCALL;
+			}
+			func->library = $10.string;
+			func->params = $7.uvalue;
+		}
 	| T_FUNCTION function_type_specifiers pointer T_LABEL f_current_level_increment '(' function_arguments_list ')' ';'
 		{
 			cl_label_node *func;
@@ -691,6 +731,21 @@ function_type
 //*/
 
 f_current_level_increment: 										{ pp->current_level++; };
+
+function_arguments_specifiers
+	: declaration_specifiers pointer
+		{
+			$$.uvalue = 1;
+		}
+	| function_arguments_specifiers ',' declaration_specifiers pointer
+		{
+			$$.value = $1.value + 1;
+		}
+	| /* empty - function does not have arguments */
+		{
+			$$.value = 0;
+		}
+;
 
 function_arguments_list
 	: function_argument
