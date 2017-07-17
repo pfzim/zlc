@@ -81,16 +81,18 @@ cl_var_node *cl_var_define(cl_var_node **vars_table, char *name, unsigned long l
 cl_var_node *cl_var_find(cl_var_node *vars_table, char *name);
 unsigned long cl_var_free_level(cl_var_node **vars_table, unsigned long level);
 unsigned long cl_var_reference(cl_var_node *var_node, unsigned long dimension, unsigned long offset);
+void cl_var_swap_and_join_dimensions(cl_var_node *vars_table, unsigned long dimension, unsigned long offset);
 void cl_var_join_dimension(cl_var_node *vars_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset);
 cl_label_node *cl_label_define(cl_label_node **labels_table, char *name);
 cl_label_node *cl_label_find(cl_label_node *labels_table, char *name);
 unsigned long cl_label_reference(cl_label_node *label_node, unsigned long dimension, unsigned long offset);
+void cl_label_swap_and_join_dimensions(cl_label_node *label_node, unsigned long dimension, unsigned long offset);
 void cl_label_join_dimension(cl_label_node *label_node, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset);
 unsigned long cl_label_fix(cl_label_node *labels_table, unsigned char *hard_code);
 unsigned long cl_label_free(cl_label_node **labels_table);
 cl_data_node *cl_const_define(cl_data_node **data_table, unsigned long dimension, char *data, unsigned long size, unsigned long reference);
 void cl_const_swap_and_join_dimensions(cl_data_node *data_table, unsigned long dimension, unsigned long offset);
-void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension, unsigned long offset);
+void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset);
 cl_data_node *cl_const_free(cl_data_node **data_table);
 //unsigned long cl_const_build_fix_free(cl_data_node *const_table, unsigned char *hard_code, unsigned char **const_section, unsigned long *size);
 unsigned long cl_link_sections(

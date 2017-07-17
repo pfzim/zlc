@@ -14,6 +14,7 @@ import __cdecl strcmp(2);
 import __cdecl isset(1);
 import __cdecl merge(2);
 import __cdecl encode(1);
+import __cdecl decode(1);
 import __cdecl free(1);
 import __stdcall MessageBoxA(4) from "user32.dll";
 
@@ -476,6 +477,17 @@ function test_script()
 	{
 		print("You choice: NO\n");
 	}
+
+	print("Test swap parameters when push to call stack:          ");
+	char *temp;
+	char *temp2;
+	char *header = NULL;
+	char *query = "PASSED\n";
+	merge(&header, temp = encode(query));
+	free(temp);
+	print(temp2 = decode(header));
+	free(temp2);
+
 
 	//___dbg_print_regs;
 }

@@ -1331,9 +1331,22 @@ lb_exit:
 	return regs[REG_EAX];
 }
 
+char *reg(unsigned long k)
+{
+	static char *regs[] = {"eip", "esp", "eax", "ecx", "ebx", "edx", "ebp", "esd", "ebd", "esi", "edi", "eflags"};
+	static char error_str[256] = "";
+
+	if(k > (sizeof(regs)/sizeof(regs[0])))
+	{
+		snprintf(error_str, 255, "Bad code, invalid register id (=%u)", k);
+		return error_str;
+	}
+
+	return regs[k];
+}
+
 unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size)
 {
-	char *regs[] = {"eip", "esp", "eax", "ecx", "ebx", "edx", "ebp", "esd", "ebd", "esi", "edi", "eflags", "error"};
 	unsigned long zl_eip;
 	unsigned long zl_eof;
 
@@ -1346,7 +1359,7 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size
 		{
 			case OP_POP_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   pop %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)]);
+				printf("%.4u:   pop %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)));
 				zl_eip++;
 				continue;
 			case OP_POP_MEM:
@@ -1356,7 +1369,7 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size
 				continue;
 			case OP_PUSH_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   push %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)]);
+				printf("%.4u:   push %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)));
 				zl_eip++;
 				continue;
 			case OP_PUSH_IMM:
@@ -1381,137 +1394,137 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size
 				continue;
 			case OP_TEST_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   test %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   test %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_ADD_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   add %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   add %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_SUB_REG_IMM:
 				nextinstr(zl_eip);
-				printf("%.4u:   sub %s, %u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], pdw(zl_eip+1));
+				printf("%.4u:   sub %s, %u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), pdw(zl_eip+1));
 				zl_eip += 5;
 				continue;
 			case OP_SUB_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   sub %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   sub %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_MUL_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   mul %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   mul %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_DIV_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   div %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   div %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_MOD_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   mod %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   mod %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_G_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   g %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   g %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_GE_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   ge %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   ge %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_LE_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   le %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   le %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_L_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   l %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   l %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_E_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   e %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   e %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_NE_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   ne %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   ne %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_OR_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   or %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   or %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_AND_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   and %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   and %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_SHR_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   and %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   and %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_SHL_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   and %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   and %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_XOR_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   xor %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   xor %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_MOV_REG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   mov %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   mov %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_MOV_PREG_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   mov [%s], %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   mov [%s], %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_MOV_REG_PREG:
 				nextinstr(zl_eip);
-				printf("%.4u:   mov %s, [%s]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], regs[pdb(zl_eip+1)]);
+				printf("%.4u:   mov %s, [%s]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
 				zl_eip += 2;
 				continue;
 			case OP_MOV_MEM_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   mov [%.4Xh], %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, pdw(zl_eip), regs[pdb(zl_eip+4)]);
+				printf("%.4u:   mov [%.4Xh], %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, pdw(zl_eip), reg(pdb(zl_eip+4)));
 				zl_eip += 5;
 				continue;
 			case OP_MOV_REG_MEM:
 				nextinstr(zl_eip);
-				printf("%.4u:   mov %s, [%.4Xh]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], pdw(zl_eip+1));
+				printf("%.4u:   mov %s, [%.4Xh]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), pdw(zl_eip+1));
 				zl_eip += 5;
 				continue;
 			case OP_MOV_REG_IMM:
 				nextinstr(zl_eip);
-				printf("%.4u:   mov %s, %u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], pdw(zl_eip+1));
+				printf("%.4u:   mov %s, %u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), pdw(zl_eip+1));
 				zl_eip += 5;
 				continue;
 			case OP_ADD_REG_IMM:
 				nextinstr(zl_eip);
-				printf("%.4u:   add %s, %u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)], pdw(zl_eip+1));
+				printf("%.4u:   add %s, %u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), pdw(zl_eip+1));
 				zl_eip += 5;
 				continue;
 			case OP_INC_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   inc %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)]);
+				printf("%.4u:   inc %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)));
 				zl_eip++;
 				continue;
 			case OP_DEC_REG:
 				nextinstr(zl_eip);
-				printf("%.4u:   dec %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, regs[pdb(zl_eip)]);
+				printf("%.4u:   dec %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)));
 				zl_eip++;
 				continue;
 			case OP_JZ:

@@ -64,6 +64,11 @@ char *fn_encode(char *text)
 	return (char *) alloc_en64((const unsigned char *) text, strlen(text));
 }
 
+char *fn_decode(char *text)
+{
+	return (char *)alloc_de64((const char *)text, NULL);
+}
+
 unsigned long fn_free(char *text)
 {
 	free_str(text);
@@ -163,6 +168,7 @@ int main(int argc, char *argv[])
 		{"isset",	fn_isset},
 		{"merge",	fn_merge},
 		{"encode",	fn_encode},
+		{"decode",	fn_decode},
 		{"free",	fn_free,},
 		{NULL,		NULL}
 		};

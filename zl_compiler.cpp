@@ -161,6 +161,26 @@ cl_var_node *cl_var_find(cl_var_node *vars_table, char *name)
 	return temp_node;
 }
 
+void cl_var_swap_and_join_dimensions(cl_var_node *vars_table, unsigned long dimension, unsigned long offset)
+{
+	while(vars_table)
+	{
+		unsigned long i;
+		for(i = 0; i < vars_table->references; i++)
+		{
+			if(vars_table->dimensions[i] == (dimension+1))
+			{
+				vars_table->dimensions[i] = dimension;
+			}
+			else if(vars_table->dimensions[i] == dimension)
+			{
+				vars_table->reference_offsets[i] += offset;
+			}
+		}
+		vars_table = vars_table->next_node;
+	}
+}
+
 void cl_var_join_dimension(cl_var_node *vars_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
 {
 	while(vars_table)
@@ -276,6 +296,26 @@ unsigned long cl_label_reference(cl_label_node *label_node, unsigned long dimens
 	label_node->references++;
 
 	return 0L;
+}
+
+void cl_label_swap_and_join_dimensions(cl_label_node *label_node, unsigned long dimension, unsigned long offset)
+{
+	while(label_node)
+	{
+		unsigned long i;
+		for(i = 0; i < label_node->references; i++)
+		{
+			if(label_node->dimensions[i] == (dimension+1))
+			{
+				label_node->dimensions[i] = dimension;
+			}
+			else if(label_node->dimensions[i] == dimension)
+			{
+				label_node->reference_offsets[i] += offset;
+			}
+		}
+		label_node = label_node->next_node;
+	}
 }
 
 void cl_label_join_dimension(cl_label_node *label_node, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
@@ -430,7 +470,7 @@ void cl_const_swap_and_join_dimensions(cl_data_node *data_table, unsigned long d
 	}
 }
 
-void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension, unsigned long offset)
+void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension_src, unsigned long dimension_dst, unsigned long offset)
 {
 	cl_data_node *temp_node;
 
@@ -438,10 +478,10 @@ void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension, 
 
 	while(temp_node)
 	{
-		if(temp_node->dimension == dimension)
+		if(temp_node->dimension == dimension_src)
 		{
 			temp_node->reference_offsets[0] += offset;
-			temp_node->dimension--;
+			temp_node->dimension = dimension_dst;
 		}
 		temp_node = temp_node->next_node;
 	}

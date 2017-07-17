@@ -1,6 +1,7 @@
 %code requires {
 
 #include "zl_compiler.h"
+//#include "zl.h"
 
 }
 %code top {
@@ -1346,10 +1347,26 @@ argument_expression_list
 			//here ha is 2
 
 			//hc[1] = concat(hc[2], hc[1]);
-			cl_var_join_dimension(pp->vars_table, pp->hc_active-1, pp->hc_active, pp->hc_fill[pp->hc_active]);
-			cl_label_join_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
+			// (2 + 1) -> 1
+			//printf("argument_expression_list ',' f_sw_context assignment_expression -- concat(%u, %u)\n", pp->hc_active, pp->hc_active-1);
+			cl_var_swap_and_join_dimensions(pp->vars_table, pp->hc_active-1, pp->hc_fill[pp->hc_active]);
+			cl_label_swap_and_join_dimensions(pp->funcs_table, pp->hc_active-1, pp->hc_fill[pp->hc_active]);
 			cl_const_swap_and_join_dimensions(pp->data_table, pp->hc_active-1, pp->hc_fill[pp->hc_active]);
+
+			/*
+			printf("\n--- %u ---\n", pp->hc_active);
+			zl_decompile(pp->hard_code[pp->hc_active], pp->hc_fill[pp->hc_active]);
+			printf("\n--- %u ---\n", pp->hc_active-1);
+			zl_decompile(pp->hard_code[pp->hc_active-1], pp->hc_fill[pp->hc_active-1]);
+			*/
+			
 			cl_code_add(pp, pp->hard_code[pp->hc_active-1], pp->hc_fill[pp->hc_active-1]);
+
+			/*
+			printf("\n--- %u + %u -> %u ---\n", pp->hc_active, pp->hc_active-1, pp->hc_active);
+			zl_decompile(pp->hard_code[pp->hc_active], pp->hc_fill[pp->hc_active]);
+			printf("\n--- END ---\n");
+			*/
 
 			zfree(pp->hard_code[pp->hc_active-1]);
 
@@ -2276,13 +2293,29 @@ expr
 			//if(pp->hc_fill[pp->hc_active] > 0)
 			{
 				//hc[active-1] = concat(hc[active-1], hc[active])
+				// (0 + 1) -> 0
+				//printf("T_LABEL ( argument_expression_list ) -- concat(%u, %u)\n", pp->hc_active-1, pp->hc_active);
 				cl_var_join_dimension(pp->vars_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
 				cl_label_join_dimension(pp->funcs_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
-				cl_const_join_dimension(pp->data_table, pp->hc_active, pp->hc_fill[pp->hc_active-1]);
+				cl_const_join_dimension(pp->data_table, pp->hc_active, pp->hc_active-1, pp->hc_fill[pp->hc_active-1]);
 				pp->hc_active--;
 				//cl_const_shift_dimension(pp->data_table, pp->hc_active, 0);
+				
+				/*
+				printf("\n--- %u ---\n", pp->hc_active);
+				zl_decompile(pp->hard_code[pp->hc_active], pp->hc_fill[pp->hc_active]);
+				printf("\n--- %u ---\n", pp->hc_active+1);
+				zl_decompile(pp->hard_code[pp->hc_active+1], pp->hc_fill[pp->hc_active+1]);
+				*/
+				
 				cl_code_add(pp, pp->hard_code[pp->hc_active+1], pp->hc_fill[pp->hc_active+1]);
 
+				/*
+				printf("\n--- %u + %u -> %u ---\n", pp->hc_active, pp->hc_active+1, pp->hc_active);
+				zl_decompile(pp->hard_code[pp->hc_active], pp->hc_fill[pp->hc_active]);
+				printf("\n--- END ---\n");
+				*/
+				
 				zfree(pp->hard_code[pp->hc_active+1]);
 
 				pp->hard_code[pp->hc_active+1] = NULL;
@@ -2605,6 +2638,11 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 		}
 	}
 
+	/*
+	printf("\n--- %u ---\n", pp.hc_active);
+	zl_decompile(pp.hard_code[pp.hc_active], pp.hc_fill[pp.hc_active]);
+	printf("--- END END END ---\n");
+	*/
 
 	cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code[0], pp.hc_fill[0],
 		const_sect, const_size,
