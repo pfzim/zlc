@@ -150,7 +150,7 @@
 
 
 // registers
-#define REG_COUNT			16
+#define REG_COUNT			17
 
 #define REG_EIP				0
 #define REG_ESP				1
@@ -168,6 +168,7 @@
 #define SECT_DATA			13
 #define SECT_RELOC			14
 #define SECT_IMPORT			15
+#define SECT_HARDCODE		16				// start of code (for debug)
 
 // flags
 #define EF_CF				0x00000001		// 0

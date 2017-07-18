@@ -387,7 +387,11 @@ int main(int argc, char *argv[])
 			printf("%s\n", warning_msg);
 		}
 
-		zl_init(zl_offset("main", (zl_export_section *) export_sect, export_size/sizeof(zl_export_section)), hardcode, stack, regs, const_sect, data_sect, reloc_sect, import_sect);
+		// call main() function
+		//zl_init(zl_offset("main", (zl_export_section *)export_sect, export_size / sizeof(zl_export_section)), hardcode, stack, regs, const_sect, data_sect, reloc_sect, import_sect);
+
+		// start from entry point
+		zl_init(0, hardcode, stack, regs, const_sect, data_sect, reloc_sect, import_sect);
 
 		zl_load_functions(import_sect, (zl_map_section *) map_sect, map_size/sizeof(zl_map_section), fn_list, &modules);
 

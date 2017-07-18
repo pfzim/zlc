@@ -284,6 +284,18 @@ NEWLINE						("\r"|"\n"|"\r\n")
 	return T_WHILE;
 }
 
+<INITIAL>"switch" {
+	return T_SWITCH;
+}
+
+<INITIAL>"default" {
+	return T_DEFAULT;
+}
+
+<INITIAL>"case" {
+	return T_CASE;
+}
+
 <INITIAL>"for" {
 	return T_FOR;
 }

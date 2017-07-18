@@ -165,6 +165,15 @@ void cl_var_swap_and_join_dimensions(cl_var_node *vars_table, unsigned long dime
 {
 	while(vars_table)
 	{
+		if(vars_table->dimension == (dimension + 1))
+		{
+			vars_table->dimension = dimension;
+		}
+		else if(vars_table->dimension == dimension)
+		{
+			vars_table->offset += offset;
+		}
+
 		unsigned long i;
 		for(i = 0; i < vars_table->references; i++)
 		{
@@ -185,6 +194,12 @@ void cl_var_join_dimension(cl_var_node *vars_table, unsigned long dimension_src,
 {
 	while(vars_table)
 	{
+		if(vars_table->dimension == dimension_src)
+		{
+			vars_table->offset += offset;
+			vars_table->dimension = dimension_dst;
+		}
+
 		unsigned long i;
 		for(i = 0; i < vars_table->references; i++)
 		{
@@ -302,6 +317,15 @@ void cl_label_swap_and_join_dimensions(cl_label_node *label_node, unsigned long 
 {
 	while(label_node)
 	{
+		if(label_node->dimension == (dimension + 1))
+		{
+			label_node->dimension = dimension;
+		}
+		else if(label_node->dimension == dimension)
+		{
+			label_node->offset += offset;
+		}
+
 		unsigned long i;
 		for(i = 0; i < label_node->references; i++)
 		{
@@ -322,6 +346,12 @@ void cl_label_join_dimension(cl_label_node *label_node, unsigned long dimension_
 {
 	while(label_node)
 	{
+		if(label_node->dimension == dimension_src)
+		{
+			label_node->offset += offset;
+			label_node->dimension = dimension_dst;
+		}
+
 		unsigned long i;
 		for(i = 0; i < label_node->references; i++)
 		{

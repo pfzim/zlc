@@ -321,6 +321,7 @@ unsigned long zl_init(unsigned long offset, unsigned char *hardcode, unsigned lo
 
 	regs[REG_EIP] = dw(hardcode) + offset;
 	regs[REG_ESP] = dw(stack);
+	regs[SECT_HARDCODE] = dw(hardcode);		// for calculate instruction offset on error
 
 	if(!const_sect)
 	{
@@ -423,6 +424,8 @@ unsigned long zl_execute(unsigned long *regs)
 
 	while(instr(zl_eip))
 	{
+		//printf("%.5u\n", zl_eip - regs[SECT_HARDCODE]);
+
 		switch(instr(zl_eip))
 		{
 			case OP_SIZE_OVERRIDE_1:
@@ -627,8 +630,10 @@ unsigned long zl_execute(unsigned long *regs)
 
 				__asm
 				{
-					lea ebx, regs
-					mov ecx, dword ptr regs[REG_EIP*4]
+					mov ebx, regs
+					mov ecx, ebx
+					add ecx, REG_EIP*4
+					mov ecx, [ecx]
 					mov eax, [ecx]
 					and eax, 0xFF
 					shl eax, 2
@@ -643,13 +648,44 @@ unsigned long zl_execute(unsigned long *regs)
 					test eax, ecx
 					pushfd
 					pop eax
-					mov dword ptr regs[ZL_EFLAGS*4], eax
+					add ebx, ZL_EFLAGS*4
+					mov[ebx], eax
 				}
 
 				zl_eip += 2;
 				continue;
 
-			case OP_JMP:
+			 case OP_CMP_REG_REG:
+				 nextinstr(zl_eip);
+
+				 __asm
+				 {
+					 mov ebx, regs
+					 mov ecx, ebx
+					 add ecx, REG_EIP*4
+					 mov ecx, [ecx]
+					 mov eax, [ecx]
+					 and eax, 0xFF
+					 shl eax, 2
+					 add eax, ebx
+					 mov eax, [eax]
+					 inc ecx
+					 mov ecx, [ecx]
+					 and ecx, 0xFF
+					 shl ecx, 2
+					 add ecx, ebx
+					 mov ecx, [ecx]
+					 cmp eax, ecx
+					 pushfd
+					 pop eax
+					 add ebx, ZL_EFLAGS*4
+					 mov [ebx], eax
+				 }
+
+				 zl_eip += 2;
+				 continue;
+
+			 case OP_JMP:
 				nextinstr(zl_eip);
 				//zl_eip = dw(hardcode + pdw(zl_eip));	// revision 1 (absolute jump)
 				zl_eip += pdw(zl_eip);					// revision 2 (relative jump)
@@ -1318,7 +1354,7 @@ unsigned long zl_execute(unsigned long *regs)
 				printf("debug print:\nEAX: 0x%.8X (%u)\nESP: 0x%.8X (%u)\nEIP: 0x%.8X (%u)\nEBP: 0x%.8X (%u)\nZF: %u, CF: %u, PF: %u, OF: %u, SF: %u\n", regs[REG_EAX], regs[REG_EAX], regs[REG_ESP], regs[REG_ESP], regs[REG_EIP], regs[REG_EIP], regs[REG_EBP], regs[REG_EBP], (zl_eflags & EF_ZF)?1:0, (zl_eflags & EF_CF)?1:0, (zl_eflags & EF_PF)?1:0, (zl_eflags & EF_OF)?1:0, (zl_eflags & EF_SF)?1:0);
 				break;
 			default:
-				printf("error: unknown instruction: 0x%.2x\n", instr(zl_eip));
+				printf("error: unknown instruction: 0x%.2x at %u\n", instr(zl_eip), zl_eip - regs[SECT_HARDCODE]);
 				goto lb_exit;
 		}
 
@@ -1390,6 +1426,11 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size
 				nextinstr(zl_eip);
 				printf("%.4u:   push dword ptr to value [%.4Xh]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, pdw(zl_eip));
 				zl_eip += 4;
+				continue;
+			case OP_CMP_REG_REG:
+				nextinstr(zl_eip);
+				printf("%.4u:   cmp %s, %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip + 1)));
+				zl_eip += 2;
 				continue;
 			case OP_TEST_REG_REG:
 				nextinstr(zl_eip);
@@ -1525,6 +1566,11 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size
 				nextinstr(zl_eip);
 				printf("%.4u:   dec %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)));
 				zl_eip++;
+				continue;
+			case OP_JNE:
+				nextinstr(zl_eip);
+				printf("%.4u:   jne %.4u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, dw(zl_eip) - dw(hardcode) + pdw(zl_eip));
+				zl_eip += 4;
 				continue;
 			case OP_JZ:
 				nextinstr(zl_eip);
