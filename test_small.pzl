@@ -13,11 +13,19 @@ function int test3(int p1, int p2, int p3, int p4, int p5, int p6)
 
 //*/
 unsigned long y = 67890;
+
 function int main()
 {
-	//x = 345678;
 	if(x == 123)
 	{
-		print("OK");
+		print("OK\n");
+	}
+	if(i == 12345)
+	{
+		print("OK\n");
+	}
+	if(y == 67890)
+	{
+		print("OK\n");
 	}
 }            

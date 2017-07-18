@@ -4,6 +4,7 @@ unsigned long ext_var;
 extern unsigned long action;
 extern char *ext_names[5];
 //extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
+unsigned long g_var1 = 345467;
 
 import __cdecl print2(char *, char *);
 import __cdecl int strcmp2(char *, char *);
@@ -130,6 +131,8 @@ function test_return()
 	return "Function result return test:                           \x1B[32;PASSED\n";
 }
 
+unsigned long g_var2 = 235476;
+
 function test_array(char p1[], char p2[5], char *p3[], char *p4[5])
 {
 	unsigned long i;
@@ -171,6 +174,8 @@ function test_array(char p1[], char p2[5], char *p3[], char *p4[5])
 	}
 //*/
 }
+
+unsigned long g_var3 = 789645;
 
 function test_script()
 {
@@ -214,6 +219,61 @@ function test_script()
 			print_ascii("\x1B[32;PASSED\n");
 	else
 		print_ascii("\x1B[31;FAILED\n");
+
+	print_ascii("Test switch without break:                             ");
+	pass = 4;
+	switch(2)
+	{
+		case 2:
+			pass--;
+		case 1:
+			pass--;
+		default:
+			pass--;
+	}
+
+	print_ascii((pass==1)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+
+	print_ascii("Test switch default case:                              ");
+	pass = 3;
+	switch(1)
+	{
+		case 2:
+			pass--;
+		case 1:
+			pass--;
+		default:
+			pass--;
+	}
+
+	print_ascii((pass==1)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+
+	print_ascii("Test switch in switch with break:                      ");
+	pass = 0;
+	switch(1)
+	{
+		case 2:
+			pass = 0;
+			break;
+		case 1:
+			switch(7)
+			{
+				case 1:
+					pass = 0;
+					break;
+				case 7:
+					pass = 1;
+					break;
+				default:
+					pass = 0;
+					break;
+			}
+			break;
+		default:
+			pass = 0;
+	}
+
+	print_ascii((pass==1)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
 	print_ascii(test_return());
 
@@ -447,6 +507,13 @@ function test_script()
 	z ^= 0x0100;
 	if(z) pass = 0;
 
+	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+
+	print_ascii("Test global variable initialisation:                   ");
+	pass = 1;
+	if(g_var1 != 345467) pass = 0;
+	if(g_var2 != 235476) pass = 0;
+	if(g_var3 != 789645) pass = 0;
 	print_ascii(pass?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
 	char p1[5];

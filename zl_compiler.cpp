@@ -171,6 +171,7 @@ void cl_var_swap_and_join_dimensions(cl_var_node *vars_table, unsigned long dime
 		}
 		else if(vars_table->dimension == dimension)
 		{
+			// TODO: add here filter for ZLF_PARAM and ...
 			vars_table->offset += offset;
 		}
 
@@ -196,6 +197,7 @@ void cl_var_join_dimension(cl_var_node *vars_table, unsigned long dimension_src,
 	{
 		if(vars_table->dimension == dimension_src)
 		{
+			// TODO: add here filter for ZLF_PARAM and ...
 			vars_table->offset += offset;
 			vars_table->dimension = dimension_dst;
 		}
