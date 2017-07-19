@@ -19,10 +19,10 @@ typedef struct _cl_parser_params
 	unsigned long sc_length;
 	
 	// hard code
-	unsigned char *hard_code[32];
+	unsigned char *hard_code[256];
 	unsigned long hc_active;    // mean count, last, active hard_code dimension
-	unsigned long hc_fill[32];
-	unsigned long hc_buffer_size[32];
+	unsigned long hc_fill[256];
+	unsigned long hc_buffer_size[256];
 	
 	struct _cl_stack_buffer *cl_stack;
 	struct _cl_stack_buffer *cl_loop_stack;

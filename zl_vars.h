@@ -74,9 +74,9 @@ typedef struct _cl_data_node
 {
 	char *data;
 	unsigned long size;
-	unsigned long dimension;
 	unsigned long references;
 	unsigned long reference_offsets[1024];
+	unsigned long dimensions[1024];
 
 	struct _cl_data_node *next_node;
 } cl_data_node;

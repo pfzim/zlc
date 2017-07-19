@@ -420,7 +420,7 @@ cl_data_node *cl_const_define(cl_data_node **data_table, unsigned long dimension
 {
 	cl_data_node *temp_node;
 
-	/* deduplication data - temparary disabled because incompatible with hardcode dimensions (hc_active)
+	//* deduplication data - temparary disabled because incompatible with hardcode dimensions (hc_active)
 	temp_node = *data_table;
 
 	while(temp_node && ((temp_node->size != (size+1)) || memcmp(temp_node->data, data, size)))
@@ -431,11 +431,11 @@ cl_data_node *cl_const_define(cl_data_node **data_table, unsigned long dimension
 	if(temp_node)
 	{
 		temp_node->reference_offsets[temp_node->references] = reference;
+		temp_node->dimensions[temp_node->references] = dimension;
 		temp_node->references++;
 
 		return temp_node;
 	}
-	*/
 
 	temp_node = (cl_data_node *) zalloc(sizeof(cl_label_node));
 	if(temp_node)
@@ -446,9 +446,9 @@ cl_data_node *cl_const_define(cl_data_node **data_table, unsigned long dimension
 		memcpy(temp_node->data, data, size);
 		temp_node->data[size] = 0;
 		temp_node->size = size+1;
-		temp_node->dimension = dimension;
 		temp_node->references = 1;
 		temp_node->reference_offsets[0] = reference;
+		temp_node->dimensions[0] = dimension;
 
 		temp_node->next_node = *data_table;
 		*data_table = temp_node;
@@ -490,13 +490,17 @@ void cl_const_swap_and_join_dimensions(cl_data_node *data_table, unsigned long d
 
 	while(temp_node)
 	{
-		if(temp_node->dimension == (dimension+1))
+		unsigned long i;
+		for(i = 0; i < temp_node->references; i++)
 		{
-			temp_node->dimension--;
-		}
-		else if(temp_node->dimension == dimension)
-		{
-			temp_node->reference_offsets[0] += offset;
+			if(temp_node->dimensions[i] == (dimension + 1))
+			{
+				temp_node->dimensions[i]--;
+			}
+			else if(temp_node->dimensions[i] == dimension)
+			{
+				temp_node->reference_offsets[i] += offset;
+			}
 		}
 		temp_node = temp_node->next_node;
 	}
@@ -510,10 +514,14 @@ void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension_s
 
 	while(temp_node)
 	{
-		if(temp_node->dimension == dimension_src)
+		unsigned long i;
+		for(i = 0; i < temp_node->references; i++)
 		{
-			temp_node->reference_offsets[0] += offset;
-			temp_node->dimension = dimension_dst;
+			if(temp_node->dimensions[i] == dimension_src)
+			{
+				temp_node->reference_offsets[i] += offset;
+				temp_node->dimensions[i] = dimension_dst;
+			}
 		}
 		temp_node = temp_node->next_node;
 	}
