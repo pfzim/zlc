@@ -302,6 +302,9 @@ function test_script()
 
 	print_ascii("Test sizeof for variables, types and arrays:\n");
 
+	char msg[] = "Message";
+	print_ascii("  sizeof(msg):                                         "); print_ascii((sizeof(msg) == 8)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
+
 	char *text[2+3];
 	short int ***ptr_size = &ptr_size;
 	char ch[10];

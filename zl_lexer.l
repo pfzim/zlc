@@ -546,10 +546,11 @@ NEWLINE						("\r"|"\n"|"\r\n")
 	
 	text = cl_strndup(yytext+1, yyleng-2);
 	yylval->string = alloc_unescapestring(text, &yylval->size);
+	yylval->size++;
 	//yylval->value = (unsigned long) cl_section_data_push(&YYPP->data_table, ZLF_SECT_CONST, (char *) unesc, len+1);
 	//free_str(unesc);
 	free_str(text);
-	yylval->flags = ZLF_UNSIGNED | ZLF_CHAR;
+	yylval->flags = ZLF_UNSIGNED | ZLF_CHAR | ZLF_ARRAY;
 	yylval->flags += 0x01000000;
 	return T_CONSTANT_STRING;
 }

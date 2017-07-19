@@ -1,31 +1,28 @@
 // zlc testing script
 
 import __cdecl print(char *);
-
-unsigned long x = 123;
-//*
-unsigned long i = 12345;
-
-function int test3(int p1, int p2, int p3, int p4, int p5, int p6)
-{
-	int i = 234567;
-}
-
-//*/
-unsigned long y = 67890;
+import __cdecl printn(int);
 
 function int main()
 {
-	if(x == 123)
-	{
-		print("OK\n");
-	}
-	if(i == 12345)
-	{
-		print("OK\n");
-	}
-	if(y == 67890)
-	{
-		print("OK\n");
-	}
+	_asm {nop}
+	_asm {nop}
+	_asm {nop}
+	char test[4] = {'A', 'A', 'A', '\0'};
+	_asm {nop}
+	_asm {nop}
+	_asm {nop}
+	printn(sizeof(test));
+	print(test);
+	print("\n");
+	_asm {nop}
+	_asm {nop}
+	_asm {nop}
+	char test2[] = {"sss","dddd"};
+	_asm {nop}
+	_asm {nop}
+	_asm {nop}
+	printn(sizeof(test2));
+	print(test2);
+	print("\n");
 }            

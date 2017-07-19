@@ -575,6 +575,21 @@ unsigned long zl_execute(unsigned long *regs)
 				}
 				zl_eip += 2;
 				continue;
+			case OP_MOV_PREG_PREG:
+				nextinstr(zl_eip);
+				switch(zl_over)
+				{
+				case 1:
+					pdb(regs[pdb(zl_eip)]) = pdb(regs[pdb(zl_eip + 1)]);
+					break;
+				case 2:
+					pw(regs[pdb(zl_eip)]) = pw(regs[pdb(zl_eip + 1)]);
+					break;
+				default:
+					pdw(regs[pdb(zl_eip)]) = pdw(regs[pdb(zl_eip + 1)]);
+				}
+				zl_eip += 2;
+				continue;
 			case OP_MOV_REG_PREG:
 				nextinstr(zl_eip);
 				regs[pdb(zl_eip)] = pdw(regs[pdb(zl_eip+1)]);
@@ -1351,7 +1366,7 @@ unsigned long zl_execute(unsigned long *regs)
 				break;
 			case OP_DBG_PRINT:
 				//printf("debug print:\nEAX: 0x%.8X (%u)\nESP: 0x%.8X (%u)\nEIP: 0x%.8X (%u)\nZF: %u, CF: %u, PF: %u, OF: %u, SF: %u\n", regs[REG_EAX], regs[REG_EAX], regs[REG_ESP]-dw(stack), regs[REG_ESP]-dw(stack), regs[REG_EIP]-dw(hardcode), regs[REG_EIP]-dw(hardcode), (zl_eflags & EF_ZF)?1:0, (zl_eflags & EF_CF)?1:0, (zl_eflags & EF_PF)?1:0, (zl_eflags & EF_OF)?1:0, (zl_eflags & EF_SF)?1:0);
-				printf("debug print:\nEAX: 0x%.8X (%u)\nESP: 0x%.8X (%u)\nEIP: 0x%.8X (%u)\nEBP: 0x%.8X (%u)\nZF: %u, CF: %u, PF: %u, OF: %u, SF: %u\n", regs[REG_EAX], regs[REG_EAX], regs[REG_ESP], regs[REG_ESP], regs[REG_EIP], regs[REG_EIP], regs[REG_EBP], regs[REG_EBP], (zl_eflags & EF_ZF)?1:0, (zl_eflags & EF_CF)?1:0, (zl_eflags & EF_PF)?1:0, (zl_eflags & EF_OF)?1:0, (zl_eflags & EF_SF)?1:0);
+				printf("debug print:\nEAX: 0x%.8X (%u)\nEBX: 0x%.8X (%u)\nECX: 0x%.8X (%u)\nEDX: 0x%.8X (%u)\nESP: 0x%.8X (%u)\nEIP: 0x%.8X (%u)\nEBP: 0x%.8X (%u)\nZF: %u, CF: %u, PF: %u, OF: %u, SF: %u\n", regs[REG_EAX], regs[REG_EAX], regs[REG_EBX], regs[REG_EBX], regs[REG_ECX], regs[REG_ECX], regs[REG_EDX], regs[REG_EDX], regs[REG_ESP], regs[REG_ESP], regs[REG_EIP], regs[REG_EIP]-regs[SECT_HARDCODE], regs[REG_EBP], regs[REG_EBP], (zl_eflags & EF_ZF)?1:0, (zl_eflags & EF_CF)?1:0, (zl_eflags & EF_PF)?1:0, (zl_eflags & EF_OF)?1:0, (zl_eflags & EF_SF)?1:0);
 				break;
 			default:
 				printf("error: unknown instruction: 0x%.2x at %u\n", instr(zl_eip), zl_eip - regs[SECT_HARDCODE]);
@@ -1530,6 +1545,11 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size
 			case OP_MOV_PREG_REG:
 				nextinstr(zl_eip);
 				printf("%.4u:   mov [%s], %s\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip+1)));
+				zl_eip += 2;
+				continue;
+			case OP_MOV_PREG_PREG:
+				nextinstr(zl_eip);
+				printf("%.4u:   mov [%s], [%s]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)), reg(pdb(zl_eip + 1)));
 				zl_eip += 2;
 				continue;
 			case OP_MOV_REG_PREG:

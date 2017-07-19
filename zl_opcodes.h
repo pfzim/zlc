@@ -38,6 +38,7 @@
 #define OP_MOV_MEM_MEM		0x18
 #define OP_MOV_PREG_REG		0x92
 #define OP_MOV_REG_PREG		0x94
+#define OP_MOV_PREG_PREG	0x95
 
 #define OP_CMP_REG_IMM		0x19
 #define OP_CMP_REG_REG		0x1A
@@ -46,7 +47,7 @@
 #define OP_CMP_MEM_REG		0x1D
 #define OP_CMP_MEM_MEM		0x1E
 
-#define OP_JMP				0x1F
+//#define OP_JMP				0x1F
 #define OP_JNE				0x20
 #define OP_JNZ				0x21
 #define OP_JE				0x22
@@ -114,6 +115,9 @@
 
 #define OP_SIZE_OVERRIDE_1	0x66
 #define OP_SIZE_OVERRIDE_2	0x67
+
+#define OP_NOP2				0x70
+#define OP_JMP				0x7A
 
 #define OP_ADD_STK_STK		0xB0
 #define OP_SUB_STK_STK		0xB1

@@ -1850,17 +1850,18 @@ YY_RULE_SETUP
 	
 	text = cl_strndup(yytext+1, yyleng-2);
 	yylval->string = alloc_unescapestring(text, &yylval->size);
+	yylval->size++;
 	//yylval->value = (unsigned long) cl_section_data_push(&YYPP->data_table, ZLF_SECT_CONST, (char *) unesc, len+1);
 	//free_str(unesc);
 	free_str(text);
-	yylval->flags = ZLF_UNSIGNED | ZLF_CHAR;
+	yylval->flags = ZLF_UNSIGNED | ZLF_CHAR | ZLF_ARRAY;
 	yylval->flags += 0x01000000;
 	return T_CONSTANT_STRING;
 }
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 557 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 558 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	char *text, *unesc;
 	unsigned long len;
@@ -1875,7 +1876,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 569 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 570 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
     // limits: 
 	// 2 bytes:                 –128 ... 127                  255
@@ -1898,7 +1899,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 589 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 590 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	yylval->uvalue = cl_hextoul(yytext, yyleng);
 
@@ -1915,7 +1916,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 603 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 604 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	yylval->dvalue = cl_strtod(yytext, yyleng);
 	yylval->flags = ZLF_DOUBLE;
@@ -1924,7 +1925,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 609 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 610 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	yylval->string = cl_strndup(yytext, yyleng);
 	return T_LABEL;
@@ -1933,7 +1934,7 @@ YY_RULE_SETUP
 case 103:
 /* rule 103 can match eol */
 YY_RULE_SETUP
-#line 614 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 615 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	TRACK_LINES(yytext, yyleng);
 	//return T_WHITESPACE;
@@ -1941,7 +1942,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 619 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 620 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	//return T_WHITESPACE;
 }
@@ -1949,7 +1950,7 @@ YY_RULE_SETUP
 case 105:
 /* rule 105 can match eol */
 YY_RULE_SETUP
-#line 623 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 624 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	TRACK_LINES(yytext, yyleng);
 	//return T_WHITESPACE;
@@ -1958,7 +1959,7 @@ YY_RULE_SETUP
 case 106:
 /* rule 106 can match eol */
 YY_RULE_SETUP
-#line 628 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 629 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	YYPP->lineno++;
 	return yytext[0];
@@ -1966,7 +1967,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 633 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 634 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	TRACK_LINE(yytext[0]);
 	return yytext[0];
@@ -1977,14 +1978,14 @@ case 108:
 yyg->yy_c_buf_p = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 638 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 639 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	//return T_COMMENT;
 }
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 642 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 643 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	BEGIN(ST_COMMENT);
 	yymore();
@@ -1993,21 +1994,21 @@ YY_RULE_SETUP
 case 110:
 /* rule 110 can match eol */
 YY_RULE_SETUP
-#line 647 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 648 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	yymore();
 }
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 651 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 652 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	yymore();
 }
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 655 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 656 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	TRACK_LINES(yytext, yyleng);
 	BEGIN(INITIAL);
@@ -2025,17 +2026,17 @@ case YY_STATE_EOF(ST_LOOKING_FOR_PROPERTY):
 case YY_STATE_EOF(ST_LOOKING_FOR_VARNAME):
 case YY_STATE_EOF(ST_COMMENT):
 case YY_STATE_EOF(ST_ONE_LINE_COMMENT):
-#line 661 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 662 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 {
 	yyterminate();
 }
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 665 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 666 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 ECHO;
 	YY_BREAK
-#line 2038 "zl_lexer.cpp"
+#line 2039 "zl_lexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -3206,6 +3207,6 @@ void yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 665 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
+#line 666 "C:\\_garbage\\_git\\zlc\\zl_lexer.l"
 
 

@@ -1407,6 +1407,8 @@ initializer
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);  // var address
 
 			$$.size = 4;
+			
+			int debug_flag = 1;
 
 			if(!(((cl_var_node *) pp->cl_stack->data)->flags & ZLF_POINTER))
 			{
@@ -1416,9 +1418,20 @@ initializer
 						$$.size = 1;
 						cl_push(pp, OP_SIZE_OVERRIDE_1);
 						
-						/* char text[] = "like this";
-						if(((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY)
+						if((((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY) && (($1.flags & (ZLF_ARRAY | ZLF_CHAR)) == (ZLF_ARRAY | ZLF_CHAR)))
 						{
+						/* char text[] = "like this";
+							mov edx, $1.size
+						lb_loop:
+							test edx, edx
+							jz lb_exit
+							dec edx
+							size_1
+							mov [ecx], [eax]
+							inc eax
+							jmp lb_loop
+						lb_exit:
+							
 							mov edx, ecx
 						loop:
 							size_1
@@ -1429,12 +1442,31 @@ initializer
 							jz lb_exit
 							inc eax
 							jmp lb_loop
-							
-							
-							cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
-							cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
-						}
 						//*/
+							$$.size = $1.size;
+							unsigned long lb_loop, lb_exit;
+							
+							cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
+							
+							//cl_push(pp, OP_DBG_PRINT);
+							
+							cl_push(pp, OP_MOV_REG_IMM); cl_push(pp, REG_EDX); cl_push_dw(pp, $1.size);
+							lb_loop = pp->hc_fill[pp->hc_active];
+							cl_push(pp, OP_TEST_REG_REG); cl_push(pp, REG_EDX); cl_push(pp, REG_EDX);
+							cl_push(pp, OP_JZ);
+							lb_exit = pp->hc_fill[pp->hc_active];
+							cl_push_dw(pp, 0);
+							cl_push(pp, OP_DEC_REG); cl_push(pp, REG_EDX);
+							cl_push(pp, OP_SIZE_OVERRIDE_1);
+							cl_push(pp, OP_MOV_PREG_PREG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
+							//cl_push(pp, OP_DBG_PRINT);
+							cl_push(pp, OP_INC_REG); cl_push(pp, REG_EAX);
+							cl_push(pp, OP_INC_REG); cl_push(pp, REG_ECX);
+							cl_push(pp, OP_JMP); cl_push_dw(pp, lb_loop - pp->hc_fill[pp->hc_active]);
+							cl_code_replace(pp->hard_code[pp->hc_active], lb_exit, pp->hc_fill[pp->hc_active] - lb_exit);
+							
+							debug_flag = 0;
+						}
 						break;
 					case ZLF_INT:
 						if(((cl_var_node *) pp->cl_stack->data)->flags & ZLF_SHORT)
@@ -1450,8 +1482,11 @@ initializer
 				}
 			}
 
+			if(debug_flag)
+			{
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
+			}
 		}
 	| '{' initializer_list '}'
 		{
