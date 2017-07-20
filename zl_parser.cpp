@@ -536,17 +536,17 @@ static const yytype_uint16 yyrline[] =
      914,   913,   990,   989,  1020,  1021,  1048,  1049,  1085,  1086,
     1087,  1088,  1089,  1090,  1091,  1092,  1093,  1094,  1101,  1102,
     1106,  1166,  1165,  1311,  1312,  1316,  1333,  1364,  1383,  1397,
-    1404,  1491,  1498,  1506,  1505,  1565,  1566,  1570,  1571,  1576,
-    1618,  1624,  1625,  1658,  1687,  1716,  1745,  1774,  1803,  1832,
-    1861,  1890,  1919,  1951,  2005,  2018,  2103,  2132,  2134,  2141,
-    2142,  2143,  2144,  2145,  2146,  2147,  2148,  2149,  2150,  2151,
-    2152,  2168,  2184,  2200,  2216,  2217,  2219,  2218,  2247,  2246,
-    2275,  2288,  2274,  2321,  2322,  2323,  2324,  2331,  2347,  2391,
-    2435,  2479,  2523,  2596,  2628,  2655,  2654,  2665,  2671,  2670,
-    2682,  2692,  2695,  2696,  2697,  2698,  2699,  2700,  2701,  2702,
-    2703,  2704,  2705,  2706,  2707,  2708,  2709,  2710,  2711,  2712,
-    2713,  2714,  2715,  2716,  2717,  2718,  2719,  2745,  2744,  2753,
-    2758,  2757
+    1404,  1491,  1498,  1506,  1505,  1570,  1571,  1575,  1576,  1581,
+    1623,  1629,  1630,  1663,  1692,  1721,  1750,  1779,  1808,  1837,
+    1866,  1895,  1924,  1956,  2010,  2023,  2108,  2137,  2139,  2146,
+    2147,  2148,  2149,  2150,  2151,  2152,  2153,  2154,  2155,  2156,
+    2157,  2173,  2189,  2205,  2221,  2222,  2224,  2223,  2252,  2251,
+    2280,  2293,  2279,  2326,  2327,  2328,  2329,  2336,  2352,  2396,
+    2440,  2484,  2528,  2601,  2633,  2660,  2659,  2670,  2676,  2675,
+    2687,  2697,  2700,  2701,  2702,  2703,  2704,  2705,  2706,  2707,
+    2708,  2709,  2710,  2711,  2712,  2713,  2714,  2715,  2716,  2717,
+    2718,  2719,  2720,  2721,  2722,  2723,  2724,  2750,  2749,  2758,
+    2763,  2762
 };
 #endif
 
@@ -3319,6 +3319,11 @@ yyreduce:
   case 123:
 #line 1506 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
+			if((~((cl_var_node *) pp->cl_stack->data)->flags & ZLF_POINTER) && (((cl_var_node *) pp->cl_stack->data)->flags & ZLF_CHAR))
+			{
+				ZL_ERROR("too many initializers");
+			}
+			
 			if(~((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY)
 			{
 				ZL_ERROR("too many initializers");
@@ -3345,40 +3350,40 @@ yyreduce:
 				//((zl_names_map *) pp->cl_stack->data)->elements->size += var_size;
 			}
 		}
-#line 3349 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3354 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 124:
-#line 1534 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1539 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).size = (yyvsp[-3]).size + (yyvsp[0]).size;
 		}
-#line 3357 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3362 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 126:
-#line 1566 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1571 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX); }
-#line 3363 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3368 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 127:
-#line 1570 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1575 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).size = 0; }
-#line 3369 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3374 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 128:
-#line 1572 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1577 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).size = 4;
 			//here ha is 1
 		}
-#line 3378 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3383 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 129:
-#line 1577 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1582 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).size = 4 + (yyvsp[-3]).size;
 			//here ha is 2
@@ -3417,25 +3422,25 @@ yyreduce:
 			pp->hc_fill[pp->hc_active+1] = 0;
 			pp->hc_buffer_size[pp->hc_active+1] = 0;
 		}
-#line 3421 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3426 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 130:
-#line 1618 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1623 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 		pp->hc_active++;
 	}
-#line 3429 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3434 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 131:
-#line 1624 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1629 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); }
-#line 3435 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3440 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 132:
-#line 1626 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1631 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)) != ((yyvsp[0]).flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY)))
 			{
@@ -3468,11 +3473,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 		}
-#line 3472 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3477 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 133:
-#line 1659 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1664 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3501,11 +3506,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 		}
-#line 3505 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3510 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 134:
-#line 1688 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1693 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3534,11 +3539,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3538 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3543 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 135:
-#line 1717 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1722 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3567,11 +3572,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3571 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3576 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 136:
-#line 1746 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1751 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3600,11 +3605,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3604 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3609 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 137:
-#line 1775 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1780 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3633,11 +3638,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3637 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3642 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 138:
-#line 1804 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1809 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3666,11 +3671,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3670 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3675 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 139:
-#line 1833 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1838 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3699,11 +3704,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3703 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3708 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 140:
-#line 1862 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1867 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3732,11 +3737,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3736 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3741 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 141:
-#line 1891 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1896 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3765,11 +3770,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3769 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3774 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 142:
-#line 1920 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1925 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
@@ -3798,11 +3803,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EBX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 		}
-#line 3802 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3807 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 143:
-#line 1952 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 1957 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			// push address of value to stack
 
@@ -3856,11 +3861,11 @@ yyreduce:
 				cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
 			}
 		}
-#line 3860 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3865 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 144:
-#line 2006 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2011 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval) = (yyvsp[0]);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
@@ -3873,11 +3878,11 @@ yyreduce:
 
 			(yyval).flags -= 0x01000000;
 		}
-#line 3877 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3882 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 145:
-#line 2019 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2024 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			// pop address
 			// add to address offset
@@ -3955,11 +3960,11 @@ yyreduce:
 				ZL_ERROR("subscript requires array or pointer type");
 			}
 		}
-#line 3959 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3964 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 146:
-#line 2104 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2109 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).flags = (yyvsp[-1]).flags + (yyvsp[0]).flags;
 			if((yyval).flags & ZLF_EXTERNAL)
@@ -3983,94 +3988,94 @@ yyreduce:
 			}
 			
 		}
-#line 3987 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3992 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 147:
-#line 2132 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2137 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[0]).uvalue); }
-#line 3993 "zl_parser.cpp" /* yacc.c:1646  */
+#line 3998 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 148:
-#line 2135 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2140 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_push(pp, OP_PUSH_OFFSET);
 			cl_const_define(&pp->data_table, pp->hc_active, (yyvsp[0]).string, (yyvsp[0]).size, pp->hc_fill[pp->hc_active]); // добавляем ссылку на эти данные
 			free_str((yyvsp[0]).string);
 			cl_push_dw(pp, 0);						// ставим заглушку
 		}
-#line 4004 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4009 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 149:
-#line 2141 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2146 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[-1]); }
-#line 4010 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4015 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 150:
-#line 2142 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2147 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_ADD_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4016 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4021 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 151:
-#line 2143 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2148 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_SUB_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4022 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4027 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 152:
-#line 2144 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2149 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_MUL_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4028 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4033 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 153:
-#line 2145 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2150 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_DIV_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4034 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4039 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 154:
-#line 2146 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2151 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_OR_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4040 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4045 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 155:
-#line 2147 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2152 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_AND_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4046 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4051 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 156:
-#line 2148 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2153 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_MOD_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4052 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4057 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 157:
-#line 2149 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2154 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_XOR_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4058 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4063 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 158:
-#line 2150 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2155 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_SHL_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4064 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4069 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 159:
-#line 2151 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2156 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_SHR_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4070 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4075 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 160:
-#line 2153 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2158 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -4086,11 +4091,11 @@ yyreduce:
 				cl_do_op(pp, OP_G_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 4090 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4095 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 161:
-#line 2169 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2174 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -4106,11 +4111,11 @@ yyreduce:
 				cl_do_op(pp, OP_L_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 4110 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4115 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 162:
-#line 2185 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2190 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -4126,11 +4131,11 @@ yyreduce:
 				cl_do_op(pp, OP_GE_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 4130 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4135 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 163:
-#line 2201 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2206 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if(((yyvsp[-2]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)) != ((yyvsp[0]).flags & (ZLF_SIGNED | ZLF_UNSIGNED)))
 			{
@@ -4146,23 +4151,23 @@ yyreduce:
 				cl_do_op(pp, OP_LE_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0]));
 			}
 		}
-#line 4150 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4155 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 164:
-#line 2216 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2221 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_E_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4156 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4161 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 165:
-#line 2217 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2222 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { cl_do_op(pp, OP_NE_STK_STK, &(yyval), &(yyvsp[-2]), &(yyvsp[0])); }
-#line 4162 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4167 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 166:
-#line 2219 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2224 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			/*
 			cl_label_node *lb_skip;
@@ -4178,11 +4183,11 @@ yyreduce:
 			cl_push_dw(pp, 0);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 		}
-#line 4182 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4187 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 167:
-#line 2235 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2240 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			/*
 			cl_label_node *lb_skip;
@@ -4194,11 +4199,11 @@ yyreduce:
 			lb_skip = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
-#line 4198 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4203 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 168:
-#line 2247 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2252 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			/*
 			cl_label_node *lb_skip;
@@ -4214,11 +4219,11 @@ yyreduce:
 			cl_push_dw(pp, 0);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 		}
-#line 4218 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4223 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 169:
-#line 2263 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2268 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			/*
 			cl_label_node *lb_skip;
@@ -4230,11 +4235,11 @@ yyreduce:
 			lb_skip = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
-#line 4234 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4239 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 170:
-#line 2275 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2280 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			/*
 			cl_label_node *lb_skip;
@@ -4247,11 +4252,11 @@ yyreduce:
 			cl_stack_push(&pp->cl_stack, (void *) (pp->hc_fill[pp->hc_active]));
 			cl_push_dw(pp, 0);
 		}
-#line 4251 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4256 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 171:
-#line 2288 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2293 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			/*
 			cl_label_node *lb_skip, *lb_else;
@@ -4273,11 +4278,11 @@ yyreduce:
 			*/
 			cl_code_replace(pp->hard_code[pp->hc_active], lb_else, pp->hc_fill[pp->hc_active] - lb_else);
 		}
-#line 4277 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4282 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 172:
-#line 2310 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2315 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			/*
 			cl_label_node *lb_skip;
@@ -4289,46 +4294,46 @@ yyreduce:
 			lb_skip = (unsigned long)cl_stack_pop(&pp->cl_stack);
 			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
-#line 4293 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4298 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 173:
-#line 2321 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2326 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); cl_push(pp, OP_BNOT_STK); }
-#line 4299 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4304 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 174:
-#line 2322 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2327 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); cl_push(pp, OP_LNOT_STK); }
-#line 4305 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4310 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 175:
-#line 2323 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2328 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval) = (yyvsp[0]); }
-#line 4311 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4316 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 176:
-#line 2325 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2330 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval) = (yyvsp[0]);
 			(yyval).flags &= ~ZLF_UNSIGNED;
 			(yyval).flags |= ZLF_SIGNED;
 			cl_push(pp, OP_MINUS_STK);
 		}
-#line 4322 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4327 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 177:
-#line 2331 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2336 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nothing to do */ }
-#line 4328 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4333 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 178:
-#line 2348 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2353 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[-1]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4372,11 +4377,11 @@ yyreduce:
 
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 		}
-#line 4376 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4381 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 179:
-#line 2392 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2397 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[-1]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4420,11 +4425,11 @@ yyreduce:
 
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 		}
-#line 4424 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4429 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 180:
-#line 2436 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2441 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[0]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4468,11 +4473,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
 		}
-#line 4472 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4477 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 181:
-#line 2480 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2485 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			if((yyvsp[0]).flags & (ZLF_STRUCT | ZLF_ARRAY))
 			{
@@ -4516,11 +4521,11 @@ yyreduce:
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
 		}
-#line 4520 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4525 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 182:
-#line 2524 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2529 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			//if(pp->hc_fill[pp->hc_active] > 0)
 			{
@@ -4593,11 +4598,11 @@ yyreduce:
 			}
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 		}
-#line 4597 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4602 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 183:
-#line 2597 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2602 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			// get value from address and push
 			if(!((yyvsp[0]).flags & (ZLF_STRUCT | ZLF_ARRAY)))
@@ -4629,11 +4634,11 @@ yyreduce:
 				cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
 			}
 		}
-#line 4633 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4638 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 184:
-#line 2629 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2634 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			unsigned long var_size;
@@ -4659,218 +4664,218 @@ yyreduce:
 
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, var_size);
 		}
-#line 4663 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4668 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 185:
-#line 2655 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2660 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4671 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4676 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 186:
-#line 2659 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2664 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[-1]).var->size[(yyvsp[-1]).rows]);
 		}
-#line 4682 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4687 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 187:
-#line 2666 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2671 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[-1]).flags);
 		}
-#line 4691 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4696 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 188:
-#line 2671 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2676 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4699 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4704 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 189:
-#line 2675 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2680 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			(yyval).flags = ZLF_UNSIGNED | ZLF_LONG | ZLF_INT;
 			//cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_PUSH_IMM); cl_push_dw(pp, (yyvsp[-1]).var->flags);
 		}
-#line 4710 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4715 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 190:
-#line 2683 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2688 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval) = (yyvsp[0]);
 			(yyval).flags = (yyvsp[-2]).flags; 
 			//printf("(%s) %s\n", ($2.flags&ZLF_SIGNED)?"signed":(($2.flags&ZLF_UNSIGNED)?"unsigned":""), ($4.flags&ZLF_SIGNED)?"signed":(($4.flags&ZLF_UNSIGNED)?"unsigned":""));
 		}
-#line 4720 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4725 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 191:
-#line 2692 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2697 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nop */ }
-#line 4726 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4731 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 192:
-#line 2695 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2700 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nop */ }
-#line 4732 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4737 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 193:
-#line 2696 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2701 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value + (yyvsp[0]).value; }
-#line 4738 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4743 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 194:
-#line 2697 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2702 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value - (yyvsp[0]).value; }
-#line 4744 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4749 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 195:
-#line 2698 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2703 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value * (yyvsp[0]).value; }
-#line 4750 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4755 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 196:
-#line 2699 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2704 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value / (yyvsp[0]).value; }
-#line 4756 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4761 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 197:
-#line 2700 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2705 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value | (yyvsp[0]).value; }
-#line 4762 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4767 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 198:
-#line 2701 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2706 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value & (yyvsp[0]).value; }
-#line 4768 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4773 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 199:
-#line 2702 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2707 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value % (yyvsp[0]).value; }
-#line 4774 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4779 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 200:
-#line 2703 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2708 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value ^ (yyvsp[0]).value; }
-#line 4780 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4785 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 201:
-#line 2704 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2709 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value << (yyvsp[0]).value; }
-#line 4786 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4791 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 202:
-#line 2705 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2710 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value >> (yyvsp[0]).value; }
-#line 4792 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4797 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 203:
-#line 2706 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2711 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value < (yyvsp[0]).value; }
-#line 4798 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4803 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 204:
-#line 2707 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2712 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value > (yyvsp[0]).value; }
-#line 4804 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4809 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 205:
-#line 2708 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2713 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value >= (yyvsp[0]).value; }
-#line 4810 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4815 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 206:
-#line 2709 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2714 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value <= (yyvsp[0]).value; }
-#line 4816 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4821 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 207:
-#line 2710 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2715 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value == (yyvsp[0]).value; }
-#line 4822 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4827 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 208:
-#line 2711 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2716 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value != (yyvsp[0]).value; }
-#line 4828 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4833 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 209:
-#line 2712 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2717 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value || (yyvsp[0]).value; }
-#line 4834 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4839 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 210:
-#line 2713 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2718 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-2]).value && (yyvsp[0]).value; }
-#line 4840 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4845 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 211:
-#line 2714 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2719 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = (yyvsp[-4]).value ? (yyvsp[-2]).value : (yyvsp[0]).value; }
-#line 4846 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4851 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 212:
-#line 2715 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2720 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = ~(yyvsp[0]).value; }
-#line 4852 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4857 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 213:
-#line 2716 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2721 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = !(yyvsp[0]).value; }
-#line 4858 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4863 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 214:
-#line 2717 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2722 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { /* nothing to do */ }
-#line 4864 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4869 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 215:
-#line 2718 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2723 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     { (yyval).value = -(yyvsp[0]).value; }
-#line 4870 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4875 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 216:
-#line 2720 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2725 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			unsigned long var_size;
 			switch((yyvsp[-1]).flags & ZLF_TYPE)
@@ -4895,53 +4900,53 @@ yyreduce:
 
 			(yyval).uvalue = var_size;
 		}
-#line 4899 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4904 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 217:
-#line 2745 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2750 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4907 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4912 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 218:
-#line 2749 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2754 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).uvalue = (yyvsp[-1]).var->size[(yyvsp[-1]).rows];
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 		}
-#line 4916 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4921 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 219:
-#line 2754 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2759 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).uvalue = (yyvsp[-1]).flags;
 		}
-#line 4924 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4929 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 220:
-#line 2758 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2763 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 		}
-#line 4932 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4937 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
   case 221:
-#line 2762 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
+#line 2767 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1646  */
     {
 			(yyval).uvalue = (yyvsp[-1]).var->flags;
 			pp->hc_fill[pp->hc_active] = (unsigned long) cl_stack_pop(&pp->cl_stack);
 		}
-#line 4941 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4946 "zl_parser.cpp" /* yacc.c:1646  */
     break;
 
 
-#line 4945 "zl_parser.cpp" /* yacc.c:1646  */
+#line 4950 "zl_parser.cpp" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -5169,7 +5174,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 2776 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1906  */
+#line 2781 "C:\\_garbage\\_git\\zlc\\zl_parser.y" /* yacc.c:1906  */
 
 
 
@@ -5218,7 +5223,23 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	pp.source_code = code;
 	pp.sc_length = strlen(code);
 	pp.lineno = 1;
-
+	
+	*hardcode  = NULL;
+	*hard_code_size = 0;
+	*warning_msg = NULL;
+	*error_msg = NULL;
+	*const_sect = NULL;
+	*const_size = 0;
+	*data_sect = NULL;
+	*data_size = 0;
+	*reloc_sect = NULL;
+	*reloc_size = 0;
+	*import_sect = NULL;
+	*import_size = 0;
+	*export_sect = NULL;
+	*export_size = 0;
+	*map_sect = NULL;
+	*map_size = 0;
 
 	// predefined int main()
 	func = cl_label_define(&pp.funcs_table, "main");
@@ -5275,13 +5296,16 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	printf("--- END END END ---\n");
 	*/
 
-	cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code[0], pp.hc_fill[0],
-		const_sect, const_size,
-		data_sect, data_size,
-		reloc_sect, reloc_size,
-		import_sect, import_size,
-		export_sect, export_size,
-		map_sect, map_size);
+	if(!ret)
+	{
+		cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code[0], pp.hc_fill[0],
+			const_sect, const_size,
+			data_sect, data_size,
+			reloc_sect, reloc_size,
+			import_sect, import_size,
+			export_sect, export_size,
+			map_sect, map_size);
+	}
 
 	cl_label_free(&pp.labels_table);
 	cl_label_free(&pp.funcs_table);
@@ -5292,6 +5316,12 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	cl_stack_free(&pp.cl_loop_stack);
 
 	*hardcode = pp.hard_code[0];
+	
+	while(pp.hc_active)
+	{
+		zfree(pp.hard_code[pp.hc_active]);
+		pp.hc_active--;
+	}
 
 	return ret;
 }

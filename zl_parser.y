@@ -1408,7 +1408,7 @@ initializer
 
 			$$.size = 4;
 			
-			int debug_flag = 1;
+			int temp_flag = 1;
 
 			if(!(((cl_var_node *) pp->cl_stack->data)->flags & ZLF_POINTER))
 			{
@@ -1420,29 +1420,20 @@ initializer
 						
 						if((((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY) && (($1.flags & (ZLF_ARRAY | ZLF_CHAR)) == (ZLF_ARRAY | ZLF_CHAR)))
 						{
-						/* char text[] = "like this";
-							mov edx, $1.size
-						lb_loop:
-							test edx, edx
-							jz lb_exit
-							dec edx
-							size_1
-							mov [ecx], [eax]
-							inc eax
-							jmp lb_loop
-						lb_exit:
+							/* char text[] = "like this";
+								mov edx, $1.size
+							lb_loop:
+								test edx, edx
+								jz lb_exit
+								dec edx
+								size_1
+								mov [ecx], [eax]
+								inc eax
+								inc ecx
+								jmp lb_loop
+							lb_exit:
+							//*/
 							
-							mov edx, ecx
-						loop:
-							size_1
-							mov [edx], [eax]
-							inc edx
-							size_1
-							test [eax], [eax]
-							jz lb_exit
-							inc eax
-							jmp lb_loop
-						//*/
 							$$.size = $1.size;
 							unsigned long lb_loop, lb_exit;
 							
@@ -1465,7 +1456,7 @@ initializer
 							cl_push(pp, OP_JMP); cl_push_dw(pp, lb_loop - pp->hc_fill[pp->hc_active]);
 							cl_code_replace(pp->hard_code[pp->hc_active], lb_exit, pp->hc_fill[pp->hc_active] - lb_exit);
 							
-							debug_flag = 0;
+							temp_flag = 0;
 						}
 						break;
 					case ZLF_INT:
@@ -1482,10 +1473,10 @@ initializer
 				}
 			}
 
-			if(debug_flag)
+			if(temp_flag)
 			{
-			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
-			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
+				cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_ECX); cl_push(pp, REG_EAX);
+				cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
 			}
 		}
 	| '{' initializer_list '}'
@@ -1504,6 +1495,11 @@ initializer_list
 		}
 	| initializer ','
 		{
+			if((~((cl_var_node *) pp->cl_stack->data)->flags & ZLF_POINTER) && (((cl_var_node *) pp->cl_stack->data)->flags & ZLF_CHAR))
+			{
+				ZL_ERROR("too many initializers");
+			}
+			
 			if(~((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY)
 			{
 				ZL_ERROR("too many initializers");
@@ -2821,7 +2817,23 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	pp.source_code = code;
 	pp.sc_length = strlen(code);
 	pp.lineno = 1;
-
+	
+	*hardcode  = NULL;
+	*hard_code_size = 0;
+	*warning_msg = NULL;
+	*error_msg = NULL;
+	*const_sect = NULL;
+	*const_size = 0;
+	*data_sect = NULL;
+	*data_size = 0;
+	*reloc_sect = NULL;
+	*reloc_size = 0;
+	*import_sect = NULL;
+	*import_size = 0;
+	*export_sect = NULL;
+	*export_size = 0;
+	*map_sect = NULL;
+	*map_size = 0;
 
 	// predefined int main()
 	func = cl_label_define(&pp.funcs_table, "main");
@@ -2878,13 +2890,16 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	printf("--- END END END ---\n");
 	*/
 
-	cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code[0], pp.hc_fill[0],
-		const_sect, const_size,
-		data_sect, data_size,
-		reloc_sect, reloc_size,
-		import_sect, import_size,
-		export_sect, export_size,
-		map_sect, map_size);
+	if(!ret)
+	{
+		cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code[0], pp.hc_fill[0],
+			const_sect, const_size,
+			data_sect, data_size,
+			reloc_sect, reloc_size,
+			import_sect, import_size,
+			export_sect, export_size,
+			map_sect, map_size);
+	}
 
 	cl_label_free(&pp.labels_table);
 	cl_label_free(&pp.funcs_table);
@@ -2895,6 +2910,12 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	cl_stack_free(&pp.cl_loop_stack);
 
 	*hardcode = pp.hard_code[0];
+	
+	while(pp.hc_active)
+	{
+		zfree(pp.hard_code[pp.hc_active]);
+		pp.hc_active--;
+	}
 
 	return ret;
 }
