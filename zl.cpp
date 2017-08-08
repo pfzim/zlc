@@ -36,7 +36,7 @@ unsigned long zl_load_functions(unsigned char *import_section, zl_map_section *m
 					pdw(dw(*modules) + offset) = dw(LoadLibrary(map_section[x].library));
 					if(pdw(dw(*modules) + offset))
 					{
-						*modules = (unsigned long *) zrealloc(*modules, offset+8);
+						*modules = (unsigned long *) zrealloc(*modules, offset+4);
 
 						*((unsigned long *)(import_section + cursor)) = dw(GetProcAddress((HMODULE) pdw(dw(*modules) + offset), map_section[x].name));
 
