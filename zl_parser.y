@@ -162,7 +162,7 @@ program
 	| f_current_level_one declaration_function
 ;
 
-f_current_level_zero :	{ pp->hc_active = 0; }
+f_current_level_zero :	{ pp->hc_active = 0; }  // fail merge dimensions here if initialize global var by function like: int x = func(1, 2, 3);
 f_current_level_one	:	{ pp->hc_active = 1; }
 
 statement_list
@@ -541,13 +541,15 @@ selection_statement
 			lb_skip = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			cl_code_replace(pp->hard_code[pp->hc_active], lb_skip, pp->hc_fill[pp->hc_active] - lb_skip);
 		}
-	| T_SWITCH '(' assignment_expression ')' '{'		// conflict with 'goto' from and into
+	| T_SWITCH '(' assignment_expression ')' '{'		// conflict with 'goto' into
 		{
 			cl_label_node *lb_exit;
 			lb_exit = cl_label_define(&pp->labels_table, NULL);
 			cl_stack_push(&pp->cl_loop_stack, lb_exit);			// break switch
 			cl_stack_push(&pp->cl_loop_stack, lb_exit);			// continue switch (continue == break)
 			cl_stack_push(&pp->cl_stack, 0);					// lb_previous
+			
+			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);		// eax = result of assignment_expression
 		}
 		switch_statement_list '}'
 		{
@@ -560,8 +562,6 @@ selection_statement
 			lb_exit->offset = pp->hc_fill[pp->hc_active];
 			lb_exit->dimension = pp->hc_active;
 			lb_exit->flags = ZLF_DEFINED;
-			
-			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 		}
 ;
 
@@ -577,15 +577,19 @@ switch_case_list
 ;
 
 switch_case
-	: T_CASE expr ':'
+	: T_CASE
+		{
+			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EAX);
+		}
+		expr ':'
 		{
 			unsigned long lb_previous;
 			lb_previous = (unsigned long) cl_stack_pop(&pp->cl_stack);
 			
-			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_POP_REG); cl_push(pp, REG_ECX);
+			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 			cl_push(pp, OP_CMP_REG_REG);  cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
-			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
+
 			cl_push(pp, OP_JNE);
 			cl_stack_push(&pp->cl_stack, (void *) pp->hc_fill[pp->hc_active]);
 			cl_push_dw(pp, 0);
@@ -1420,7 +1424,10 @@ initializer
 						
 						if((((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY) && (($1.flags & (ZLF_ARRAY | ZLF_CHAR)) == (ZLF_ARRAY | ZLF_CHAR)))
 						{
-							/* char text[] = "like this";
+							/* 
+								char text[] = "like this";
+
+
 								mov edx, $1.size
 							lb_loop:
 								test edx, edx
@@ -1497,7 +1504,9 @@ initializer_list
 		{
 			if((~((cl_var_node *) pp->cl_stack->data)->flags & ZLF_POINTER) && (((cl_var_node *) pp->cl_stack->data)->flags & ZLF_CHAR))
 			{
-				ZL_ERROR("too many initializers");
+				//ZL_ERROR("too many initializers");
+				
+				// FAILED: char text[] = {"abc", "def"};
 			}
 			
 			if(~((cl_var_node *) pp->cl_stack->data)->flags & ZLF_ARRAY)
