@@ -400,7 +400,8 @@ int main(int argc, char *argv[])
 		}
 
 		printf("disassembled:\n");
-		zl_decompile(hardcode, const_sect?hard_code_size:(*(unsigned long *)(&hardcode[13])));
+		zl_decompile(hardcode, 0, 72);
+		zl_decompile(hardcode, (*(unsigned long *)(&hardcode[18])) + 72, (*(unsigned long *)(&hardcode[43])) - (*(unsigned long *)(&hardcode[18])) - 72);
 
 		//return 0;
 

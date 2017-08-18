@@ -1395,13 +1395,13 @@ char *reg(unsigned long k)
 	return regs[k];
 }
 
-unsigned long zl_decompile(unsigned char *hardcode, unsigned long hard_code_size)
+unsigned long zl_decompile(unsigned char *hardcode, unsigned long offset, unsigned long hard_code_size)
 {
 	unsigned long zl_eip;
 	unsigned long zl_eof;
 
-	zl_eip = dw(hardcode);
-	zl_eof = dw(hardcode) + hard_code_size;
+	zl_eip = dw(hardcode) + offset;
+	zl_eof = dw(hardcode) + offset + hard_code_size;
 
 	while(zl_eip < zl_eof)
 	{

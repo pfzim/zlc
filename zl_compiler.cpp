@@ -626,6 +626,9 @@ unsigned long cl_link_sections(
 	unsigned long cursor;
 	unsigned long msize;
 	unsigned char *temp_section;
+	unsigned long offset_added;
+
+	offset_added = 0;
 
 	// .const section
 
@@ -636,7 +639,7 @@ unsigned long cl_link_sections(
 	}
 	else
 	{
-		offset = *hard_code_size;
+		offset = 72;
 		(*hard_code)[13] = (char)((unsigned long)((offset) & 0xFF));
 		(*hard_code)[13 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
 		(*hard_code)[13 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
@@ -650,16 +653,6 @@ unsigned long cl_link_sections(
 
 	while(data_node)
 	{
-		reference = data_node->references;
-		while(reference)
-		{
-			reference--;
-			(*hard_code)[data_node->reference_offsets[reference]] = (char)((unsigned long)((offset + cursor) & 0xFF));
-			(*hard_code)[data_node->reference_offsets[reference] + 1] = (char)((unsigned long)(((offset + cursor) >> 8) & 0xFF));
-			(*hard_code)[data_node->reference_offsets[reference] + 2] = (char)((unsigned long)(((offset + cursor) >> 16) & 0xFF));
-			(*hard_code)[data_node->reference_offsets[reference] + 3] = (char)((unsigned long)((offset + cursor) >> 24));
-		}
-
 		cursor += data_node->size;
 
 		data_node = data_node->next_node;
@@ -677,12 +670,19 @@ unsigned long cl_link_sections(
 			temp_section = (unsigned char *)zalloc(*hard_code_size + cursor);
 			if(*hard_code)
 			{
-				memcpy(temp_section, *hard_code, *hard_code_size);
+				memcpy(temp_section, *hard_code, 72);
+				memcpy(temp_section + cursor + 72, (*hard_code) + 72, (*hard_code_size) - 72);
 				zfree(*hard_code);
 			}
 			*hard_code = temp_section;
-			temp_section += *hard_code_size;
+			temp_section += 72;
 			*hard_code_size += cursor;
+			offset_added = cursor;
+
+			(*hard_code)[8] = (char)((unsigned long)((64 + offset_added) & 0xFF));
+			(*hard_code)[8 + 1] = (char)((unsigned long)(((64 + offset_added) >> 8) & 0xFF));
+			(*hard_code)[8 + 2] = (char)((unsigned long)(((64 + offset_added) >> 16) & 0xFF));
+			(*hard_code)[8 + 3] = (char)((unsigned long)((64 + offset_added) >> 24));
 		}
 
 		data_node = const_table;
@@ -692,6 +692,17 @@ unsigned long cl_link_sections(
 		{
 			while(data_node)
 			{
+				reference = data_node->references;
+				while(reference)
+				{
+					reference--;
+					data_node->reference_offsets[reference] += offset_added;
+					(*hard_code)[data_node->reference_offsets[reference]] = (char)((unsigned long)((offset + cursor) & 0xFF));
+					(*hard_code)[data_node->reference_offsets[reference] + 1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
+					(*hard_code)[data_node->reference_offsets[reference] + 2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
+					(*hard_code)[data_node->reference_offsets[reference] + 3] = (char)((unsigned long) ((offset + cursor) >> 24));
+				}
+
 				memcpy(temp_section + cursor, data_node->data, data_node->size);
 				cursor += data_node->size;
 
@@ -739,6 +750,7 @@ unsigned long cl_link_sections(
 			while(reference)
 			{
 				reference--;
+				vars_node->reference_offsets[reference] += offset_added;
 				(*hard_code)[vars_node->reference_offsets[reference]] = (char)((unsigned long)((offset + cursor) & 0xFF));
 				(*hard_code)[vars_node->reference_offsets[reference] + 1] = (char)((unsigned long)(((offset + cursor) >> 8) & 0xFF));
 				(*hard_code)[vars_node->reference_offsets[reference] + 2] = (char)((unsigned long)(((offset + cursor) >> 16) & 0xFF));
@@ -812,6 +824,7 @@ unsigned long cl_link_sections(
 			while(reference)
 			{
 				reference--;
+				vars_node->reference_offsets[reference] += offset_added;
 				(*hard_code)[vars_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
 				(*hard_code)[vars_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
 				(*hard_code)[vars_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
@@ -889,6 +902,7 @@ unsigned long cl_link_sections(
 			while(reference)
 			{
 				reference--;
+				funcs_node->reference_offsets[reference] += offset_added;
 				(*hard_code)[funcs_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
 				(*hard_code)[funcs_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
 				(*hard_code)[funcs_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));

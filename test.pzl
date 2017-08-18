@@ -830,4 +830,5 @@ function int main()
 	//small_test();
 	//proxy_rd();
 	return test_script();
+	"\r\n---------------------------------------------\r\n                   TEST SCRIPT                \r\n----------------------------------------------\r\n";
 }

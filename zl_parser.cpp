@@ -5269,7 +5269,7 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	cl_push_dw(&pp, 0x6D697A66);
 	cl_push(&pp, OP_POP_REG); cl_push(&pp, REG_EAX);
 	cl_push(&pp, OP_JMP);
-	cl_push_dw(&pp, 64);
+	cl_push_dw(&pp, 64);				// 8: jump to lb_start
 	cl_push(&pp, OP_PUSH_IMM);
 	cl_push_dw(&pp, 0x00000000);		// 13: const_sect offset
 	cl_push(&pp, OP_PUSH_IMM);
