@@ -96,7 +96,6 @@ void cl_const_join_dimension(cl_data_node *data_table, unsigned long dimension_s
 cl_data_node *cl_const_free(cl_data_node **data_table);
 //unsigned long cl_const_build_fix_free(cl_data_node *const_table, unsigned char *hard_code, unsigned char **const_section, unsigned long *size);
 unsigned long cl_link_sections(
-	unsigned long flags,
 	cl_data_node *const_table,
 	cl_var_node *vars_table,
 	cl_label_node *funcs_table,

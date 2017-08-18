@@ -5209,12 +5209,7 @@ void yywarning(void *scanner, cl_parser_params *pp, const char *err)
 	free_str(temp_str);
 }
 
-int zl_compile_monolith(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg)
-{
-	return zl_compile(hardcode, hard_code_size, code, warning_msg, error_msg, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
-}
-
-int zl_compile_separate(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
+int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
 	unsigned char **const_sect,
 	unsigned long *const_size,
 	unsigned char **data_sect,
@@ -5229,25 +5224,6 @@ int zl_compile_separate(unsigned char **hardcode, unsigned long *hard_code_size,
 	unsigned long *map_size
 )
 {
-	return zl_compile(hardcode, hard_code_size, code, warning_msg, error_msg, const_sect, const_size, data_sect, data_size, reloc_sect, reloc_size, import_sect, import_size, export_sect, export_size, map_sect, map_size, 0);
-}
-
-int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
-	unsigned char **const_sect,
-	unsigned long *const_size,
-	unsigned char **data_sect,
-	unsigned long *data_size,
-	unsigned char **reloc_sect,
-	unsigned long *reloc_size,
-	unsigned char **import_sect,
-	unsigned long *import_size,
-	unsigned char **export_sect,
-	unsigned long *export_size,
-	unsigned char **map_sect,
-	unsigned long *map_size,
-	unsigned long flags
-)
-{
 	int ret;
 	void *scanner;
 	cl_parser_params pp;
@@ -5259,22 +5235,22 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	pp.sc_length = strlen(code);
 	pp.lineno = 1;
 	
-	*hardcode  = NULL;
-	*hard_code_size = 0;
-	*warning_msg = NULL;
-	*error_msg = NULL;
-	*const_sect = NULL;
-	*const_size = 0;
-	*data_sect = NULL;
-	*data_size = 0;
-	*reloc_sect = NULL;
-	*reloc_size = 0;
-	*import_sect = NULL;
-	*import_size = 0;
-	*export_sect = NULL;
-	*export_size = 0;
-	*map_sect = NULL;
-	*map_size = 0;
+	if(hardcode)		*hardcode  = NULL;
+	if(hard_code_size)	*hard_code_size = 0;
+	if(warning_msg)		*warning_msg = NULL;
+	if(error_msg)		*error_msg = NULL;
+	if(const_sect)		*const_sect = NULL;
+	if(const_size)		*const_size = 0;
+	if(data_sect)		*data_sect = NULL;
+	if(data_size)		*data_size = 0;
+	if(reloc_sect)		*reloc_sect = NULL;
+	if(reloc_size)		*reloc_size = 0;
+	if(import_sect)		*import_sect = NULL;
+	if(import_size)		*import_size = 0;
+	if(export_sect)		*export_sect = NULL;
+	if(export_size)		*export_size = 0;
+	if(map_sect)		*map_sect = NULL;
+	if(map_size)		*map_size = 0;
 
 	// predefined int main()
 	func = cl_label_define(&pp.funcs_table, "main");
@@ -5291,23 +5267,33 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 
 	cl_push(&pp, OP_PUSH_IMM);
 	cl_push_dw(&pp, 0x6D697A66);
-	cl_push(&pp, OP_PUSH_REG); cl_push(&pp, REG_EAX);
+	cl_push(&pp, OP_POP_REG); cl_push(&pp, REG_EAX);
 	cl_push(&pp, OP_JMP);
-	cl_push_dw(&pp, 39);
+	cl_push_dw(&pp, 64);
 	cl_push(&pp, OP_PUSH_IMM);
-	cl_push_dw(&pp, 0x00000000);		// const_sect offset
+	cl_push_dw(&pp, 0x00000000);		// 13: const_sect offset
 	cl_push(&pp, OP_PUSH_IMM);
-	cl_push_dw(&pp, 0x00000000);		// data_sect offset
+	cl_push_dw(&pp, 0x00000000);		// 18: const_sect size
 	cl_push(&pp, OP_PUSH_IMM);
-	cl_push_dw(&pp, 0x00000000);		// reloc_sect offset
+	cl_push_dw(&pp, 0x00000000);		// 23: data_sect offset
 	cl_push(&pp, OP_PUSH_IMM);
-	cl_push_dw(&pp, 0x00000000);		// import_sect offset
+	cl_push_dw(&pp, 0x00000000);		// 28: data_sect size
 	cl_push(&pp, OP_PUSH_IMM);
-	cl_push_dw(&pp, 0x00000000);		// export_sect offset
+	cl_push_dw(&pp, 0x00000000);		// 33: reloc_sect offset
 	cl_push(&pp, OP_PUSH_IMM);
-	cl_push_dw(&pp, 0x00000000);		// map_sect offset
+	cl_push_dw(&pp, 0x00000000);		// 38: reloc_sect size
 	cl_push(&pp, OP_PUSH_IMM);
-	cl_push_dw(&pp, 0x00000000);		// map_sect size
+	cl_push_dw(&pp, 0x00000000);		// 43: import_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// 48: import_sect size
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// 53: export_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// 58: export_sect size
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// 63: map_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// 68: map_sect size
 
 	yylex_init(&scanner);
 	yyset_extra(&pp, scanner);
@@ -5351,7 +5337,7 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 
 	if(!ret)
 	{
-		cl_link_sections(flags, pp.data_table, pp.vars_table, pp.funcs_table, &pp.hard_code[0], &pp.hc_fill[0],
+		cl_link_sections(pp.data_table, pp.vars_table, pp.funcs_table, &pp.hard_code[0], &pp.hc_fill[0],
 			const_sect, const_size,
 			data_sect, data_size,
 			reloc_sect, reloc_size,

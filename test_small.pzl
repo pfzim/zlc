@@ -1,28 +1,4 @@
 // zlc testing script
-
-import __cdecl print2(char *, char *);
-import __cdecl int strcmp2(char *, char *);
-import __cdecl print(char *);
-import __cdecl printn(int);
-import __cdecl printh(unsigned long);
-import __cdecl int settextcolor(unsigned long);
-import __cdecl strcmp(char *, char *);
-import __cdecl isset(char *);
-import __cdecl merge(char **, char *);
-import __cdecl char *encode(char *);
-import __cdecl char *decode(char *);
-import __cdecl free(char *);
-
-unsigned long ext_var;
-extern unsigned long action;
-extern char *ext_names[5];
-//extern char *header, *referer, *method, *protocol, *uri, *host, *port, *query;
-unsigned long g_var1 = 123456;
-
-
-import __stdcall int MessageBoxA(unsigned long, char *, char *, unsigned long) from "user32.dll";
-
 function int main()
 {
-	print("AAAAAA");
-}            
+}

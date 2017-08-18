@@ -362,14 +362,33 @@ int main(int argc, char *argv[])
 
 	printf("compiling...\n");
 
+	const_sect = NULL;
+	const_size = 0;
+	data_sect = NULL;
+	data_size = 0;
+	reloc_sect = NULL;
+	reloc_size = 0;
+	import_sect = NULL;
+	import_size = 0;
+	export_sect = NULL;
+	export_size = 0;
+	map_sect = NULL;
+	map_size = 0;
+
 	//if(!zl_compile(&hardcode, &data_table,/* &vars_count,*/ fn_list, code, &vars_map, &error_msg))
 	if(!zl_compile(&hardcode, &hard_code_size, code, &warning_msg, &error_msg,
-		&const_sect, &const_size,
+		NULL, NULL,
+		//&const_sect, &const_size,
+		//NULL, NULL,
 		&data_sect, &data_size,
+		//NULL, NULL,
 		&reloc_sect, &reloc_size,
-		&import_sect, &import_size,
-		&export_sect, &export_size,
-		&map_sect, &map_size, 0
+		NULL, NULL,
+		//&import_sect, &import_size,
+		NULL, NULL,
+		//&export_sect, &export_size,
+		NULL, NULL
+		//&map_sect, &map_size
 		))
 	{
 
@@ -402,17 +421,20 @@ int main(int argc, char *argv[])
 
 		if(!reloc_sect)
 		{
-			reloc_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[23]);
+			reloc_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[33]);
+			reloc_size = *(unsigned long *)(&hardcode[38]);
 		}
 
 		if(!import_sect)
 		{
-			import_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[28]);
+			import_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[43]);
+			import_size = *(unsigned long *)(&hardcode[48]);
 		}
 		
 		if(!map_sect)
 		{
-			map_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[38]);
+			map_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[63]);
+			map_size = *(unsigned long *)(&hardcode[68]);
 		}
 
 		zl_load_functions(import_sect, (zl_map_section *) map_sect, map_size/sizeof(zl_map_section), fn_list, &modules);
@@ -456,8 +478,9 @@ int main(int argc, char *argv[])
 	zfree(warning_msg);
 
 	//zl_free(&hardcode, NULL, &data_table, &vars_map);
-	zl_free(hardcode, const_sect, data_sect, reloc_sect, import_sect, export_sect, map_sect);
-	
+	zl_free(hardcode, NULL, data_sect, reloc_sect, NULL, NULL, NULL);
+	//zl_free(hardcode, const_sect, data_sect, reloc_sect, import_sect, export_sect, map_sect);
+
 	zfree(code);
 
 	return 0;
