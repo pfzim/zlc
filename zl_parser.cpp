@@ -125,7 +125,7 @@ extern int yydebug;
 
 
 #include "zl_compiler.h"
-//#include "zl.h"
+#include "zl.h"
 
 
 #line 132 "zl_parser.cpp" /* yacc.c:355  */
@@ -5209,7 +5209,12 @@ void yywarning(void *scanner, cl_parser_params *pp, const char *err)
 	free_str(temp_str);
 }
 
-int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
+int zl_compile_monolith(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg)
+{
+	return zl_compile(hardcode, hard_code_size, code, warning_msg, error_msg, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+}
+
+int zl_compile_separate(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
 	unsigned char **const_sect,
 	unsigned long *const_size,
 	unsigned char **data_sect,
@@ -5222,6 +5227,25 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	unsigned long *export_size,
 	unsigned char **map_sect,
 	unsigned long *map_size
+)
+{
+	return zl_compile(hardcode, hard_code_size, code, warning_msg, error_msg, const_sect, const_size, data_sect, data_size, reloc_sect, reloc_size, import_sect, import_size, export_sect, export_size, map_sect, map_size, 0);
+}
+
+int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
+	unsigned char **const_sect,
+	unsigned long *const_size,
+	unsigned char **data_sect,
+	unsigned long *data_size,
+	unsigned char **reloc_sect,
+	unsigned long *reloc_size,
+	unsigned char **import_sect,
+	unsigned long *import_size,
+	unsigned char **export_sect,
+	unsigned long *export_size,
+	unsigned char **map_sect,
+	unsigned long *map_size,
+	unsigned long flags
 )
 {
 	int ret;
@@ -5265,6 +5289,26 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	cl_push(&pp, OP_EOF);
 	//*/
 
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x6D697A66);
+	cl_push(&pp, OP_PUSH_REG); cl_push(&pp, REG_EAX);
+	cl_push(&pp, OP_JMP);
+	cl_push_dw(&pp, 39);
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// const_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// data_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// reloc_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// import_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// export_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// map_sect offset
+	cl_push(&pp, OP_PUSH_IMM);
+	cl_push_dw(&pp, 0x00000000);		// map_sect size
+
 	yylex_init(&scanner);
 	yyset_extra(&pp, scanner);
 	ret = yyparse(scanner, &pp);
@@ -5290,8 +5334,6 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 		free_str(pp.error_msg);
 	}
 
-	*hard_code_size = pp.hc_fill[0];
-
 	if(!ret && cl_label_fix(pp.funcs_table, pp.hard_code[0]))
 	{
 		ret = 1;
@@ -5305,11 +5347,11 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	printf("\n--- %u ---\n", pp.hc_active);
 	zl_decompile(pp.hard_code[pp.hc_active], pp.hc_fill[pp.hc_active]);
 	printf("--- END END END ---\n");
-	*/
+	//*/
 
 	if(!ret)
 	{
-		cl_link_sections(0, pp.data_table, pp.vars_table, pp.funcs_table, pp.hard_code[0], pp.hc_fill[0],
+		cl_link_sections(flags, pp.data_table, pp.vars_table, pp.funcs_table, &pp.hard_code[0], &pp.hc_fill[0],
 			const_sect, const_size,
 			data_sect, data_size,
 			reloc_sect, reloc_size,
@@ -5317,6 +5359,14 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 			export_sect, export_size,
 			map_sect, map_size);
 	}
+
+	/*
+	printf("\n--- %u ---\n", pp.hc_active);
+	zl_decompile(pp.hard_code[pp.hc_active], pp.hc_fill[pp.hc_active]);
+	printf("--- END END END ---\n");
+	//*/
+
+	*hard_code_size = pp.hc_fill[0];
 
 	cl_label_free(&pp.labels_table);
 	cl_label_free(&pp.funcs_table);

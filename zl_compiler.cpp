@@ -603,8 +603,8 @@ unsigned long cl_link_sections(
 	cl_data_node *const_table,
 	cl_var_node *vars_table,
 	cl_label_node *funcs_table,
-	unsigned char *hard_code,
-	unsigned long hard_code_size,
+	unsigned char **hard_code,
+	unsigned long *hard_code_size,
 	unsigned char **const_section,
 	unsigned long *const_size,
 	unsigned char **data_section,
@@ -636,7 +636,11 @@ unsigned long cl_link_sections(
 
 	if(flags)
 	{
-		offset = hard_code_size;
+		offset = *hard_code_size;
+		(*hard_code)[13] = (char)((unsigned long)((offset) & 0xFF));
+		(*hard_code)[13 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
+		(*hard_code)[13 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
+		(*hard_code)[13 + 3] = (char)((unsigned long)((offset) >> 24));
 	}
 	else
 	{
@@ -656,10 +660,10 @@ unsigned long cl_link_sections(
 		while(reference)
 		{
 			reference--;
-			hard_code[data_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
-			hard_code[data_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
-			hard_code[data_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
-			hard_code[data_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
+			(*hard_code)[data_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
+			(*hard_code)[data_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
+			(*hard_code)[data_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
+			(*hard_code)[data_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
 		}
 
 		cursor += data_node->size;
@@ -691,6 +695,10 @@ unsigned long cl_link_sections(
 	if(flags)
 	{
 		offset += cursor;
+		(*hard_code)[18] = (char)((unsigned long)((offset) & 0xFF));
+		(*hard_code)[18 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
+		(*hard_code)[18 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
+		(*hard_code)[18 + 3] = (char)((unsigned long)((offset) >> 24));
 	}
 
 	// .data section
@@ -706,10 +714,10 @@ unsigned long cl_link_sections(
 			while(reference)
 			{
 				reference--;
-				hard_code[vars_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
-				hard_code[vars_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
-				hard_code[vars_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
-				hard_code[vars_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
+				(*hard_code)[vars_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
+				(*hard_code)[vars_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
+				(*hard_code)[vars_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
+				(*hard_code)[vars_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
 			}
 
 			cursor += vars_node->size[vars_node->rows];
@@ -721,6 +729,7 @@ unsigned long cl_link_sections(
 	if(cursor)
 	{
 		*data_section = (unsigned char *) zalloc(cursor);
+		memset(*data_section, 0, cursor);
 	}
 
 	*data_size = cursor;
@@ -728,6 +737,10 @@ unsigned long cl_link_sections(
 	if(flags)
 	{
 		offset += cursor;
+		(*hard_code)[23] = (char)((unsigned long)((offset) & 0xFF));
+		(*hard_code)[23 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
+		(*hard_code)[23 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
+		(*hard_code)[23 + 3] = (char)((unsigned long)((offset) >> 24));
 	}
 
 	// .reloc section
@@ -743,10 +756,10 @@ unsigned long cl_link_sections(
 			while(reference)
 			{
 				reference--;
-				hard_code[vars_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
-				hard_code[vars_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
-				hard_code[vars_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
-				hard_code[vars_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
+				(*hard_code)[vars_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
+				(*hard_code)[vars_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
+				(*hard_code)[vars_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
+				(*hard_code)[vars_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
 			}
 
 			cursor += 4;
@@ -759,6 +772,7 @@ unsigned long cl_link_sections(
 	if(cursor)
 	{
 		*reloc_section = (unsigned char *) zalloc(cursor);
+		memset(*reloc_section, 0, cursor);
 	}
 
 	*reloc_size = cursor;
@@ -766,6 +780,10 @@ unsigned long cl_link_sections(
 	if(flags)
 	{
 		offset += cursor;
+		(*hard_code)[28] = (char)((unsigned long)((offset) & 0xFF));
+		(*hard_code)[28 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
+		(*hard_code)[28 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
+		(*hard_code)[28 + 3] = (char)((unsigned long)((offset) >> 24));
 	}
 
 	// .import section
@@ -784,10 +802,10 @@ unsigned long cl_link_sections(
 			while(reference)
 			{
 				reference--;
-				hard_code[funcs_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
-				hard_code[funcs_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
-				hard_code[funcs_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
-				hard_code[funcs_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
+				(*hard_code)[funcs_node->reference_offsets[reference]] = (char)((unsigned long) ((offset + cursor) & 0xFF));
+				(*hard_code)[funcs_node->reference_offsets[reference]+1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
+				(*hard_code)[funcs_node->reference_offsets[reference]+2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
+				(*hard_code)[funcs_node->reference_offsets[reference]+3] = (char)((unsigned long) ((offset + cursor) >> 24));
 			}
 
 			cursor += 12;
@@ -809,6 +827,7 @@ unsigned long cl_link_sections(
 			{
 				if(~funcs_node->flags & ZLF_FUNC_INTERNAL)
 				{
+					*((unsigned long *) (*import_section + cursor)) = 0;
 					*((unsigned long *) (*import_section + cursor + 4)) = funcs_node->params;
 					*((unsigned long *) (*import_section + cursor + 8)) = (funcs_node->flags & ZLF_STDCALL)?0:1;
 					cursor += 12;
@@ -824,6 +843,10 @@ unsigned long cl_link_sections(
 	if(flags)
 	{
 		offset += cursor;
+		(*hard_code)[33] = (char)((unsigned long)((offset) & 0xFF));
+		(*hard_code)[33 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
+		(*hard_code)[33 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
+		(*hard_code)[33 + 3] = (char)((unsigned long)((offset) >> 24));
 	}
 
 	// .export section
@@ -879,6 +902,20 @@ unsigned long cl_link_sections(
 
 	if(cursor)
 	{
+		if(flags)
+		{
+			offset += cursor;
+			(*hard_code)[38] = (char)((unsigned long)((offset) & 0xFF));
+			(*hard_code)[38 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
+			(*hard_code)[38 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
+			(*hard_code)[38 + 3] = (char)((unsigned long)((offset) >> 24));
+
+			(*hard_code)[43] = (char)((unsigned long)((msize) & 0xFF));
+			(*hard_code)[43 + 1] = (char)((unsigned long)(((msize) >> 8) & 0xFF));
+			(*hard_code)[43 + 2] = (char)((unsigned long)(((msize) >> 16) & 0xFF));
+			(*hard_code)[43 + 3] = (char)((unsigned long)((msize) >> 24));
+		}
+
 		*map_section = (unsigned char *) zalloc(msize);
 		*map_size = msize;
 
@@ -922,6 +959,28 @@ unsigned long cl_link_sections(
 		}
 	}
 
+	if(flags)
+	{
+		cl_code_add(hard_code, hard_code_size, *const_section, *const_size);
+		cl_code_add(hard_code, hard_code_size, *data_section, *data_size);
+		cl_code_add(hard_code, hard_code_size, *reloc_section, *reloc_size);
+		cl_code_add(hard_code, hard_code_size, *import_section, *import_size);
+		cl_code_add(hard_code, hard_code_size, *export_section, *export_size);
+		cl_code_add(hard_code, hard_code_size, *map_section, *map_size);
+		zfree(*const_section);
+		*const_section = NULL;
+		zfree(*data_section);
+		*data_section = NULL;
+		zfree(*reloc_section);
+		*reloc_section = NULL;
+		zfree(*import_section);
+		*import_section = NULL;
+		zfree(*export_section);
+		*export_section = NULL;
+		zfree(*map_section);
+		*map_section = NULL;
+	}
+	
 	return 0;
 }
 
@@ -1049,6 +1108,26 @@ unsigned long cl_data_add(cl_parser_params *pp, unsigned char *data, unsigned lo
 }
 //*/
 
+unsigned long cl_code_add(unsigned char **hard_code, unsigned long *hc_size, unsigned char *data, unsigned long size)
+{
+	unsigned long offset;
+
+	unsigned char *new_buf;
+	new_buf = (unsigned char *) zalloc(*hc_size + size);
+	if(*hard_code)
+	{
+		memcpy(new_buf, *hard_code, *hc_size);
+		zfree(*hard_code);
+	}
+	*hard_code = new_buf;
+
+	memcpy((void *)(((unsigned long)(*hard_code)) + *hc_size), data, size);
+
+	*hc_size += size;
+
+	return size;
+}
+
 unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned long size)
 {
 	unsigned long offset;
@@ -1056,8 +1135,8 @@ unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned lo
 	if((pp->hc_fill[pp->hc_active] + size) > pp->hc_buffer_size[pp->hc_active])
 	{
 		unsigned char *new_buf;
-		pp->hc_buffer_size[pp->hc_active] = pp->hc_fill[pp->hc_active] + size + (65536 - size%65536);
-		new_buf = (unsigned char *) zalloc(pp->hc_buffer_size[pp->hc_active]);
+		pp->hc_buffer_size[pp->hc_active] = pp->hc_fill[pp->hc_active] + size + (65536 - size % 65536);
+		new_buf = (unsigned char *)zalloc(pp->hc_buffer_size[pp->hc_active]);
 		if(pp->hard_code[pp->hc_active])
 		{
 			memcpy(new_buf, pp->hard_code[pp->hc_active], pp->hc_fill[pp->hc_active]);

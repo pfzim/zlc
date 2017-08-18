@@ -7,7 +7,6 @@
 // instructions
 #define OP_EOF				0x00
 
-#define OP_PUSH_IMM			0x01
 #define OP_PUSH_REG			0x02
 #define OP_PUSH_MEM			0x03
 #define OP_PUSH_OFFSET		0x91
@@ -47,7 +46,7 @@
 #define OP_CMP_MEM_REG		0x1D
 #define OP_CMP_MEM_MEM		0x1E
 
-//#define OP_JMP				0x1F
+#define OP_JMP				0x1F
 #define OP_JNE				0x20
 #define OP_JNZ				0x21
 #define OP_JE				0x22
@@ -116,8 +115,7 @@
 #define OP_SIZE_OVERRIDE_1	0x66
 #define OP_SIZE_OVERRIDE_2	0x67
 
-#define OP_NOP2				0x70
-#define OP_JMP				0x7A
+#define OP_PUSH_IMM			0x70
 
 #define OP_ADD_STK_STK		0xB0
 #define OP_SUB_STK_STK		0xB1

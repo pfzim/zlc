@@ -369,12 +369,19 @@ int main(int argc, char *argv[])
 		&reloc_sect, &reloc_size,
 		&import_sect, &import_size,
 		&export_sect, &export_size,
-		&map_sect, &map_size
+		&map_sect, &map_size, 0
 		))
 	{
 
+		if(__initbufferedwrite("zlc.pzb", &zb, 32768))
+		{
+			__addblock(&zb, (char *) hardcode, hard_code_size);
+			__donebufferedwrite(&zb);
+			__destructbufferedreadwrite(&zb);
+		}
+
 		printf("disassembled:\n");
-		zl_decompile(hardcode, hard_code_size);
+		zl_decompile(hardcode, const_sect?hard_code_size:(*(unsigned long *)(&hardcode[13])));
 
 		//return 0;
 
@@ -392,6 +399,21 @@ int main(int argc, char *argv[])
 
 		// start from entry point
 		zl_init(0, hardcode, stack, regs, const_sect, data_sect, reloc_sect, import_sect);
+
+		if(!reloc_sect)
+		{
+			reloc_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[23]);
+		}
+
+		if(!import_sect)
+		{
+			import_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[28]);
+		}
+		
+		if(!map_sect)
+		{
+			map_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[38]);
+		}
 
 		zl_load_functions(import_sect, (zl_map_section *) map_sect, map_size/sizeof(zl_map_section), fn_list, &modules);
 

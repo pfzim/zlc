@@ -100,8 +100,8 @@ unsigned long cl_link_sections(
 	cl_data_node *const_table,
 	cl_var_node *vars_table,
 	cl_label_node *funcs_table,
-	unsigned char *hard_code,
-	unsigned long hard_code_size,
+	unsigned char **hard_code,
+	unsigned long *hard_code_size,
 	unsigned char **const_section,
 	unsigned long *const_size,
 	unsigned char **data_section,
@@ -125,6 +125,7 @@ unsigned long cl_link_sections(
 //возвращает офсет занесённых данных относительно начала таблицы.
 
 unsigned long cl_code_add(cl_parser_params *pp, unsigned char *data, unsigned long size);
+unsigned long cl_code_add(unsigned char **hard_code, unsigned long *hc_size, unsigned char *data, unsigned long size);
 void cl_code_replace(unsigned char *hard_code, unsigned long offset, unsigned long data);
 
 /*

@@ -27,6 +27,24 @@ int zl_compile(unsigned char **hardcode, unsigned long *hard_code_size, char *co
 	unsigned char **export_sect,
 	unsigned long *export_size,
 	unsigned char **map_sect,
+	unsigned long *map_size,
+	unsigned long flags
+);
+
+int zl_compile_monolith(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg);
+
+int zl_compile_separate(unsigned char **hardcode, unsigned long *hard_code_size, char *code, char **warning_msg, char **error_msg,
+	unsigned char **const_sect,
+	unsigned long *const_size,
+	unsigned char **data_sect,
+	unsigned long *data_size,
+	unsigned char **reloc_sect,
+	unsigned long *reloc_size,
+	unsigned char **import_sect,
+	unsigned long *import_size,
+	unsigned char **export_sect,
+	unsigned long *export_size,
+	unsigned char **map_sect,
 	unsigned long *map_size
 );
 
