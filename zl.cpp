@@ -26,8 +26,9 @@ unsigned long zl_load_functions(unsigned char *import_section, zl_map_section *m
 	while(count)
 	{
 		count--;
+		//printf("zl_set: %s\n", map_section[x].name);
 		if(map_section[x].flags)
-		{
+			{
 			if(map_section[x].library[0] != '\0')
 			{
 				if(modules)
@@ -65,6 +66,7 @@ unsigned long zl_load_functions(unsigned char *import_section, zl_map_section *m
 							*((unsigned long *)(import_section + cursor)) = (unsigned long) fn_list[i].proc;
 							//*((unsigned long *)(import_section + cursor + 4)) = fn_list[i].params;
 							//*((unsigned long *)(import_section + cursor + 8)) = fn_list[i].flags;
+							//printf("zl_set: %s, %X = %X\n", map_section[x].name, cursor, (unsigned long)fn_list[i].proc);
 							break;
 						}
 						i++;
@@ -112,6 +114,7 @@ unsigned long zl_set(unsigned char *reloc_section, zl_map_section *map_section, 
 			if(strcmp(name, map_section[x].name) == 0)
 			{
 				*((unsigned long *)(reloc_section + cursor)) = (unsigned long) ext_var;
+				//printf("zl_set: %s, %X = %X\n", map_section[x].name, cursor, (unsigned long)ext_var);
 				return 0;
 			}
 			cursor += 4;

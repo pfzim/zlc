@@ -1095,7 +1095,7 @@ unsigned long cl_link_sections(
 			}
 			*hard_code = temp_section;
 			temp_section += *hard_code_size;
-			*hard_code_size += cursor;
+			*hard_code_size += msize;
 		}
 
 		if(map_size)

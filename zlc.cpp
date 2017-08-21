@@ -227,6 +227,10 @@ int main(int argc, char *argv[])
 	char *error_msg;
 	char *warning_msg;
 
+	int need_compile;
+	int need_execute;
+	int need_save;
+
 	/*
 	char data_table[] = {"Hello, User!\0More data!\0Next block internal vars\0"};
 	unsigned long vars_count = 1;
@@ -341,26 +345,47 @@ int main(int argc, char *argv[])
 	EXTBUFFER zb;
 	char *code;
 
-	if(argc < 2)
+	need_compile = 0;
+	need_execute = 0;
+	need_save = 0;
+
+	if(argc < 3)
 	{
-		printf("Usage: zlc <script file name>\n");
+		printf("Usage: zlc -e <script.pzl> | -c <script file name> <output file name> | -r <code.pzb>\n");
+		printf("  -c <script.pzl> <out.pzb>    - compile to byte-code\n");
+		printf("  -e <script.pzl>              - compile and execute\n");
+		printf("  -r <code.pzb>                - execute byte-code\n");
 		return 0;
 	}
 
-	if(__initbufferedread(argv[1], &zb, 32768))
+	if(strcmp(argv[1], "-c") == 0)
 	{
-		code = __alloc_getblock(&zb, 0, zb.dwFileSize);
-		__destructbufferedreadwrite(&zb);
+		need_compile = 1;
+		need_execute = 0;
+		need_save = 1;
+		if(argc < 4)
+		{
+			printf("Invalid argument syntax\n");
+			return 1;
+		}
+	}
+	else if(strcmp(argv[1], "-e") == 0)
+	{
+		need_compile = 1;
+		need_execute = 1;
+		need_save = 0;
+	}
+	else if(strcmp(argv[1], "-r") == 0)
+	{
+		need_compile = 0;
+		need_execute = 1;
+		need_save = 0;
 	}
 	else
 	{
-		printf("can not open file!\n");
-		return 0;
+		printf("Invalid argument\n");
+		return 1;
 	}
-	
-	//printf("source:\n%s\n", code);
-
-	printf("compiling...\n");
 
 	const_sect = NULL;
 	const_size = 0;
@@ -375,45 +400,101 @@ int main(int argc, char *argv[])
 	map_sect = NULL;
 	map_size = 0;
 
-	//if(!zl_compile(&hardcode, &data_table,/* &vars_count,*/ fn_list, code, &vars_map, &error_msg))
-	if(!zl_compile(&hardcode, &hard_code_size, code, &warning_msg, &error_msg,
-		NULL, NULL,
-		//&const_sect, &const_size,
-		//NULL, NULL,
-		&data_sect, &data_size,
-		//NULL, NULL,
-		&reloc_sect, &reloc_size,
-		NULL, NULL,
-		//&import_sect, &import_size,
-		NULL, NULL,
-		//&export_sect, &export_size,
-		NULL, NULL
-		//&map_sect, &map_size
-		))
+	if(need_compile)
 	{
-
-		if(__initbufferedwrite("zlc.pzb", &zb, 32768))
+		if(__initbufferedread(argv[2], &zb, 32768))
 		{
-			__addblock(&zb, (char *) hardcode, hard_code_size);
-			__donebufferedwrite(&zb);
+			code = __alloc_getblock(&zb, 0, zb.dwFileSize);
 			__destructbufferedreadwrite(&zb);
 		}
+		else
+		{
+			printf("can not open file!\n");
+			return 0;
+		}
 
-		printf("disassembled:\n");
-		zl_decompile(hardcode, 0, 72);
-		printf("\n");
-		zl_decompile(hardcode, (*(unsigned long *)(&hardcode[18])) + 72, (*(unsigned long *)(&hardcode[43])) - (*(unsigned long *)(&hardcode[18])) - 72);
+		//printf("source:\n%s\n", code);
 
-		//return 0;
+		printf("compiling...\n");
 
+		//if(!zl_compile(&hardcode, &data_table,/* &vars_count,*/ fn_list, code, &vars_map, &error_msg))
+		if(!zl_compile(&hardcode, &hard_code_size, code, &warning_msg, &error_msg,
+			NULL, NULL,
+			//&const_sect, &const_size,
+			NULL, NULL,
+			//&data_sect, &data_size,
+			NULL, NULL,
+			//&reloc_sect, &reloc_size,
+			NULL, NULL,
+			//&import_sect, &import_size,
+			NULL, NULL,
+			//&export_sect, &export_size,
+			NULL, NULL
+			//&map_sect, &map_size
+		))
+		{
+			if(!isempty(warning_msg))
+			{
+				printf("%s\n", warning_msg);
+			}
+
+			if(need_save)
+			{
+				if(__initbufferedwrite(argv[3], &zb, 32768))
+				{
+					__addblock(&zb, (char *)hardcode, hard_code_size);
+					__donebufferedwrite(&zb);
+					__destructbufferedreadwrite(&zb);
+				}
+			}
+
+			zfree(warning_msg);
+			zfree(code);
+		}
+		else
+		{
+			printf("%s\n", error_msg);
+			zfree(error_msg);
+
+			zfree(warning_msg);
+
+			//zl_free(&hardcode, NULL, &data_table, &vars_map);
+			zl_free(hardcode, NULL, NULL, NULL, NULL, NULL, NULL);
+			//zl_free(hardcode, const_sect, data_sect, reloc_sect, import_sect, export_sect, map_sect);
+
+			zfree(code);
+
+			return 1;
+		}
+	}
+	else
+	{
+		if(__initbufferedread(argv[2], &zb, 32768))
+		{
+			hardcode = (unsigned char *) __alloc_getblock(&zb, 0, zb.dwFileSize);
+			hard_code_size = zb.dwFileSize;
+			__destructbufferedreadwrite(&zb);
+		}
+		else
+		{
+			printf("can not open file!\n");
+			return 0;
+		}
+	}
+
+	printf("disassembled:\n");
+	zl_decompile(hardcode, 0, 72);
+	printf("\n");
+	zl_decompile(hardcode, (*(unsigned long *)(&hardcode[18])) + 72, (*(unsigned long *)(&hardcode[23])) - (*(unsigned long *)(&hardcode[18])) - 72);
+	fflush(NULL);
+
+	//return 0;
+
+	if(need_execute)
+	{
 		/*
 		zl_memtable_make2(&map_table, vars_map);
 		*/
-
-		if(!isempty(warning_msg))
-		{
-			printf("%s\n", warning_msg);
-		}
 
 		// call main() function
 		//zl_init(zl_offset("main", (zl_export_section *)export_sect, export_size / sizeof(zl_export_section)), hardcode, stack, regs, const_sect, data_sect, reloc_sect, import_sect);
@@ -432,17 +513,25 @@ int main(int argc, char *argv[])
 			import_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[43]);
 			import_size = *(unsigned long *)(&hardcode[48]);
 		}
-		
+
 		if(!map_sect)
 		{
 			map_sect = (unsigned char *)((unsigned long)hardcode) + *(unsigned long *)(&hardcode[63]);
 			map_size = *(unsigned long *)(&hardcode[68]);
 		}
 
-		zl_load_functions(import_sect, (zl_map_section *) map_sect, map_size/sizeof(zl_map_section), fn_list, &modules);
+		//printf("map_sect offset: %d, size: %d\n", map_sect - hardcode, map_size);
+		zl_load_functions(import_sect, (zl_map_section *)map_sect, map_size / sizeof(zl_map_section), fn_list, &modules);
 
-		zl_set(reloc_sect, (zl_map_section *) map_sect, map_size/sizeof(zl_map_section), "action", &action);
-		zl_set(reloc_sect, (zl_map_section *) map_sect, map_size/sizeof(zl_map_section), "ext_names", &ext_names);
+		zl_set(reloc_sect, (zl_map_section *)map_sect, map_size / sizeof(zl_map_section), "action", &action);
+		zl_set(reloc_sect, (zl_map_section *)map_sect, map_size / sizeof(zl_map_section), "ext_names", &ext_names);
+
+		if(__initbufferedwrite("dump.tmp", &zb, 32768))
+		{
+			__addblock(&zb, (char *)hardcode, hard_code_size);
+			__donebufferedwrite(&zb);
+			__destructbufferedreadwrite(&zb);
+		}
 
 		printf("executing...\n");
 		//zl_execute(hardcode, data_table, map_table, fn_list);
@@ -458,32 +547,22 @@ int main(int argc, char *argv[])
 		zl_push(regs, dw(host));
 		zl_push(regs, dw(port));
 		zl_push(regs, dw(query));
-		
+
 		zl_call(regs);
 
 		zl_pop(regs, 8);
-		
+
 		zl_unload_modules(modules);
 
 		//zl_free(NULL, &map_table, NULL, NULL);
 
 		printf("after execute: action = %d\n", action);
-
-		//printf("after execute: header:\n%s\n", header);
 	}
-	else
-	{
-		printf("%s\n", error_msg);
-		zfree(error_msg);
-	}
-
-	zfree(warning_msg);
+	//printf("after execute: header:\n%s\n", header);
 
 	//zl_free(&hardcode, NULL, &data_table, &vars_map);
-	zl_free(hardcode, NULL, data_sect, reloc_sect, NULL, NULL, NULL);
+	zl_free(hardcode, NULL, NULL, NULL, NULL, NULL, NULL);
 	//zl_free(hardcode, const_sect, data_sect, reloc_sect, import_sect, export_sect, map_sect);
-
-	zfree(code);
 
 	return 0;
 }
