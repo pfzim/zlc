@@ -146,13 +146,13 @@
     <CustomBuild Include="zl_lexer.l">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\PSTools\cygwin\bin\flex.exe -ozl_lexer.cpp %(FullPath)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">zl_lexer.cpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">c:\cygwin\bin\flex.exe -L -ozl_lexer.cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\PSTools\cygwin\bin\flex.exe -ozl_lexer.cpp %(FullPath)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">zl_lexer.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="zl_parser.y">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\PSTools\cygwin\bin\bison.exe -r all -d -o zl_parser.cpp %(FullPath)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">zl_parser.cpp;zl_parser.hpp;%(Outputs)</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bison.exe -r all -dl -o zl_parser.cpp %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\PSTools\cygwin\bin\bison.exe -r all -d -o zl_parser.cpp %(FullPath)</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">zl_parser.cpp;zl_parser.hpp;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>

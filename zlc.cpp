@@ -8,6 +8,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdio.h>
+//#include <time.h>
 #include "../zinc/utstrings.h"
 #include "../zinc/base64.h"
 #include "../zinc/snprintf.h"
@@ -352,7 +353,7 @@ int main(int argc, char *argv[])
 	if(argc < 3)
 	{
 		printf("Usage: zlc -e <script.pzl> | -c <script file name> <output file name> | -r <code.pzb>\n");
-		printf("  -c <script.pzl> <out.pzb>    - compile to byte-code\n");
+		printf("  -c <script.pzl> <code.pzb>    - compile to byte-code\n");
 		printf("  -e <script.pzl>              - compile and execute\n");
 		printf("  -r <code.pzb>                - execute byte-code\n");
 		return 0;
@@ -440,12 +441,43 @@ int main(int argc, char *argv[])
 
 			if(need_save)
 			{
+				/*
+				// encode save data
+				srand((unsigned) time(NULL));
+				char *out_data = (char *)zalloc((hard_code_size - (*(unsigned long *)&hardcode[18])) * 8 + (*(unsigned long *)&hardcode[18]));
+				unsigned long j = 0;
+				unsigned long k = 0;
+				unsigned long n = 0;
+				for(j = 0; j < 72; j++)
+				{
+					for(k = 0; k < 8; k++, n++)
+					{
+						out_data[n] = ((hardcode[j] >> k) & 0x1)?0:((rand()%254)+1);
+					}
+				}
+
+				for(; j - 72 < *(unsigned long *) &hardcode[18]; j++, n++)
+				{
+					out_data[n] = hardcode[j];
+				}
+
+				for(; j < hard_code_size; j++)
+				{
+					for(k = 0; k < 8; k++, n++)
+					{
+						out_data[n] = ((hardcode[j] >> k) & 0x1)?0:((rand() % 254) + 1);
+					}
+				}
+				*/
+
 				if(__initbufferedwrite(argv[3], &zb, 32768))
 				{
 					__addblock(&zb, (char *)hardcode, hard_code_size);
+					//__addblock(&zb, (char *)out_data, (hard_code_size - (*(unsigned long *)&hardcode[18])) * 8 + (*(unsigned long *)&hardcode[18]));
 					__donebufferedwrite(&zb);
 					__destructbufferedreadwrite(&zb);
 				}
+				//zfree(out_data);
 			}
 
 			zfree(warning_msg);
@@ -471,8 +503,40 @@ int main(int argc, char *argv[])
 	{
 		if(__initbufferedread(argv[2], &zb, 32768))
 		{
+			unsigned char *in_data;
 			hardcode = (unsigned char *) __alloc_getblock(&zb, 0, zb.dwFileSize);
 			hard_code_size = zb.dwFileSize;
+
+			/*
+			// decode saved data
+			hardcode = (unsigned char *)zalloc(hard_code_size);
+			unsigned long j = 0;
+			unsigned long k = 0;
+			unsigned long n = 0;
+			for(j = 0; j < 72; j++)
+			{
+				hardcode[j] = 0;
+				for(k = 0; k < 8; k++, n++)
+				{
+					hardcode[j] |= ((in_data[n]) == 0)?1<<k:0;
+				}
+			}
+			for(; j - 72 < *(unsigned long *)&hardcode[18]; j++, n++)
+			{
+				hardcode[j] = in_data[n];
+			}
+
+			for(; n < hard_code_size; j++)
+			{
+				hardcode[j] = 0;
+				for(k = 0; k < 8; k++, n++)
+				{
+					hardcode[j] |= ((in_data[n]) == 0)?1 << k:0;
+				}
+			}
+
+			hard_code_size = j;
+			*/
 			__destructbufferedreadwrite(&zb);
 		}
 		else
@@ -525,13 +589,6 @@ int main(int argc, char *argv[])
 
 		zl_set(reloc_sect, (zl_map_section *)map_sect, map_size / sizeof(zl_map_section), "action", &action);
 		zl_set(reloc_sect, (zl_map_section *)map_sect, map_size / sizeof(zl_map_section), "ext_names", &ext_names);
-
-		if(__initbufferedwrite("dump.tmp", &zb, 32768))
-		{
-			__addblock(&zb, (char *)hardcode, hard_code_size);
-			__donebufferedwrite(&zb);
-			__destructbufferedreadwrite(&zb);
-		}
 
 		printf("executing...\n");
 		//zl_execute(hardcode, data_table, map_table, fn_list);

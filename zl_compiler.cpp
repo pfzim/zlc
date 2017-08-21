@@ -715,13 +715,12 @@ unsigned long cl_link_sections(
 	{
 		*const_size = cursor;
 	}
-	else
-	{
-		(*hard_code)[18] = (char)((unsigned long)((cursor) & 0xFF));
-		(*hard_code)[18 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
-		(*hard_code)[18 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
-		(*hard_code)[18 + 3] = (char)((unsigned long)((cursor) >> 24));
-	}
+
+	(*hard_code)[18] = (char)((unsigned long)((cursor) & 0xFF));
+	(*hard_code)[18 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
+	(*hard_code)[18 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
+	(*hard_code)[18 + 3] = (char)((unsigned long)((cursor) >> 24));
+
 
 	// .data section
 
@@ -789,13 +788,12 @@ unsigned long cl_link_sections(
 	{
 		*data_size = cursor;
 	}
-	else
-	{
-		(*hard_code)[28] = (char)((unsigned long)((cursor) & 0xFF));
-		(*hard_code)[28 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
-		(*hard_code)[28 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
-		(*hard_code)[28 + 3] = (char)((unsigned long)((cursor) >> 24));
-	}
+
+	(*hard_code)[28] = (char)((unsigned long)((cursor) & 0xFF));
+	(*hard_code)[28 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
+	(*hard_code)[28 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
+	(*hard_code)[28 + 3] = (char)((unsigned long)((cursor) >> 24));
+
 
 	// .reloc section
 
@@ -864,13 +862,12 @@ unsigned long cl_link_sections(
 	{
 		*reloc_size = cursor;
 	}
-	else
-	{
-		(*hard_code)[38] = (char)((unsigned long)((cursor) & 0xFF));
-		(*hard_code)[38 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
-		(*hard_code)[38 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
-		(*hard_code)[38 + 3] = (char)((unsigned long)((cursor) >> 24));
-	}
+
+	(*hard_code)[38] = (char)((unsigned long)((cursor) & 0xFF));
+	(*hard_code)[38 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
+	(*hard_code)[38 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
+	(*hard_code)[38 + 3] = (char)((unsigned long)((cursor) >> 24));
+
 
 	// .import section
 	//		4 bytes - address
@@ -960,13 +957,12 @@ unsigned long cl_link_sections(
 	{
 		*import_size = cursor;
 	}
-	else
-	{
-		(*hard_code)[48] = (char)((unsigned long)((cursor) & 0xFF));
-		(*hard_code)[48 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
-		(*hard_code)[48 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
-		(*hard_code)[48 + 3] = (char)((unsigned long)((cursor) >> 24));
-	}
+
+	(*hard_code)[48] = (char)((unsigned long)((cursor) & 0xFF));
+	(*hard_code)[48 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
+	(*hard_code)[48 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
+	(*hard_code)[48 + 3] = (char)((unsigned long)((cursor) >> 24));
+
 
 	// .export section
 	//		4 bytes - offset
@@ -1046,13 +1042,11 @@ unsigned long cl_link_sections(
 	{
 		*export_size = cursor;
 	}
-	else
-	{
-		(*hard_code)[58] = (char)((unsigned long)((cursor) & 0xFF));
-		(*hard_code)[58 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
-		(*hard_code)[58 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
-		(*hard_code)[58 + 3] = (char)((unsigned long)((cursor) >> 24));
-	}
+
+	(*hard_code)[58] = (char)((unsigned long)((cursor) & 0xFF));
+	(*hard_code)[58 + 1] = (char)((unsigned long)(((cursor) >> 8) & 0xFF));
+	(*hard_code)[58 + 2] = (char)((unsigned long)(((cursor) >> 16) & 0xFF));
+	(*hard_code)[58 + 3] = (char)((unsigned long)((cursor) >> 24));
 
 	// .map section
 	//		4 bytes - flags [.reloc | .import]
@@ -1073,12 +1067,12 @@ unsigned long cl_link_sections(
 			(*hard_code)[63 + 1] = (char)((unsigned long)(((offset) >> 8) & 0xFF));
 			(*hard_code)[63 + 2] = (char)((unsigned long)(((offset) >> 16) & 0xFF));
 			(*hard_code)[63 + 3] = (char)((unsigned long)((offset) >> 24));
-
-			(*hard_code)[68] = (char)((unsigned long)((msize) & 0xFF));
-			(*hard_code)[68 + 1] = (char)((unsigned long)(((msize) >> 8) & 0xFF));
-			(*hard_code)[68 + 2] = (char)((unsigned long)(((msize) >> 16) & 0xFF));
-			(*hard_code)[68 + 3] = (char)((unsigned long)((msize) >> 24));
 		}
+
+		(*hard_code)[68] = (char)((unsigned long)((msize) & 0xFF));
+		(*hard_code)[68 + 1] = (char)((unsigned long)(((msize) >> 8) & 0xFF));
+		(*hard_code)[68 + 2] = (char)((unsigned long)(((msize) >> 16) & 0xFF));
+		(*hard_code)[68 + 3] = (char)((unsigned long)((msize) >> 24));
 
 		if(map_section)
 		{
