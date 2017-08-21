@@ -7,22 +7,22 @@
 // instructions
 #define OP_EOF				0x00
 
-#define OP_PUSH_REG			0x02
+#define OP_PUSH_REG			0x19
 #define OP_PUSH_MEM			0x03
 #define OP_PUSH_OFFSET		0x91
 #define OP_PUSH_PMEM		0x93
 
-#define OP_POP_REG			0x05
+#define OP_POP_REG			0x18
 #define OP_POP_MEM			0x06
 
-#define OP_ADD_REG_IMM		0x07
+#define OP_ADD_REG_IMM		0x2B
 #define OP_ADD_REG_REG		0x08
 #define OP_ADD_REG_MEM		0x09
 #define OP_ADD_MEM_IMM		0x0A
 #define OP_ADD_MEM_REG		0x0B
 #define OP_ADD_MEM_MEM		0x0C
 
-#define OP_SUB_REG_IMM		0x0D
+#define OP_SUB_REG_IMM		0x2D
 #define OP_SUB_REG_REG		0x0E
 #define OP_SUB_REG_MEM		0x0F
 #define OP_SUB_MEM_IMM		0x10
@@ -34,21 +34,21 @@
 #define OP_MOV_REG_MEM		0x15
 #define OP_MOV_MEM_IMM		0x16
 #define OP_MOV_MEM_REG		0x17
-#define OP_MOV_MEM_MEM		0x18
+#define OP_MOV_MEM_MEM		0x1E
 #define OP_MOV_PREG_REG		0x92
 #define OP_MOV_REG_PREG		0x94
 #define OP_MOV_PREG_PREG	0x95
 
-#define OP_CMP_REG_IMM		0x19
-#define OP_CMP_REG_REG		0x1A
+#define OP_CMP_REG_IMM		0x1F
+#define OP_CMP_REG_REG		0x02
 #define OP_CMP_REG_MEM		0x1B
 #define OP_CMP_MEM_IMM		0x1C
 #define OP_CMP_MEM_REG		0x1D
-#define OP_CMP_MEM_MEM		0x1E
+#define OP_CMP_MEM_MEM		0x05
 
-#define OP_JMP				0x1F
+#define OP_JMP				0x1B
 #define OP_JNE				0x20
-#define OP_JNZ				0x21
+#define OP_JNZ				0x3F
 #define OP_JE				0x22
 #define OP_JZ				0x23
 #define OP_JA				0x24
@@ -58,9 +58,9 @@
 #define OP_JB				0x28
 #define OP_JNAE				0x29
 #define OP_JNA				0x2A
-#define OP_JBE				0x2B
+#define OP_JBE				0x07
 #define OP_JC				0x2C
-#define OP_JNP				0x2D
+#define OP_JNP				0x0D
 #define OP_JPO				0x2E
 #define OP_JP				0x2F
 #define OP_JPE				0x30
@@ -80,9 +80,9 @@
 #define OP_JS				0x3D
 
 #define OP_RET				0x3E
-#define OP_CALL				0x3F
+#define OP_CALL				0x21
 
-#define OP_TEST_REG_REG		0x40
+#define OP_TEST_REG_REG		0x56
 
 #define OP_G_REG_REG		0x41
 #define OP_GE_REG_REG		0x42
@@ -109,7 +109,7 @@
 #define OP_INC_REG			0x54
 #define OP_DEC_REG			0x55
 
-#define OP_CALL_FAR			0x56
+#define OP_CALL_FAR			0x40
 #define OP_RCALL_FAR		0x57
 
 #define OP_SIZE_OVERRIDE_1	0x66

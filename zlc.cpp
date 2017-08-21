@@ -401,6 +401,7 @@ int main(int argc, char *argv[])
 
 		printf("disassembled:\n");
 		zl_decompile(hardcode, 0, 72);
+		printf("\n");
 		zl_decompile(hardcode, (*(unsigned long *)(&hardcode[18])) + 72, (*(unsigned long *)(&hardcode[43])) - (*(unsigned long *)(&hardcode[18])) - 72);
 
 		//return 0;
