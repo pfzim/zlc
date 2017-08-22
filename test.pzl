@@ -308,7 +308,7 @@ function test_script()
 	char *text[2+3];
 	short int ***ptr_size = &ptr_size;
 	char ch[10];
-	char hello[] = {'P', 'A', 'S', 'S', 'E', 'D', '\n', '\0'};
+	char hello[] = {'\x1B', '[', '3', '2', ';', 'P', 'A', 'S', 'S', 'E', 'D', '\n', '\0'};
 	char uk[][3] = {1,2,3,4,5};
 	short int uk2[][4][2] = {1,2,3,4,5,6,7,8,9,10};
 
@@ -320,7 +320,7 @@ function test_script()
 	print_ascii("  sizeof(ptr_size[0][0]):                              "); print_ascii((sizeof(ptr_size[0][0]) == 4)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 	print_ascii("  sizeof(ptr_size[0][0][0]):                           "); print_ascii((sizeof(ptr_size[0][0][0]) == 2)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 	print_ascii("  sizeof(ch):                                          "); print_ascii((sizeof(ch) == 10)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
-	print_ascii("  sizeof(hello):                                       "); print_ascii((sizeof(hello) == 8)?hello:"\x1B[31;FAILED\n");
+	print_ascii("  sizeof(hello):                                       "); print_ascii((sizeof(hello) == 13)?hello:"\x1B[31;FAILED\n");
 	print_ascii("  sizeof(uk):                                          "); print_ascii((sizeof(uk) == 6)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 	print_ascii("  sizeof(uk2):                                         "); print_ascii((sizeof(uk2) == 32)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 	print_ascii("  sizeof(short int):                                   "); print_ascii((sizeof(short int) == 2)?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
@@ -642,6 +642,16 @@ function test_script()
 	}
 	print_ascii(";\n");
 
+	print_ascii("Test swap parameters when push to call stack:          ");
+	char *temp;
+	char *temp2;
+	char *header = NULL;
+	char *query = "\x1B[32;PASSED\n";
+	merge(&header, temp = encode(query));
+	free(temp);
+	print_ascii(temp2 = decode(header));
+	free(temp2);
+
 	print_ascii("Call external MessageBox function: ");
 
 	if(MessageBoxA(0, "MessageBox function loaded from user32.dll", "Test caption", 0x00000004 | 0x00000010) == 6)
@@ -652,16 +662,6 @@ function test_script()
 	{
 		print_ascii("You choice:         \x1B[31;NO\n");
 	}
-
-	print_ascii("Test swap parameters when push to call stack:          ");
-	char *temp;
-	char *temp2;
-	char *header = NULL;
-	char *query = "\x1B[32;PASSED\n";
-	merge(&header, temp = encode(query));
-	free(temp);
-	print_ascii(temp2 = decode(header));
-	free(temp2);
 
 
 	//___dbg_print_regs;

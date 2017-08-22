@@ -409,6 +409,13 @@ unsigned long zl_call(unsigned long *regs)
 	return regs[REG_EAX];
 }
 
+unsigned long zl_call(unsigned long *regs, unsigned long offset)
+{
+	regs[REG_EIP] = regs[SECT_HARDCODE] + offset;
+
+	return zl_call(regs);
+}
+
 //unsigned long zl_execute(unsigned long *regs, unsigned char *const_sect, unsigned char *data_sect, unsigned char *reloc_sect, unsigned char *import_sect)
 unsigned long zl_execute(unsigned long *regs)
 {
@@ -1118,12 +1125,9 @@ unsigned long zl_execute(unsigned long *regs)
 
 			case OP_RET:
 				{
-					unsigned long zl_new_point;
 					nextinstr(zl_eip);
-					zl_new_point = pdw(zl_esp);
+					zl_eip = pdw(zl_esp);
 					pop(zl_esp);
-					zl_esp -= pdb(zl_eip);
-					zl_eip = zl_new_point;
 	
 					if(zl_eip == 0xFFFFFFFF)
 					{
@@ -1131,6 +1135,21 @@ unsigned long zl_execute(unsigned long *regs)
 					}
 				}
 				continue;
+			case OP_RET_IMM:
+			{
+				unsigned long zl_new_point;
+				nextinstr(zl_eip);
+				zl_new_point = pdw(zl_esp);
+				pop(zl_esp);
+				zl_esp -= pdb(zl_eip);
+				zl_eip = zl_new_point;
+
+				if(zl_eip == 0xFFFFFFFF)
+				{
+					goto lb_exit;
+				}
+			}
+			continue;
 
 			case OP_G_REG_REG:
 				nextinstr(zl_eip);

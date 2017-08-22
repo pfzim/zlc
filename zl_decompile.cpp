@@ -351,6 +351,11 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long offset, unsign
 			case OP_RET:
 				printf("%.4u:   ret\n", dw(zl_eip) - dw(hardcode));
 				break;
+			case OP_RET_IMM:
+				nextinstr(zl_eip);
+				printf("%.4u:   push %d\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, pdb(zl_eip));
+				zl_eip += 1;
+				continue;
 			case OP_NOP:
 				printf("%.4u:   nop\n", dw(zl_eip) - dw(hardcode));
 				break;
