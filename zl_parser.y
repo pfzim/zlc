@@ -15,7 +15,8 @@
 //#define YYPARSE_PARAM pp
 //#define YYPP ((cl_parser_params *) pp)
 //#define YYLEX_PARAM pp
-
+//#define YYMAXDEPTH 10000
+#define YYINITDEPTH 1000
 #define YYSTYPE zlval
 
 #define ZL_WARNING(message) { yywarning(scanner, pp, message); }
@@ -1051,7 +1052,7 @@ function_type_specifiers
 
 declaration_specifiers
 	: type_specifier											{ $$.flags = $1.flags; }
-	| type_specifier declaration_specifiers
+	| declaration_specifiers type_specifier
 		{
 			$$.flags = $1.flags | $2.flags;
 			if(($$.flags & (ZLF_SIGNED | ZLF_UNSIGNED)) == (ZLF_SIGNED | ZLF_UNSIGNED))

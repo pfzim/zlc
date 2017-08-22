@@ -166,7 +166,7 @@ Grammar
    95                         | declaration_specifiers
 
    96 declaration_specifiers: type_specifier
-   97                       | type_specifier declaration_specifiers
+   97                       | declaration_specifiers type_specifier
 
    98 type_specifier: T_VOID
    99               | T_CHAR
@@ -658,7 +658,7 @@ State 4
     4 program: f_current_level_zero . declaration_statement
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -795,20 +795,9 @@ State 18
 
 State 19
 
-   92 $@18: . %empty
+   92 $@18: . %empty  ['*', T_LABEL, '(']
    93 declaration_statement: declaration_specifiers . $@18 init_declarator_list ';'
-
-    $default  reduce using rule 92 ($@18)
-
-    $@18  go to state 24
-
-
-State 20
-
-   96 declaration_specifiers: . type_specifier
-   96                       | type_specifier .  [',', '*', T_LABEL, '(', ')']
-   97                       | . type_specifier declaration_specifiers
-   97                       | type_specifier . declaration_specifiers
+   97 declaration_specifiers: declaration_specifiers . type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -831,10 +820,17 @@ State 20
     T_UNSIGNED  shift, and go to state 16
     T_EXTERN    shift, and go to state 17
 
-    $default  reduce using rule 96 (declaration_specifiers)
+    $default  reduce using rule 92 ($@18)
 
-    declaration_specifiers  go to state 25
-    type_specifier          go to state 20
+    $@18            go to state 24
+    type_specifier  go to state 25
+
+
+State 20
+
+   96 declaration_specifiers: type_specifier .
+
+    $default  reduce using rule 96 (declaration_specifiers)
 
 
 State 21
@@ -854,7 +850,7 @@ State 22
    94 function_type_specifiers: . %empty  ['*', T_LABEL]
    95                         | . declaration_specifiers
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -914,7 +910,7 @@ State 24
 
 State 25
 
-   97 declaration_specifiers: type_specifier declaration_specifiers .
+   97 declaration_specifiers: declaration_specifiers type_specifier .
 
     $default  reduce using rule 97 (declaration_specifiers)
 
@@ -928,7 +924,7 @@ State 26
    94 function_type_specifiers: . %empty  ['*', T_LABEL]
    95                         | . declaration_specifiers
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -974,9 +970,33 @@ State 27
 
 State 28
 
-   95 function_type_specifiers: declaration_specifiers .
+   95 function_type_specifiers: declaration_specifiers .  ['*', T_LABEL]
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
+
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
 
     $default  reduce using rule 95 (function_type_specifiers)
+
+    type_specifier  go to state 25
 
 
 State 29
@@ -2054,7 +2074,7 @@ State 75
 State 76
 
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -2248,7 +2268,7 @@ State 81
    85                              | . function_arguments_specifiers ',' declaration_specifiers pointer
    86                              | . %empty  [',', ')']
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -2288,7 +2308,7 @@ State 82
    89                        | . %empty  [',', ')']
    91 function_argument: . declaration_specifiers $@17 declarator
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -2506,7 +2526,7 @@ State 86
 State 87
 
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -2542,7 +2562,7 @@ State 87
 State 88
 
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -3746,7 +3766,7 @@ State 120
 State 121
 
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -3782,7 +3802,7 @@ State 121
 State 122
 
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -3834,15 +3854,37 @@ State 124
 
 State 125
 
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
   113 pointer: . %empty  [')']
   114        | . '*' pointer
   146 cast_expression: declaration_specifiers . pointer
 
-    '*'  shift, and go to state 29
+    '*'         shift, and go to state 29
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
 
     $default  reduce using rule 113 (pointer)
 
-    pointer  go to state 199
+    type_specifier  go to state 25
+    pointer         go to state 199
 
 
 State 126
@@ -5910,14 +5952,36 @@ State 162
 State 163
 
    84 function_arguments_specifiers: declaration_specifiers . pointer
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
   113 pointer: . %empty  [',', ')']
   114        | . '*' pointer
 
-    '*'  shift, and go to state 29
+    '*'         shift, and go to state 29
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
 
     $default  reduce using rule 113 (pointer)
 
-    pointer  go to state 236
+    type_specifier  go to state 25
+    pointer         go to state 236
 
 
 State 164
@@ -5939,19 +6003,65 @@ State 165
 
 State 166
 
-   90 $@17: . %empty
+   90 $@17: . %empty  ['*', T_LABEL, '(']
    91 function_argument: declaration_specifiers . $@17 declarator
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
+
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
 
     $default  reduce using rule 90 ($@17)
 
-    $@17  go to state 239
+    $@17            go to state 239
+    type_specifier  go to state 25
 
 
 State 167
 
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
   216 const_expr: T_SIZEOF '(' declaration_specifiers . ')'
 
-    ')'  shift, and go to state 240
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
+    ')'         shift, and go to state 240
+
+    type_specifier  go to state 25
 
 
 State 168
@@ -5969,9 +6079,32 @@ State 168
 
 State 169
 
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
   219 const_expr: T_TYPEOF '(' declaration_specifiers . ')'
 
-    ')'  shift, and go to state 242
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
+    ')'         shift, and go to state 242
+
+    type_specifier  go to state 25
 
 
 State 170
@@ -7140,9 +7273,32 @@ State 192
 
 State 193
 
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
   184 expr: T_SIZEOF '(' declaration_specifiers . ')'
 
-    ')'  shift, and go to state 248
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
+    ')'         shift, and go to state 248
+
+    type_specifier  go to state 25
 
 
 State 194
@@ -7160,9 +7316,32 @@ State 194
 
 State 195
 
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
   187 expr: T_TYPEOF '(' declaration_specifiers . ')'
 
-    ')'  shift, and go to state 250
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
+    ')'         shift, and go to state 250
+
+    type_specifier  go to state 25
 
 
 State 196
@@ -8394,7 +8573,7 @@ State 234
 
    85 function_arguments_specifiers: function_arguments_specifiers ',' . declaration_specifiers pointer
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -8442,7 +8621,7 @@ State 237
    88 function_arguments_list: function_arguments_list ',' . function_argument
    91 function_argument: . declaration_specifiers $@17 declarator
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -8921,14 +9100,36 @@ State 259
 State 260
 
    85 function_arguments_specifiers: function_arguments_specifiers ',' declaration_specifiers . pointer
+   97 declaration_specifiers: declaration_specifiers . type_specifier
+   98 type_specifier: . T_VOID
+   99               | . T_CHAR
+  100               | . T_SHORT
+  101               | . T_INT
+  102               | . T_LONG
+  103               | . T_FLOAT
+  104               | . T_DOUBLE
+  105               | . T_SIGNED
+  106               | . T_UNSIGNED
+  107               | . T_EXTERN
   113 pointer: . %empty  [',', ')']
   114        | . '*' pointer
 
-    '*'  shift, and go to state 29
+    '*'         shift, and go to state 29
+    T_VOID      shift, and go to state 8
+    T_CHAR      shift, and go to state 9
+    T_SHORT     shift, and go to state 10
+    T_INT       shift, and go to state 11
+    T_LONG      shift, and go to state 12
+    T_FLOAT     shift, and go to state 13
+    T_DOUBLE    shift, and go to state 14
+    T_SIGNED    shift, and go to state 15
+    T_UNSIGNED  shift, and go to state 16
+    T_EXTERN    shift, and go to state 17
 
     $default  reduce using rule 113 (pointer)
 
-    pointer  go to state 276
+    type_specifier  go to state 25
+    pointer         go to state 276
 
 
 State 261
@@ -9320,7 +9521,7 @@ State 284
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -9755,7 +9956,7 @@ State 301
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -10070,7 +10271,7 @@ State 314
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -10955,7 +11156,7 @@ State 366
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -11270,7 +11471,7 @@ State 376
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -11632,7 +11833,7 @@ State 392
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -12040,7 +12241,7 @@ State 404
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -12232,7 +12433,7 @@ State 409
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
@@ -12389,7 +12590,7 @@ State 410
    75 jump_statement: . T_GOTO T_LABEL ';'
    93 declaration_statement: . declaration_specifiers $@18 init_declarator_list ';'
    96 declaration_specifiers: . type_specifier
-   97                       | . type_specifier declaration_specifiers
+   97                       | . declaration_specifiers type_specifier
    98 type_specifier: . T_VOID
    99               | . T_CHAR
   100               | . T_SHORT
