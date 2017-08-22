@@ -137,6 +137,7 @@
     <ClCompile Include="zl.cpp" />
     <ClCompile Include="zlc.cpp" />
     <ClCompile Include="zl_compiler.cpp" />
+    <ClCompile Include="zl_decompile.cpp" />
     <ClCompile Include="zl_lexer.cpp" />
     <ClCompile Include="zl_parser.cpp" />
     <ClCompile Include="zl_vars.cpp" />
@@ -170,8 +171,8 @@
     <ClInclude Include="strtod.h" />
     <ClInclude Include="zl.h" />
     <ClInclude Include="zl_compiler.h" />
+    <ClInclude Include="zl_decompile.h" />
     <ClInclude Include="zl_opcodes.h" />
-    <ClInclude Include="zl_parser.h" />
     <ClInclude Include="zl_parser.hpp" />
     <ClInclude Include="zl_vars.h" />
   </ItemGroup>

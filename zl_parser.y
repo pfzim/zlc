@@ -1,12 +1,13 @@
 %code requires {
 
 #include "zl_compiler.h"
-#include "zl.h"
+//#include "zl.h"
 
 }
 %code top {
 
-#include "zl_parser.h"
+//#include "zl_parser.h"
+#include "zl_compiler.h"
 
 }
 %{

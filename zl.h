@@ -2,7 +2,7 @@
 #define _ZL_H_
 
 #include "zl_vars.h"
-#include "zl_compiler.h"
+//#include "zl_compiler.h"
 
 //unsigned long zl_set(void **maptable, zl_names_map *vars_map, char *name, void *ext_var);
 unsigned long zl_set(unsigned char *reloc_section, zl_map_section *map_section, unsigned long count, char *name, void *ext_var);
@@ -20,7 +20,6 @@ unsigned long zl_push(unsigned long *regs, unsigned long value);
 unsigned long zl_pop(unsigned long *regs, unsigned long value);
 unsigned long zl_call(unsigned long *regs);
 unsigned long zl_execute(unsigned long *regs);
-unsigned long zl_decompile(unsigned char *hardcode, unsigned long offset, unsigned long hard_code_size);
 unsigned long zl_unload_modules(unsigned long *modules);
 unsigned long zl_load_functions(unsigned char *import_section, zl_map_section *map_section, unsigned long count, zl_funcs_list *fn_list, unsigned long **modules);
 //unsigned long zl_load_functions(unsigned char *import_section, zl_map_section *map_section, unsigned long count, zl_funcs_list *fn_list);

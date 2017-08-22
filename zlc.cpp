@@ -1,9 +1,11 @@
 // zlc.cpp : Defines the entry point for the console application.
 //
 
-#include "zl.h"
-#include "zl_parser.h"
-#include "zl_opcodes.h"
+#include "zl.h" 
+//#include "zl_parser.h"
+//#include "zl_opcodes.h"
+#include "zl_compiler.h"
+#include "zl_decompile.h"
 #include "autobuild.h"
 #include <string.h>
 #include <malloc.h>
@@ -354,8 +356,8 @@ int main(int argc, char *argv[])
 	{
 		printf("Usage: zlc -e <script.pzl> | -c <script file name> <output file name> | -r <code.pzb>\n");
 		printf("  -c <script.pzl> <code.pzb>    - compile to byte-code\n");
-		printf("  -e <script.pzl>              - compile and execute\n");
-		printf("  -r <code.pzb>                - execute byte-code\n");
+		printf("  -e <script.pzl>               - compile and execute\n");
+		printf("  -r <code.pzb>                 - execute byte-code\n");
 		return 0;
 	}
 

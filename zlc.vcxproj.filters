@@ -66,6 +66,9 @@
     <ClCompile Include="..\zinc\base64.cpp">
       <Filter>zinc</Filter>
     </ClCompile>
+    <ClCompile Include="zl_decompile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="autobuild.h">
@@ -81,9 +84,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zl_opcodes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="zl_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zl_vars.h">
@@ -118,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="..\zinc\base64.h">
       <Filter>zinc</Filter>
+    </ClInclude>
+    <ClInclude Include="zl_decompile.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
