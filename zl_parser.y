@@ -8,6 +8,7 @@
 
 //#include "zl_parser.h"
 #include "zl_compiler.h"
+#include "zl_parser.hpp"
 
 }
 %{
@@ -16,7 +17,7 @@
 //#define YYPP ((cl_parser_params *) pp)
 //#define YYLEX_PARAM pp
 //#define YYMAXDEPTH 10000
-#define YYINITDEPTH 1000
+//#define YYINITDEPTH 300
 #define YYSTYPE zlval
 
 #define ZL_WARNING(message) { yywarning(scanner, pp, message); }
@@ -155,7 +156,7 @@ top
 ;
 
 program_list
-	: program program_list
+	: program_list program 
 	| /* empty */
 ;
 
@@ -168,7 +169,7 @@ f_current_level_zero :	{ pp->hc_active = 0; }  // fail merge dimensions here if 
 f_current_level_one	:	{ pp->hc_active = 1; }
 
 statement_list
-	: statement statement_list
+	: statement_list statement 
 	| /* empty */
 ;
 statement
@@ -1570,7 +1571,11 @@ struct_declarator_list
 
 expression
 	: assignment_expression
-	| assignment_expression ',' expression								{ cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX); }
+	| expression ','
+		{
+			cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
+		}
+		assignment_expression
 ;															
 															
 argument_expression_list									
