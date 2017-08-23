@@ -85,10 +85,12 @@
 
 #define OP_TEST_REG_REG		0x56
 
+// signed compare
 #define OP_G_REG_REG		0x41
 #define OP_GE_REG_REG		0x42
 #define OP_L_REG_REG		0x43
 #define OP_LE_REG_REG		0x44
+
 #define OP_E_REG_REG		0x45
 #define OP_NE_REG_REG		0x46
 
@@ -129,10 +131,13 @@
 #define OP_SHL_STK_STK		0xB8
 #define OP_SHR_STK_STK		0xB9
 #define OP_MINUS_STK		0xBA
+
+// signed compare
 #define OP_G_STK_STK		0xBB
 #define OP_GE_STK_STK		0xBC
 #define OP_L_STK_STK		0xBD
 #define OP_LE_STK_STK		0xBE
+
 #define OP_E_STK_STK		0xBF
 #define OP_NE_STK_STK		0xC0
 #define OP_LNOT_STK			0xC1

@@ -2532,6 +2532,7 @@ expr
 			cl_push(pp, OP_MOV_PREG_REG); cl_push(pp, REG_EAX); cl_push(pp, REG_ECX);
 			cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_ECX);
 		}
+//	| unary_expression '(' argument_expression_list ')'
 	| T_LABEL '(' argument_expression_list ')'
 		{
 			//if(pp->hc_fill[pp->hc_active] > 0)
@@ -2697,7 +2698,6 @@ expr
 			$$.flags = $2.flags; 
 			//printf("(%s) %s\n", ($2.flags&ZLF_SIGNED)?"signed":(($2.flags&ZLF_UNSIGNED)?"unsigned":""), ($4.flags&ZLF_SIGNED)?"signed":(($4.flags&ZLF_UNSIGNED)?"unsigned":""));
 		}
-//	| unary_expression '(' argument_expression_list ')'
 ;
 
 const_expr

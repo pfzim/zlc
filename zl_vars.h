@@ -67,7 +67,7 @@ typedef struct _cl_var_label_func_node
 	unsigned long references;
 	unsigned long reference_offsets[1024]; //1024
 
-	struct _cl_var_node *next_node;
+	struct _cl_var_label_func_node *next_node;
 } cl_var_label_func_node;
 
 typedef struct _cl_data_node
