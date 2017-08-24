@@ -11,6 +11,7 @@
 #define OP_PUSH_MEM			0x03
 #define OP_PUSH_OFFSET		0x91
 #define OP_PUSH_PMEM		0x93
+#define OP_PUSH_FUNC		0x58
 
 #define OP_POP_REG			0x18
 #define OP_POP_MEM			0x06
@@ -81,7 +82,8 @@
 
 #define OP_RET				0x3E
 #define OP_RET_IMM			0x47
-#define OP_CALL				0x21
+#define OP_CALL_IMM			0x21
+#define OP_CALL_REG			0x48
 
 #define OP_TEST_REG_REG		0x56
 

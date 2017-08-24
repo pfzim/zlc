@@ -485,6 +485,12 @@ unsigned long zl_execute(unsigned long *regs)
 				pdw(zl_esp) = dw(regs[SECT_CONST] + pdw(zl_eip));
 				zl_eip += 4;
 				continue;
+			case OP_PUSH_FUNC:
+				nextinstr(zl_eip);
+				push(zl_esp);
+				pdw(zl_esp) = dw(zl_eip) + pdw(zl_eip);
+				zl_eip += 4;
+				continue;
 
 			case OP_POP_REG:
 				nextinstr(zl_eip);
@@ -884,7 +890,7 @@ unsigned long zl_execute(unsigned long *regs)
 				zl_eip += 4;
 				continue;
 
-			case OP_CALL:
+			case OP_CALL_IMM:
 				{
 					nextinstr(zl_eip);
 					push(zl_esp);
@@ -892,6 +898,14 @@ unsigned long zl_execute(unsigned long *regs)
 					zl_eip += pdw(zl_eip);
 				}
 				continue;
+			case OP_CALL_REG:
+			{
+				nextinstr(zl_eip);
+				push(zl_esp);
+				pdw(zl_esp) = zl_eip + 1;
+				zl_eip = regs[pdb(zl_eip)];
+			}
+			continue;
 			case OP_CALL_FAR:
 				{
 					nextinstr(zl_eip);

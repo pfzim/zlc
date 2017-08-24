@@ -21,6 +21,7 @@ import __cdecl free(char *);
 import __stdcall int MessageBoxA(unsigned long, char *, char *, unsigned long) from "user32.dll";
 
 function test_params(char *one, char *two, char *three);
+function cb_func();
 
 function print_ascii(char *text)
 {
@@ -570,6 +571,11 @@ function test_script()
 
 	print_ascii(test_params("one", "two", "three")?"\x1B[32;PASSED\n":"\x1B[31;FAILED\n");
 
+	print_ascii("Test callback function call:                           ");
+	void *cb_fn;
+	cb_fn = cb_func;
+	cb_fn();
+
 	print_ascii("Test external array:\n");
 
 	for(i = 0; i < 5; i++)
@@ -796,7 +802,7 @@ function small_test()
 
 function cb_func()
 {
-	print_ascii("cb_func\n");
+	print_ascii("\x1B[32;PASSED\n");
 }
 
 function test_params(char *one, char *two, char *three)

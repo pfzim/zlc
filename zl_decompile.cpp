@@ -55,7 +55,12 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long offset, unsign
 				continue;
 			case OP_PUSH_OFFSET:
 				nextinstr(zl_eip);
-				printf("%.4u:   push data offset [%.4Xh]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, pdw(zl_eip));
+				printf("%.4u:   push data offset [%.4d]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, pdw(zl_eip));
+				zl_eip += 4;
+				continue;
+			case OP_PUSH_FUNC:
+				nextinstr(zl_eip);
+				printf("%.4u:   push func address [%.4d]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, dw(zl_eip) - dw(hardcode) + pdw(zl_eip));
 				zl_eip += 4;
 				continue;
 			case OP_PUSH_MEM:
@@ -233,10 +238,15 @@ unsigned long zl_decompile(unsigned char *hardcode, unsigned long offset, unsign
 				printf("%.4u:   jmp %.4u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, dw(zl_eip) - dw(hardcode) + pdw(zl_eip));
 				zl_eip += 4;
 				continue;
-			case OP_CALL:
+			case OP_CALL_IMM:
 				nextinstr(zl_eip);
 				printf("%.4u:   call near %.4u\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, dw(zl_eip) - dw(hardcode) + pdw(zl_eip));
 				zl_eip += 4;
+				continue;
+			case OP_CALL_REG:
+				nextinstr(zl_eip);
+				printf("%.4u:   call near [%s]\n", dw(zl_eip) - dw(hardcode) - ZL_INSTRUCTION_LENGTH, reg(pdb(zl_eip)));
+				zl_eip += 1;
 				continue;
 			case OP_CALL_FAR:
 				nextinstr(zl_eip);

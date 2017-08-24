@@ -123,7 +123,7 @@ top
 					ZL_ERROR("undeclared identifier");
 				}
 			
-				cl_push(pp, OP_CALL);
+				cl_push(pp, OP_CALL_IMM);
 				cl_label_reference(func, pp->hc_active, pp->hc_fill[pp->hc_active]);
 				cl_push_dw(pp, 0);
 				cl_push(pp, OP_EOF);
@@ -238,7 +238,7 @@ assembler_command
 
 			if(func->flags & ZLF_FUNC_INTERNAL)
 			{
-				cl_push(pp, OP_CALL); // call near
+				cl_push(pp, OP_CALL_IMM); // call near
 			}
 			else
 			{
@@ -1963,56 +1963,76 @@ unary_expression
 	: T_LABEL													
 		{
 			// push address of value to stack
-
 			cl_var_node *var;
+			cl_label_node *func;
 
 			$$ = $1;
 
 			var = cl_var_find(pp->vars_table, $1.string);
+			if(var)
+			{
+				//memcpy(&$$.var, var, sizeof(cl_var_node));
+				$$.var = var;
+				$$.flags = var->flags;
+				$$.rows = var->rows;
+
+				if($$.flags & ZLF_EXTERNAL)
+				{
+					cl_push(pp, OP_PUSH_PMEM);
+					cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
+					cl_push_dw(pp, 0);
+				}
+				else if($$.var->level == 0) // global var
+				{
+					cl_push(pp, OP_PUSH_MEM);
+					cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
+					cl_push_dw(pp, 0);
+				}
+				else // local var
+				{
+					cl_push(pp, OP_MOV_REG_REG); cl_push(pp, REG_EBX); cl_push(pp, REG_EBP);
+					if(var->flags & ZLF_PARAM)
+					{
+						cl_push(pp, OP_SUB_REG_IMM);
+					}
+					else
+					{
+						cl_push(pp, OP_ADD_REG_IMM);
+					}
+					cl_push(pp, REG_EBX); cl_push_dw(pp, var->offset);
+
+					if(($$.flags & (ZLF_PARAM | ZLF_ARRAY)) == (ZLF_PARAM | ZLF_ARRAY))
+					{
+						// ссылка на массив переданная через параметр функции
+						cl_push(pp, OP_MOV_REG_PREG); cl_push(pp, REG_EBX); cl_push(pp, REG_EBX);
+					}
+
+					cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
+				}
+			}
+			else
+			{
+				func = cl_label_find(pp->funcs_table, $1.string);
+				if(!func)
+				{
+					free_str($1.string);
+					ZL_ERROR("undeclared identifier");
+				}
+				
+				if(~func->flags & ZLF_FUNC_INTERNAL)
+				{
+					free_str($1.string);
+					ZL_ERROR("expected internal function");
+				}
+				
+				$$.flags = ZLF_FUNC_INTERNAL;
+				
+				cl_push(pp, OP_PUSH_FUNC);
+				cl_label_reference(func, pp->hc_active, pp->hc_fill[pp->hc_active]);
+				cl_push_dw(pp, 0);
+			}
 			free_str($1.string);
-			if(!var)
-			{
-				ZL_ERROR("undeclared identifier");
-			}
 
-			//memcpy(&$$.var, var, sizeof(cl_var_node));
-			$$.var = var;
-			$$.flags = var->flags;
-			$$.rows = var->rows;
-
-			if($$.flags & ZLF_EXTERNAL)
-			{
-				cl_push(pp, OP_PUSH_PMEM);
-				cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
-				cl_push_dw(pp, 0);
-			}
-			else if($$.var->level == 0) // global var
-			{
-				cl_push(pp, OP_PUSH_MEM);
-				cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
-				cl_push_dw(pp, 0);
-			}
-			else // local var
-			{
-				cl_push(pp, OP_MOV_REG_REG); cl_push(pp, REG_EBX); cl_push(pp, REG_EBP);
-				if(var->flags & ZLF_PARAM)
-				{
-					cl_push(pp, OP_SUB_REG_IMM);
-				}
-				else
-				{
-					cl_push(pp, OP_ADD_REG_IMM);
-				}
-				cl_push(pp, REG_EBX); cl_push_dw(pp, var->offset);
-
-				if(($$.flags & (ZLF_PARAM | ZLF_ARRAY)) == (ZLF_PARAM | ZLF_ARRAY))
-				{
-					// ссылка на массив переданная через параметр функции
-					cl_push(pp, OP_MOV_REG_PREG); cl_push(pp, REG_EBX); cl_push(pp, REG_EBX);
-				}
-
-				cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
-			}
 		}
 	| '*' unary_expression	%prec T_POINTER
 		{
@@ -2535,6 +2555,9 @@ expr
 //	| unary_expression '(' argument_expression_list ')'
 	| T_LABEL '(' argument_expression_list ')'
 		{
+			cl_label_node *func;
+			cl_var_node *var;
+
 			//if(pp->hc_fill[pp->hc_active] > 0)
 			{
 				//hc[active-1] = concat(hc[active-1], hc[active])
@@ -2567,7 +2590,6 @@ expr
 				pp->hc_fill[pp->hc_active+1] = 0;
 				pp->hc_buffer_size[pp->hc_active+1] = 0;
 			}
-			cl_label_node *func;
 
 			/*
 			func = cl_label_define(&pp->funcs_table, $1.string);
@@ -2582,24 +2604,77 @@ expr
 
 			// - OR - then function must be predefined before call
 			func = cl_label_find(pp->funcs_table, $1.string);
+			if(func)
+			{
+				$$.flags = func->flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY);
+				
+				if(func->flags & ZLF_FUNC_INTERNAL)
+				{
+					cl_push(pp, OP_CALL_IMM); // call near
+				}
+				else
+				{
+					cl_push(pp, OP_CALL_FAR); // rcall far
+				}
+				
+				cl_label_reference(func, pp->hc_active, pp->hc_fill[pp->hc_active]);
+				cl_push_dw(pp, 0);
+			}
+			else // get function address from variable
+			{
+				var = cl_var_find(pp->vars_table, $1.string);
+				if(!var)
+				{
+					free_str($1.string);
+					ZL_ERROR("undeclared identifier");
+				}
+
+				//memcpy(&$$.var, var, sizeof(cl_var_node));
+				$1.var = var;
+				$1.flags = var->flags;
+				$1.rows = var->rows;
+
+				if($1.flags & ZLF_EXTERNAL)
+				{
+					cl_push(pp, OP_PUSH_PMEM);
+					cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
+					cl_push_dw(pp, 0);
+				}
+				else if($1.var->level == 0) // global var
+				{
+					cl_push(pp, OP_PUSH_MEM);
+					cl_var_reference(var, pp->hc_active, pp->hc_fill[pp->hc_active]);
+					cl_push_dw(pp, 0);
+				}
+				else // local var
+				{
+					cl_push(pp, OP_MOV_REG_REG); cl_push(pp, REG_EBX); cl_push(pp, REG_EBP);
+					if(var->flags & ZLF_PARAM)
+					{
+						cl_push(pp, OP_SUB_REG_IMM);
+					}
+					else
+					{
+						cl_push(pp, OP_ADD_REG_IMM);
+					}
+					cl_push(pp, REG_EBX); cl_push_dw(pp, var->offset);
+
+					if(($1.flags & (ZLF_PARAM | ZLF_ARRAY)) == (ZLF_PARAM | ZLF_ARRAY))
+					{
+						// ссылка на массив переданная через параметр функции
+						cl_push(pp, OP_MOV_REG_PREG); cl_push(pp, REG_EBX); cl_push(pp, REG_EBX);
+					}
+
+					cl_push(pp, OP_PUSH_REG); cl_push(pp, REG_EBX);
+				}
+
+				cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
+				cl_push(pp, OP_MOV_REG_PREG); cl_push(pp, REG_EAX); cl_push(pp, REG_EAX);
+
+				cl_push(pp, OP_CALL_REG);  cl_push(pp, REG_EAX); // call near
+			}
 			free_str($1.string);
-			if(!func)
-			{
-				ZL_ERROR("undeclared identifier");
-			}
-			
-			$$.flags = func->flags & (ZLF_POINTER|ZLF_VOID|ZLF_CHAR|ZLF_DOUBLE|ZLF_FLOAT|ZLF_INT|ZLF_SHORT|ZLF_LONG|ZLF_SIGNED|ZLF_UNSIGNED|ZLF_STRUCT|ZLF_ARRAY);
-			
-			if(func->flags & ZLF_FUNC_INTERNAL)
-			{
-				cl_push(pp, OP_CALL); // call near
-			}
-			else
-			{
-				cl_push(pp, OP_CALL_FAR); // rcall far
-			}
-			cl_label_reference(func, pp->hc_active, pp->hc_fill[pp->hc_active]);
-			cl_push_dw(pp, 0);
+
 			if($3.size)
 			{
 				cl_push(pp, OP_SUB_REG_IMM); cl_push(pp, REG_ESP); cl_push_dw(pp, $3.size);
@@ -2609,7 +2684,7 @@ expr
 	| unary_expression
 		{
 			// get value from address and push
-			if(!($1.flags & (ZLF_STRUCT | ZLF_ARRAY)))
+			if(!($1.flags & (ZLF_STRUCT | ZLF_ARRAY | ZLF_FUNC_INTERNAL)))
 			{
 				cl_push(pp, OP_POP_REG); cl_push(pp, REG_EAX);
 				cl_push(pp, OP_MOV_REG_PREG); cl_push(pp, REG_EAX); cl_push(pp, REG_EAX);
