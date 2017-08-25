@@ -437,10 +437,10 @@ cl_data_node *cl_const_define(cl_data_node **data_table, unsigned long dimension
 		return temp_node;
 	}
 
-	temp_node = (cl_data_node *) zalloc(sizeof(cl_label_node));
+	temp_node = (cl_data_node *) zalloc(sizeof(cl_data_node));
 	if(temp_node)
 	{
-		memset(temp_node, 0, sizeof(cl_label_node));
+		memset(temp_node, 0, sizeof(cl_data_node));
 
 		temp_node->data = (char *) zalloc(size+1);
 		memcpy(temp_node->data, data, size);
@@ -664,16 +664,23 @@ unsigned long cl_link_sections(
 		{
 			temp_section = (unsigned char *)zalloc(cursor);
 			*const_section = temp_section;
+			if(!temp_section)
+			{
+				return 1L;
+			}
 		}
 		else
 		{
 			temp_section = (unsigned char *)zalloc(*hard_code_size + cursor);
-			if(*hard_code)
+			if(!temp_section)
 			{
-				memcpy(temp_section, *hard_code, 72);
-				memcpy(temp_section + cursor + 72, (*hard_code) + 72, (*hard_code_size) - 72);
-				zfree(*hard_code);
+				return 1L;
 			}
+
+			memcpy(temp_section, *hard_code, 72);
+			memcpy(temp_section + cursor + 72, (*hard_code) + 72, (*hard_code_size) - 72);
+			zfree(*hard_code);
+
 			*hard_code = temp_section;
 			temp_section += 72;
 			*hard_code_size += cursor;
@@ -688,26 +695,23 @@ unsigned long cl_link_sections(
 		data_node = const_table;
 		cursor = 0;
 
-		if(temp_section)
+		while(data_node)
 		{
-			while(data_node)
+			reference = data_node->references;
+			while(reference)
 			{
-				reference = data_node->references;
-				while(reference)
-				{
-					reference--;
-					data_node->reference_offsets[reference] += offset_added;
-					(*hard_code)[data_node->reference_offsets[reference]] = (char)((unsigned long)((offset + cursor) & 0xFF));
-					(*hard_code)[data_node->reference_offsets[reference] + 1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
-					(*hard_code)[data_node->reference_offsets[reference] + 2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
-					(*hard_code)[data_node->reference_offsets[reference] + 3] = (char)((unsigned long) ((offset + cursor) >> 24));
-				}
-
-				memcpy(temp_section + cursor, data_node->data, data_node->size);
-				cursor += data_node->size;
-
-				data_node = data_node->next_node;
+				reference--;
+				data_node->reference_offsets[reference] += offset_added;
+				(*hard_code)[data_node->reference_offsets[reference]] = (char)((unsigned long)((offset + cursor) & 0xFF));
+				(*hard_code)[data_node->reference_offsets[reference] + 1] = (char)((unsigned long) (((offset + cursor) >> 8) & 0xFF));
+				(*hard_code)[data_node->reference_offsets[reference] + 2] = (char)((unsigned long) (((offset + cursor) >> 16) & 0xFF));
+				(*hard_code)[data_node->reference_offsets[reference] + 3] = (char)((unsigned long) ((offset + cursor) >> 24));
 			}
+
+			memcpy(temp_section + cursor, data_node->data, data_node->size);
+			cursor += data_node->size;
+
+			data_node = data_node->next_node;
 		}
 	}
 
@@ -768,15 +772,22 @@ unsigned long cl_link_sections(
 		{
 			temp_section = (unsigned char *)zalloc(cursor);
 			*data_section = temp_section;
+			if(!temp_section)
+			{
+				return 1L;
+			}
 		}
 		else
 		{
 			temp_section = (unsigned char *)zalloc(*hard_code_size + cursor);
-			if(*hard_code)
+			if(!temp_section)
 			{
-				memcpy(temp_section, *hard_code, *hard_code_size);
-				zfree(*hard_code);
+				return 1L;
 			}
+
+			memcpy(temp_section, *hard_code, *hard_code_size);
+			zfree(*hard_code);
+
 			*hard_code = temp_section;
 			temp_section += *hard_code_size;
 			*hard_code_size += cursor;
@@ -842,19 +853,27 @@ unsigned long cl_link_sections(
 		{
 			temp_section = (unsigned char *)zalloc(cursor);
 			*reloc_section = temp_section;
+			if(!temp_section)
+			{
+				return 1L;
+			}
 		}
 		else
 		{
 			temp_section = (unsigned char *)zalloc(*hard_code_size + cursor);
-			if(*hard_code)
+			if(!temp_section)
 			{
-				memcpy(temp_section, *hard_code, *hard_code_size);
-				zfree(*hard_code);
+				return 1L;
 			}
+
+			memcpy(temp_section, *hard_code, *hard_code_size);
+			zfree(*hard_code);
+
 			*hard_code = temp_section;
 			temp_section += *hard_code_size;
 			*hard_code_size += cursor;
 		}
+
 		memset(temp_section, 0, cursor);
 	}
 
@@ -919,37 +938,41 @@ unsigned long cl_link_sections(
 		{
 			temp_section = (unsigned char *)zalloc(cursor);
 			*import_section = temp_section;
+			if(!temp_section)
+			{
+				return 1L;
+			}
 		}
 		else
 		{
 			temp_section = (unsigned char *)zalloc(*hard_code_size + cursor);
-			if(*hard_code)
+			if(!temp_section)
 			{
-				memcpy(temp_section, *hard_code, *hard_code_size);
-				zfree(*hard_code);
+				return 1L;
 			}
+
+			memcpy(temp_section, *hard_code, *hard_code_size);
+			zfree(*hard_code);
+
 			*hard_code = temp_section;
 			temp_section += *hard_code_size;
 			*hard_code_size += cursor;
 		}
 
-		if(temp_section)
+		cursor = 0;
+		funcs_node = funcs_table;
+
+		while(funcs_node)
 		{
-			cursor = 0;
-			funcs_node = funcs_table;
-
-			while(funcs_node)
+			if(~funcs_node->flags & ZLF_FUNC_INTERNAL)
 			{
-				if(~funcs_node->flags & ZLF_FUNC_INTERNAL)
-				{
-					*((unsigned long *) (temp_section + cursor)) = 0;
-					*((unsigned long *) (temp_section + cursor + 4)) = funcs_node->params;
-					*((unsigned long *) (temp_section + cursor + 8)) = (funcs_node->flags & ZLF_STDCALL)?0:1;
-					cursor += 12;
-				}
-
-				funcs_node = funcs_node->next_node;
+				*((unsigned long *) (temp_section + cursor)) = 0;
+				*((unsigned long *) (temp_section + cursor + 4)) = funcs_node->params;
+				*((unsigned long *) (temp_section + cursor + 8)) = (funcs_node->flags & ZLF_STDCALL)?0:1;
+				cursor += 12;
 			}
+
+			funcs_node = funcs_node->next_node;
 		}
 	}
 
@@ -1002,39 +1025,43 @@ unsigned long cl_link_sections(
 		{
 			temp_section = (unsigned char *)zalloc(cursor);
 			*export_section = temp_section;
+			if(!temp_section)
+			{
+				return 1L;
+			}
 		}
 		else
 		{
 			temp_section = (unsigned char *)zalloc(*hard_code_size + cursor);
-			if(*hard_code)
+			if(!temp_section)
 			{
-				memcpy(temp_section, *hard_code, *hard_code_size);
-				zfree(*hard_code);
+				return 1L;
 			}
+			
+			memcpy(temp_section, *hard_code, *hard_code_size);
+			zfree(*hard_code);
+
 			*hard_code = temp_section;
 			temp_section += *hard_code_size;
 			*hard_code_size += cursor;
 		}
 
-		if(temp_section)
+		memset(temp_section, 0, cursor);
+
+		cursor = 0;
+		funcs_node = funcs_table;
+
+		while(funcs_node)
 		{
-			memset(temp_section, 0, cursor);
-
-			cursor = 0;
-			funcs_node = funcs_table;
-
-			while(funcs_node)
+			if(funcs_node->flags & ZLF_FUNC_INTERNAL)
 			{
-				if(funcs_node->flags & ZLF_FUNC_INTERNAL)
-				{
-					*((unsigned long *) (temp_section + cursor)) = funcs_node->offset;
-					*((unsigned long *) (temp_section + cursor + 4)) = funcs_node->params;
-					strncpy_tiny((char *) (temp_section + cursor + 8), funcs_node->name, 99);
-					cursor += 108;
-				}
-
-				funcs_node = funcs_node->next_node;
+				*((unsigned long *) (temp_section + cursor)) = funcs_node->offset;
+				*((unsigned long *) (temp_section + cursor + 4)) = funcs_node->params;
+				strncpy_tiny((char *) (temp_section + cursor + 8), funcs_node->name, 99);
+				cursor += 108;
 			}
+
+			funcs_node = funcs_node->next_node;
 		}
 	}
 
@@ -1078,15 +1105,22 @@ unsigned long cl_link_sections(
 		{
 			temp_section = (unsigned char *)zalloc(msize);
 			*map_section = temp_section;
+			if(!temp_section)
+			{
+				return 1L;
+			}
 		}
 		else
 		{
 			temp_section = (unsigned char *)zalloc(*hard_code_size + msize);
-			if(*hard_code)
+			if(!temp_section)
 			{
-				memcpy(temp_section, *hard_code, *hard_code_size);
-				zfree(*hard_code);
+				return 1L;
 			}
+			
+			memcpy(temp_section, *hard_code, *hard_code_size);
+			zfree(*hard_code);
+
 			*hard_code = temp_section;
 			temp_section += *hard_code_size;
 			*hard_code_size += msize;
@@ -1097,43 +1131,40 @@ unsigned long cl_link_sections(
 			*map_size = msize;
 		}
 
-		if(temp_section)
+		memset(temp_section, 0, msize);
+
+		cursor = 0;
+		vars_node = vars_table;
+
+		while(vars_node)
 		{
-			memset(temp_section, 0, msize);
-
-			cursor = 0;
-			vars_node = vars_table;
-
-			while(vars_node)
+			if(vars_node->flags & ZLF_EXTERNAL)
 			{
-				if(vars_node->flags & ZLF_EXTERNAL)
-				{
-					*((unsigned long *) (temp_section + cursor)) = 0;
-					strncpy_tiny((char *) (temp_section + cursor + 4), vars_node->name, 99);
-					cursor += 360;
-				}
-
-				vars_node = vars_node->next_node;
+				*((unsigned long *) (temp_section + cursor)) = 0;
+				strncpy_tiny((char *) (temp_section + cursor + 4), vars_node->name, 99);
+				cursor += 360;
 			}
 
-			funcs_node = funcs_table;
+			vars_node = vars_node->next_node;
+		}
 
-			while(funcs_node)
+		funcs_node = funcs_table;
+
+		while(funcs_node)
+		{
+			if(~funcs_node->flags & ZLF_FUNC_INTERNAL)
 			{
-				if(~funcs_node->flags & ZLF_FUNC_INTERNAL)
+				*((unsigned long *) (temp_section + cursor)) = 1;
+				strncpy_tiny((char *) (temp_section + cursor + 4), funcs_node->name, 99);
+				if(!isempty(funcs_node->library))
 				{
-					*((unsigned long *) (temp_section + cursor)) = 1;
-					strncpy_tiny((char *) (temp_section + cursor + 4), funcs_node->name, 99);
-					if(!isempty(funcs_node->library))
-					{
-						strncpy_tiny((char *) (temp_section + cursor + 104), funcs_node->library, 255);
-					}
-
-					cursor += 360;
+					strncpy_tiny((char *) (temp_section + cursor + 104), funcs_node->library, 255);
 				}
 
-				funcs_node = funcs_node->next_node;
+				cursor += 360;
 			}
+
+			funcs_node = funcs_node->next_node;
 		}
 	}
 

@@ -12,7 +12,7 @@ char *reg(unsigned long k)
 	static char *regs[] = {"eip", "esp", "eax", "ecx", "ebx", "edx", "ebp", "esd", "ebd", "esi", "edi", "eflags"};
 	static char error_str[256] = "";
 
-	if(k > (sizeof(regs)/sizeof(regs[0])))
+	if(k > ((sizeof(regs)/sizeof(regs[0])) - 1))
 	{
 		snprintf(error_str, 255, "Bad code, invalid register id (=%u)", k);
 		return error_str;

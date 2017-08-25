@@ -1139,7 +1139,6 @@ unsigned long zl_execute(unsigned long *regs)
 
 			case OP_RET:
 				{
-					nextinstr(zl_eip);
 					zl_eip = pdw(zl_esp);
 					pop(zl_esp);
 	
