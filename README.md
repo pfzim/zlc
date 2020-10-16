@@ -1,4 +1,4 @@
-# zlc - small and simple interpreter for easy integration to application
+# [zlc - small and simple interpreter for easy integration to application](https://github.com/pfzim/zlc)
 
 ```C++
 int **zl_compile**(
